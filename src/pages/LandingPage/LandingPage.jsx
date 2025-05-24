@@ -11,7 +11,7 @@ import AboutIntroSection from '../../componentsLP/AboutIntroSection/AboutIntroSe
 import TeamSection from '../../componentsLP/TeamSection/TeamSection.jsx';
 import ExpectedBenefitsSection from '../../componentsLP/ExpectedBenefitsSection/ExpectedBenefitsSection.jsx';
 import ContactSection from '../../componentsLP/ContactSection/ContactSection.jsx';
-import EthicalCommitmentSection from '../../componentsLP/EthicalCommitmentSection/EthicalCommitmentSection.JSX';
+import EthicalCommitmentSection from '../../componentsLP/EthicalCommitmentSection/EthicalCommitmentSection.jsx';
 import Footer from '../../componentsLP/Footer/Footer.jsx';
 
 import './LandingPage.css';
