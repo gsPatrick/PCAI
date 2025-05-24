@@ -2,9 +2,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Row, Col, Typography, Button, Tooltip } from 'antd';
 import { SoundOutlined, MutedOutlined, PlayCircleOutlined, PauseCircleOutlined, ExpandOutlined, ShrinkOutlined } from '@ant-design/icons';
-import './ProductVideoSection.css';
+import './ProductVideoSection.css'
+import ReactPlayer from 'react-player/youtube';
+;
 
-import localVideo from '../../assets/media/video.mp4';
+//import localVideo from '../../assets/media/video.mp4';
 // Importe o backgroundAzul.png
 import backgroundAzul from '../../assets/images/backgroundAzul.png';
 
@@ -170,59 +172,24 @@ const ProductVideoSection = () => {
       </Row>
 
       <Row justify="center" className="video-player-row-rich">
-        <Col xs={23} sm={22} md={20} lg={18} xl={16}>
-          <div ref={videoContainerRef} className={`video-player-outer-container-rich ${animateContent ? 'content-visible' : ''}`}>
-            <div className="video-player-frame-decoration"></div> {/* Moldura decorativa */}
-            <div className="video-aspect-ratio-keeper-rich">
-              <video
-                ref={videoRef}
-                src={localVideo}
-                className="main-product-video-rich"
-                onClick={togglePlayPause}
-                muted
-                playsInline
-                loop
-              >
-                Seu navegador não suporta a tag de vídeo.
-              </video>
-            </div>
-
-            <div className={`video-controls-overlay-rich ${isPlaying ? 'is-playing' : ''} ${!animateContent ? 'controls-initially-hidden' : ''}`}>
-              <div className="progress-bar-wrapper-rich">
-                <input
-                  type="range"
-                  min="0"
-                  max="100"
-                  value={progress}
-                  onChange={handleProgressChange}
-                  className="video-progress-bar-rich"
-                  style={{ background: `linear-gradient(to right, var(--video-rich-accent-orange) ${progress}%, var(--video-rich-progress-track) ${progress}%)` }}
-                />
-              </div>
-              <div className="controls-main-bar-rich">
-                <div className="controls-group-left-rich">
-                  <Tooltip title={isPlaying ? "Pausar" : "Reproduzir"}>
-                    <Button icon={isPlaying ? <PauseCircleOutlined /> : <PlayCircleOutlined />} onClick={togglePlayPause} type="text" className="control-btn-rich"/>
-                  </Tooltip>
-                  <Tooltip title={isMuted ? "Ativar Som" : "Desativar Som"}>
-                    <Button icon={isMuted ? <MutedOutlined /> : <SoundOutlined />} onClick={toggleMute} type="text" className="control-btn-rich"/>
-                  </Tooltip>
-                </div>
-                <div className="video-time-display-rich">
-                  {formatTime(videoRef.current?.currentTime || 0)} / {formatTime(duration)}
-                </div>
-                <div className="controls-group-right-rich">
-                   <Tooltip title={isFullScreen ? "Sair da Tela Cheia" : "Tela Cheia"}>
-                    <Button icon={isFullScreen ? <ShrinkOutlined /> : <ExpandOutlined />} onClick={toggleFullScreen} type="text" className="control-btn-rich"/>
-                  </Tooltip>
-                </div>
-              </div>
-            </div>
-             <button onClick={togglePlayPause} className={`center-play-pause-button-rich ${!isPlaying && animateContent ? 'visible' : ''} ${videoRef.current?.ended ? 'ended' : ''}`} aria-label={isPlaying ? "Pausar" : "Reproduzir"}>
-                <PlayCircleOutlined />
-             </button>
-          </div>
-        </Col>
+      <Col xs={23} sm={22} md={20} lg={18} xl={16}>
+  <div ref={videoContainerRef} className={`video-player-outer-container-rich ${animateContent ? 'content-visible' : ''}`}>
+    <div className="video-player-frame-decoration"></div> {/* Moldura decorativa */}
+    <div className="video-aspect-ratio-keeper-rich">
+      <ReactPlayer
+        url="https://www.youtube.com/watch?v=u31qwQUeGuM7"
+        className="main-product-video-rich"
+        width="100%"
+        height="100%"
+        playing
+        loop
+        muted
+        controls={false}
+        onClick={togglePlayPause}
+      />
+    </div>
+  </div>
+</Col>
       </Row>
     </div>
   );
