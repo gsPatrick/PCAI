@@ -1,0 +1,309 @@
+/* src/components/PillarsSection/PillarsSection.css */
+:root {
+    --pillars-font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    --pillars-accent-orange: #EF7C12;
+    --pillars-text-primary: #2D3748; /* Um cinza mais escuro para melhor contraste com Inter */
+    --pillars-text-secondary: #718096; /* Cinza mais claro */
+    --pillars-background: #F9FAFB; /* Um off-white muito claro, quase branco */
+    --pillars-left-bar-color: #3A3D57;
+  
+    --animation-ease-out-cubic: cubic-bezier(0.215, 0.61, 0.355, 1);
+    --animation-ease-out-quart: cubic-bezier(0.165, 0.84, 0.44, 1);
+    --animation-swift-out: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  }
+  
+  body { /* Garante que a fonte Inter seja aplicada globalmente se não estiver em outro lugar */
+    font-family: var(--pillars-font-family);
+  }
+  
+  .pillars-section-wrapper {
+    font-family: var(--pillars-font-family);
+    background-color: var(--pillars-background);
+    /* Removida a textura de ruído SVG por enquanto, para um look mais clean com os novos elementos */
+    padding: 120px 0; /* Mais padding vertical */
+    position: relative;
+    min-height: 90vh;
+    display: flex;
+    overflow: hidden;
+  }
+  
+  .pillars-left-accent-bar {
+    width: 70px;
+    background-color: var(--pillars-left-bar-color);
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    transform: scaleY(0);
+    transform-origin: center;
+    transition: transform 1.3s var(--animation-ease-out-quart) 0.1s; /* Animação mais suave */
+  }
+  .pillars-section-wrapper.section-visible .pillars-left-accent-bar {
+    transform: scaleY(1);
+  }
+  
+  /* Elementos Gráficos */
+  .pillar-graphic {
+    position: absolute;
+    opacity: 0;
+    z-index: 0; /* Abaixo do conteúdo */
+    pointer-events: none; /* Não interfere com interações */
+  }
+  
+  .graphic-circle-1 {
+    width: 220px;
+    height: 220px;
+    background: linear-gradient(135deg, rgba(239, 124, 18, 0.1), rgba(239, 124, 18, 0.03));
+    border-radius: 50%;
+    top: 10%;
+    right: -100px; /* Parcialmente visível */
+    transform: scale(0.7) rotate(0deg);
+    transition: opacity 1.2s var(--animation-ease-out-cubic) 0.8s, transform 1.8s var(--animation-ease-out-cubic) 0.8s;
+  }
+  .pillars-section-wrapper.section-visible .graphic-circle-1 {
+    opacity: 1;
+    transform: scale(1) rotate(45deg);
+  }
+  
+  .graphic-line-1 {
+    width: 5px;
+    height: 150px;
+    background-color: var(--pillars-accent-orange);
+    opacity: 0.3;
+    bottom: 15%;
+    left: calc(70px + 20px); /* Próximo à barra */
+    transform: scaleY(0) rotate(15deg);
+    transform-origin: bottom;
+    transition: opacity 1s var(--animation-ease-out-cubic) 1s, transform 1.2s var(--animation-ease-out-cubic) 1s;
+  }
+  .pillars-section-wrapper.section-visible .graphic-line-1 {
+    opacity: 0.2;
+    transform: scaleY(1) rotate(0deg);
+  }
+  
+  .graphic-dots-pattern {
+    width: 100px;
+    height: 100px;
+    top: 60%;
+    left: 5%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; /* Espaço entre os pontos */
+    transform: translateY(30px);
+    transition: opacity 1s var(--animation-ease-out-cubic) 1.2s, transform 1s var(--animation-ease-out-cubic) 1.2s;
+  }
+  .pillars-section-wrapper.section-visible .graphic-dots-pattern {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+  .graphic-dots-pattern .dot {
+    width: 8px;
+    height: 8px;
+    background-color: var(--pillars-left-bar-color);
+    border-radius: 50%;
+    opacity: 0.2;
+  }
+  
+  
+  .pillars-content-area {
+    width: 100%;
+    max-width: 1180px; /* Aumentado um pouco */
+    margin: 0 auto;
+    padding: 0 50px 0 calc(70px + 70px); /* Mais espaço interno após a barra */
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .pillars-breadcrumb-row {
+    margin-bottom: 80px;
+    opacity: 0;
+    transform: translateY(25px);
+    transition: opacity 0.9s var(--animation-ease-out-cubic) 0.4s, transform 0.9s var(--animation-ease-out-cubic) 0.4s;
+  }
+  .pillars-section-wrapper.section-visible .pillars-breadcrumb-row {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .pillars-breadcrumb-text {
+    font-size: 1.1rem; /* Aumentado */
+    color: var(--pillars-text-secondary);
+    font-weight: 500; /* Inter Medium */
+  }
+  .pillars-breadcrumb-text .breadcrumb-current {
+    color: var(--pillars-text-primary);
+    font-weight: 600; /* Inter SemiBold */
+  }
+  
+  .pillar-column {
+    opacity: 0;
+    transform: translateY(50px);
+    transition-property: opacity, transform;
+    transition-duration: 1s;
+    transition-timing-function: var(--animation-ease-out-quart);
+  }
+  .pillar-column.pillar-col-visible:nth-child(1) { transition-delay: 0.6s; }
+  .pillar-column.pillar-col-visible:nth-child(2) { transition-delay: 0.8s; }
+  .pillar-column.pillar-col-visible:nth-child(3) { transition-delay: 1.0s; }
+  
+  .pillar-column.pillar-col-visible { /* Estado final da animação */
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .pillar-content-holder {
+    text-align: left;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 10px; /* Pequeno padding para o hover effect */
+    border-radius: 8px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+  /* Efeito sutil no hover do pilar */
+  .pillar-content-holder:hover {
+    /* background-color: #fff; */ /* Opcional: fundo branco no hover */
+    /* box-shadow: 0 10px 30px rgba(0,0,0,0.05); */
+    transform: translateY(-5px);
+  }
+  
+  
+  .pillar-title-wrapper {
+    margin-bottom: 25px;
+    position: relative;
+  }
+  
+  .pillar-main-heading {
+    font-family: var(--pillars-font-family); /* Garante Inter */
+    color: var(--pillars-accent-orange) !important;
+    font-weight: 800 !important; /* Inter ExtraBold */
+    font-size: 5rem !important; /* Aumentado significativamente */
+    line-height: 0.95 !important; /* Ajustado para Inter */
+    letter-spacing: -2px; /* Inter pode precisar de mais condensação */
+    text-transform: uppercase;
+    margin: 0 !important;
+    white-space: nowrap;
+    opacity: 0;
+    transform: translateY(20px);
+    /* Animação mais impactante para o título */
+    transition: opacity 0.8s var(--animation-swift-out) 0.2s, transform 0.8s var(--animation-swift-out) 0.2s;
+  }
+  .pillar-column.pillar-col-visible .pillar-main-heading {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .pillar-heading-underline {
+    width: 50px;
+    height: 4px;
+    background-color: var(--pillars-accent-orange);
+    border-radius: 2px;
+    margin-top: 15px; /* Espaço após o título */
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 1s var(--animation-ease-out-quart) 0.4s; /* Delay maior e mais suave */
+  }
+  .pillar-column.pillar-col-visible .pillar-heading-underline {
+    transform: scaleX(1);
+  }
+  
+  .pillar-text-block {
+    opacity: 0;
+    transform: translateY(15px);
+    transition: opacity 0.8s var(--animation-ease-out-cubic) 0.5s, transform 0.8s var(--animation-ease-out-cubic) 0.5s;
+  }
+  .pillar-column.pillar-col-visible .pillar-text-block {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .pillar-item-description {
+    font-family: var(--pillars-font-family); /* Garante Inter */
+    color: var(--pillars-text-primary) !important;
+    font-size: 1.1rem !important; /* Aumentado */
+    font-weight: 400 !important; /* Inter Regular */
+    line-height: 1.8 !important; /* Maior espaçamento entre linhas */
+  }
+  .pillar-item-description:not(:last-child) {
+    margin-bottom: 16px !important;
+  }
+  
+  .pillars-footer-signature-row {
+    margin-top: 90px;
+    text-align: left;
+    opacity: 0;
+    transform: translateY(25px);
+    transition: opacity 0.9s var(--animation-ease-out-cubic) 1.2s, transform 0.9s var(--animation-ease-out-cubic) 1.2s;
+  }
+  .pillars-section-wrapper.section-visible .pillars-footer-signature-row {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .pillars-footer-text {
+    font-family: var(--pillars-font-family);
+    font-size: 0.85rem; /* Aumentado um pouco */
+    color: var(--pillars-text-secondary);
+    font-weight: 500; /* Inter Medium */
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+  }
+  
+  /* Responsividade */
+  @media (max-width: 1200px) { /* Ajuste para telas um pouco menores que o max-width */
+    .pillars-content-area {
+      padding: 0 40px 0 calc(70px + 40px);
+    }
+    .pillar-main-heading {
+      font-size: 4.5rem !important; 
+    }
+  }
+  
+  @media (max-width: 991px) { /* md - Pilares empilham */
+    .pillars-section-wrapper {
+      padding: 100px 0;
+    }
+    .pillar-column:not(:last-child) {
+      margin-bottom: 60px; 
+    }
+    .pillar-main-heading {
+      font-size: 4rem !important; /* Ainda grande, mas adaptado */
+      text-align: center;
+    }
+    .pillar-heading-underline {
+      margin-left: auto;
+      margin-right: auto; /* Centraliza a linha */
+    }
+    .pillar-content-holder {
+      text-align: center;
+    }
+    .pillars-breadcrumb-row, .pillars-footer-signature-row {
+      text-align: center;
+      justify-content: center;
+    }
+    .graphic-circle-1 { top: 5%; right: -120px; }
+    .graphic-dots-pattern { top: 70%; left: 2%; }
+  }
+  
+  @media (max-width: 767px) { /* sm */
+    .pillars-left-accent-bar { width: 8px; }
+    .pillars-content-area { padding: 0 25px 0 calc(8px + 25px); }
+    .pillar-main-heading { font-size: 3.5rem !important; letter-spacing: -1.5px;}
+    .pillar-item-description { font-size: 1.05rem !important; }
+    .graphic-line-1 { display: none; } /* Esconde alguns elementos gráficos */
+  }
+  
+  @media (max-width: 480px) { /* xs */
+    .pillars-section-wrapper { padding: 80px 0; }
+    .pillars-left-accent-bar { display: none; }
+    .pillars-content-area { padding: 0 20px; }
+    .pillar-main-heading { font-size: 3rem !important; letter-spacing: -1px;}
+    .pillar-item-description { font-size: 1rem !important; }
+    .pillars-breadcrumb-row { margin-bottom: 60px; }
+    .pillars-footer-signature-row { margin-top: 70px; }
+    .graphic-circle-1, .graphic-dots-pattern { display: none; }
+  }

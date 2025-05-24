@@ -1,0 +1,336 @@
+/* src/components/ProductVideoSection/ProductVideoSection.css */
+:root {
+    --video-rich-font-family: 'Inter', sans-serif;
+    --video-rich-accent-orange: #EF7C12; 
+    --video-rich-text-light: #E0E7FF; /* Texto claro sobre fundo azul */
+    --video-rich-text-medium: #A8B5D1; /* Para descrições e tempo */
+    --video-rich-overlay-color: rgba(10, 18, 30, 0.3); /* Overlay sobre o bgAzul */
+    --video-rich-controls-bg: rgba(10, 18, 30, 0.88); /* Fundo dos controles */
+    --video-rich-progress-track: rgba(255, 255, 255, 0.15);
+    --video-rich-player-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.35);
+    --video-rich-player-border: rgba(239, 124, 18, 0.3); /* Borda laranja sutil */
+
+    --animation-ease-out-quint-video-rich: cubic-bezier(0.23, 1, 0.32, 1);
+    --animation-ease-in-out-sine-video-rich: cubic-bezier(0.37, 0, 0.63, 1);
+}
+
+.product-video-section-wrapper.rich-bg-video-player {
+  font-family: var(--video-rich-font-family);
+  background-size: cover; /* Para o backgroundAzul.png */
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: 120px 24px 140px;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+}
+
+.video-section-overlay-rich {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background-color: var(--video-rich-overlay-color);
+  z-index: 0;
+}
+
+/* Elementos Gráficos de Fundo */
+.video-rich-graphic {
+  position: absolute;
+  opacity: 0;
+  z-index: 0; /* Abaixo do conteúdo, mas acima do overlay se necessário */
+  pointer-events: none;
+  transition: opacity 1.8s var(--animation-ease-out-quint-video-rich), transform 1.8s var(--animation-ease-out-quint-video-rich);
+}
+.product-video-section-wrapper.video-section-bg-active .video-rich-graphic {
+  opacity: 1;
+}
+
+.graphic-ring-1, .graphic-ring-2 {
+  border: 2px solid rgba(239, 124, 18, 0.1); /* Anéis laranja muito sutis */
+  border-radius: 50%;
+  animation: subtleScaleRotate 25s linear infinite;
+}
+.graphic-ring-1 {
+  width: 30vw; height: 30vw; min-width: 300px; min-height: 300px; max-width: 500px; max-height: 500px;
+  top: 10%; left: -10vw;
+  transform: scale(0.7) rotate(0deg);
+  transition-delay: 0.3s;
+}
+.graphic-ring-2 {
+  width: 25vw; height: 25vw; min-width: 250px; min-height: 250px; max-width: 400px; max-height: 400px;
+  bottom: 5%; right: -8vw;
+  transform: scale(0.7) rotate(0deg);
+  animation-direction: reverse;
+  animation-duration: 30s;
+  transition-delay: 0.5s;
+}
+.product-video-section-wrapper.video-section-bg-active .graphic-ring-1,
+.product-video-section-wrapper.video-section-bg-active .graphic-ring-2 {
+  transform: scale(1) rotate(0deg); opacity: 0.5;
+}
+@keyframes subtleScaleRotate {
+  0% { transform: scale(1) rotate(0deg); }
+  100% { transform: scale(1.1) rotate(360deg); }
+}
+
+.graphic-plus-pattern {
+  width: 150px; height: 150px;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%) scale(0.8) rotate(15deg);
+  display: flex; flex-wrap: wrap; justify-content: center; align-items: center;
+  gap: 20px;
+  transition-delay: 0.7s;
+}
+.plus-shape {
+  font-size: 1.5rem;
+  color: rgba(239, 124, 18, 0.1);
+  font-weight: 300;
+  animation: plusPulse 3s infinite alternate ease-in-out;
+}
+.product-video-section-wrapper.video-section-bg-active .graphic-plus-pattern {
+  transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity: 1;
+}
+@keyframes plusPulse {
+  to { transform: scale(1.3); opacity: 0.3; }
+}
+
+.graphic-accent-line-video {
+    width: 3px; height: 0%; /* Começa com altura 0 */
+    background: linear-gradient(to bottom, transparent, var(--video-rich-accent-orange), transparent);
+    position: absolute;
+    top: 10%; right: 10%;
+    transition-delay: 0.9s;
+    animation: drawAccentLine 2s var(--animation-ease-out-quint-video-rich) forwards 1s; /* Anima depois da seção ativa */
+}
+@keyframes drawAccentLine {
+    0% { height: 0%; opacity: 0; }
+    50% { opacity: 0.3; }
+    100% { height: 60%; opacity: 0.15; } /* Altura final e opacidade */
+}
+
+
+/* Animação de entrada para o conteúdo principal (texto e player) */
+.product-video-header-row-rich, .video-player-outer-container-rich {
+  opacity: 0;
+  transform: translateY(50px) scale(0.95); /* Entrada mais dinâmica */
+  transition: opacity 1.2s var(--animation-ease-out-quint-video-rich), transform 1.2s var(--animation-ease-out-quint-video-rich);
+  position: relative; z-index: 1;
+}
+.product-video-header-row-rich.content-visible {
+  opacity: 1; transform: translateY(0) scale(1); transition-delay: 0.3s;
+}
+.video-player-outer-container-rich.content-visible {
+  opacity: 1; transform: translateY(0) scale(1); transition-delay: 0.5s;
+}
+
+
+.product-video-header-row-rich { margin-bottom: 60px; }
+.product-video-text-content-rich {}
+
+.product-video-title-rich {
+  font-family: var(--video-rich-font-family);
+  color: var(--video-rich-text-light) !important;
+  font-weight: 700 !important; /* Inter Bold */
+  font-size: clamp(2.5rem, 5vw, 3.6rem) !important;
+  margin-bottom: 20px !important;
+  line-height: 1.28;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+}
+.product-video-title-rich .highlight-video {
+  color: var(--video-rich-accent-orange);
+  /* Pode adicionar um text-stroke sutil se o fundo for muito similar */
+  /* -webkit-text-stroke: 1px rgba(0,0,0,0.2); */
+}
+
+.product-video-description-rich {
+  color: var(--video-rich-text-medium) !important;
+  font-size: clamp(1.1rem, 2.2vw, 1.35rem) !important;
+  max-width: 700px;
+  margin: 0 auto !important;
+  line-height: 1.8 !important;
+}
+
+.video-player-row-rich {
+    position: relative; z-index: 2; /* Player acima dos gráficos de fundo */
+}
+
+.video-player-outer-container-rich {
+  position: relative;
+  border-radius: 20px; /* Um pouco menos arredondado */
+  overflow: visible; /* Permite que a moldura "vaze" */
+  box-shadow: var(--video-rich-player-shadow);
+  background-color: #080F1A; /* Fundo interno do player um pouco mais escuro */
+}
+.video-player-frame-decoration { /* Moldura decorativa */
+    content: '';
+    position: absolute;
+    top: -10px; left: -10px; right: -10px; bottom: -10px;
+    border: 2px solid var(--video-rich-player-border);
+    border-radius: 26px; /* (radius do player + 10px - borda) */
+    opacity: 0;
+    transform: scale(0.9);
+    transition: opacity 0.8s ease-out 0.3s, transform 0.8s ease-out 0.3s; /* Delay após o player */
+    pointer-events: none;
+}
+.video-player-outer-container-rich.content-visible .video-player-frame-decoration {
+    opacity: 1;
+    transform: scale(1);
+}
+
+
+.video-aspect-ratio-keeper-rich {
+  position: relative; width: 100%; padding-top: 56.25%;
+  border-radius: 18px; /* Para o vídeo interno */
+  overflow: hidden;
+  background-color: #000; /* Fallback */
+}
+.main-product-video-rich {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  object-fit: cover; cursor: pointer; outline: none;
+}
+
+.video-controls-overlay-rich {
+  position: absolute; bottom: 0; left: 0; width: 100%;
+  padding: 10px 15px 12px; /* Ajuste de padding */
+  background: var(--video-rich-controls-bg);
+  border-bottom-left-radius: 18px; /* Acompanha o vídeo */
+  border-bottom-right-radius: 18px;
+  opacity: 0; visibility: hidden;
+  transform: translateY(100%); /* Começa totalmente fora */
+  transition: opacity 0.4s ease, visibility 0.4s ease, transform 0.4s var(--animation-ease-out-quint-video-rich);
+  z-index: 3;
+}
+.controls-initially-hidden { opacity: 0 !important; visibility: hidden !important; }
+
+.video-player-outer-container-rich:hover .video-controls-overlay-rich,
+.video-controls-overlay-rich.is-playing:not(:hover) {
+  opacity: 1; visibility: visible; transform: translateY(0);
+}
+.video-controls-overlay-rich.is-playing:not(:hover) {
+  transition-delay: 2.5s;
+}
+.video-player-outer-container-rich:hover .video-controls-overlay-rich.is-playing:not(:hover) {
+  transition-delay: 0s;
+}
+
+
+.progress-bar-wrapper-rich {
+  width: 100%; margin-bottom: 10px;
+}
+.video-progress-bar-rich {
+  width: 100%; height: 6px;
+  -webkit-appearance: none; appearance: none;
+  background: transparent; border-radius: 3px;
+  cursor: pointer; outline: none;
+}
+.video-progress-bar-rich::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  width: 16px; height: 16px; background: var(--video-rich-accent-orange);
+  border-radius: 50%; cursor: pointer; border: 2px solid var(--video-rich-text-light);
+  box-shadow: 0 0 6px rgba(239, 124, 18, 0.4); margin-top: -5px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.video-progress-bar-rich::-moz-range-thumb {
+  width: 14px; height: 14px; background: var(--video-rich-accent-orange);
+  border-radius: 50%; cursor: pointer; border: 2px solid var(--video-rich-text-light);
+  box-shadow: 0 0 6px rgba(239, 124, 18, 0.4);
+}
+.video-progress-bar-rich:hover::-webkit-slider-thumb,
+.video-progress-bar-rich:active::-webkit-slider-thumb {
+  transform: scale(1.25); box-shadow: 0 0 10px rgba(239, 124, 18, 0.6);
+}
+
+.controls-main-bar-rich {
+  display: flex; justify-content: space-between; align-items: center;
+}
+.controls-group-left-rich, .controls-group-right-rich {
+  display: flex; align-items: center; gap: 5px; /* Menor gap */
+}
+.control-btn-rich .anticon {
+  color: var(--video-rich-text-light) !important;
+  font-size: 22px !important; /* Ícones um pouco menores nos controles */
+  transition: color 0.25s ease, transform 0.25s var(--animation-ease-out-quint-video-rich);
+  opacity: 0.85;
+}
+.control-btn-rich:hover .anticon {
+  color: var(--video-rich-accent-orange-light) !important;
+  transform: scale(1.2) rotate(4deg);
+  opacity: 1;
+}
+.control-btn-rich.ant-btn-text {
+  padding: 6px !important;
+}
+
+.video-time-display-rich {
+  color: var(--video-rich-text-medium); font-size: 0.9rem;
+  font-variant-numeric: tabular-nums; opacity: 0.9;
+}
+
+.center-play-pause-button-rich {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%) scale(0.8); /* Começa menor */
+  background: rgba(239, 124, 18, 0.8); /* Botão central laranja */
+  border: none; color: #fff;
+  font-size: clamp(50px, 8vw, 70px);
+  cursor: pointer; padding: 0; /* Removido padding para melhor alinhamento do ícone */
+  width: clamp(80px, 12vw, 110px); /* Botão maior */
+  height: clamp(80px, 12vw, 110px);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0;
+  transition: opacity 0.4s ease, transform 0.4s var(--animation-ease-out-back-contact), background-color 0.3s ease;
+  z-index: 2;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+}
+.center-play-pause-button-rich.visible {
+  opacity: 1; transform: translate(-50%, -50%) scale(1);
+}
+.center-play-pause-button-rich.ended { /* Mantém visível se o vídeo terminou */
+    opacity: 1; transform: translate(-50%, -50%) scale(1);
+}
+
+.center-play-pause-button-rich:hover {
+  background-color: var(--video-rich-accent-orange); /* Laranja mais forte no hover */
+  transform: translate(-50%, -50%) scale(1.1);
+}
+.center-play-pause-button-rich .anticon {
+  filter: drop-shadow(0 1px 3px rgba(0,0,0,0.25));
+  line-height: 0; /* Alinha melhor o ícone no botão */
+}
+
+
+/* Estilos para Fullscreen (mantidos) */
+.video-player-outer-container-rich:-webkit-full-screen,
+.video-player-outer-container-rich:-moz-full-screen,
+.video-player-outer-container-rich:-ms-fullscreen,
+.video-player-outer-container-rich:fullscreen {
+  border-radius: 0; box-shadow: none; padding: 0;
+}
+.video-player-outer-container-rich:fullscreen .main-product-video-rich,
+.video-player-outer-container-rich:fullscreen .video-aspect-ratio-keeper-rich {
+  border-radius: 0;
+}
+.video-player-outer-container-rich:fullscreen .video-player-frame-decoration {
+    display: none; /* Esconde moldura em fullscreen */
+}
+
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .product-video-section-wrapper.rich-bg-video-player { padding: 80px 15px 100px; }
+  .product-video-title-rich { font-size: clamp(2rem, 5vw, 2.8rem) !important; }
+  .product-video-description-rich { font-size: 1rem !important; }
+  .video-player-outer-container-rich { border-radius: 16px; padding: 2px;}
+  .video-aspect-ratio-keeper-rich { border-radius: 14px; }
+  .video-player-frame-decoration { display: none; } /* Simplifica em tablet */
+  .graphic-ring-1, .graphic-plus-pattern { display: none; }
+}
+
+@media (max-width: 480px) {
+  .video-controls-overlay-rich { padding: 6px 10px; }
+  .control-btn-rich .anticon { font-size: 20px !important; }
+  .video-time-display-rich { display: none; }
+  .video-player-outer-container-rich { border-radius: 12px; }
+  .video-aspect-ratio-keeper-rich { border-radius: 10px; }
+  .center-play-pause-button-rich { width: clamp(70px, 15vw, 90px); height: clamp(70px, 15vw, 90px); font-size: clamp(40px, 10vw, 60px); }
+  .graphic-ring-2, .graphic-accent-line-video { display: none; }
+}

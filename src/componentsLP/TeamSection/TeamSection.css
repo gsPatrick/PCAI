@@ -1,0 +1,173 @@
+/* src/components/TeamSection/TeamSection.css */
+:root {
+    --team-font-family: 'Inter', sans-serif;
+    --team-text-name-color: #3A3D57; /* Azul escuro acinzentado para os nomes */
+    --team-text-description-color: #5A5A5A; /* Cinza para descrição */
+    --team-text-tagline-color: #3A3D57; /* Mesma cor dos nomes para "Quem somos" */
+    --team-text-footer-color: #A0AEC0; /* Cinza claro para o footer */
+    --team-background-color: #F7F7F7; /* Cinza muito claro, como na imagem */
+  
+    --animation-ease-out-cubic: cubic-bezier(0.215, 0.61, 0.355, 1);
+    --animation-ease-out-quart: cubic-bezier(0.165, 0.84, 0.44, 1);
+  }
+  
+  .team-section-wrapper {
+    font-family: var(--team-font-family);
+    background-color: var(--team-background-color);
+    /* Textura de ruído sutil */
+    background-image: url("data:image/svg+xml,%3Csvg width='6' height='6' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23cccccc' fill-opacity='0.12' fill-rule='evenodd'%3E%3Cpath d='M5 0h1L0 6V5zM6 5v1H5z'/%3E%3C/g%3E%3C/svg%3E");
+    padding: 90px 0;
+    position: relative;
+    overflow: hidden; /* Para animações de entrada */
+  }
+  
+  .team-section-content-area {
+    max-width: 1100px; /* Largura do conteúdo principal */
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+  
+  /* Animação de entrada para header e footer da seção */
+  .team-header-row, .team-footer-row {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s var(--animation-ease-out-cubic), transform 0.8s var(--animation-ease-out-cubic);
+  }
+  .team-section-wrapper.team-section-visible .team-header-row {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.2s;
+  }
+  .team-section-wrapper.team-section-visible .team-footer-row {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.8s; /* Footer entra depois dos cards */
+  }
+  
+  
+  .team-header-row {
+    margin-bottom: 60px;
+    text-align: left; /* Conforme a imagem */
+  }
+  
+  .team-section-tagline {
+    font-size: 1.1rem;
+    color: var(--team-text-tagline-color) !important;
+    font-weight: 500; /* Inter Medium */
+  }
+  
+  .team-members-row {
+    /* Gutter e justify já definidos no JSX */
+  }
+  
+  .team-member-col {
+    /* Animação de entrada para cada card de membro */
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+    transition: opacity 0.9s var(--animation-ease-out-quart), transform 0.9s var(--animation-ease-out-quart);
+  }
+  /* Staggering para os cards */
+  .team-member-col.team-member-visible:nth-child(1) { transition-delay: 0.4s; opacity: 1; transform: translateY(0) scale(1); }
+  .team-member-col.team-member-visible:nth-child(2) { transition-delay: 0.6s; opacity: 1; transform: translateY(0) scale(1); }
+  /* Adicione mais se houver mais membros */
+  
+  .team-member-card {
+    display: flex;
+    flex-direction: row; /* Imagem à esquerda, texto à direita */
+    align-items: flex-start; /* Alinha imagem e texto pelo topo */
+    gap: 25px; /* Espaço entre imagem e bloco de info */
+  }
+  @media (max-width: 575px) { /* xs - Empilha em mobile */
+    .team-member-card {
+      flex-direction: column;
+      align-items: center; /* Centraliza tudo quando empilhado */
+      text-align: center;
+    }
+  }
+  
+  .member-image-wrapper {
+    flex-shrink: 0; /* Impede que a imagem encolha */
+    /* Sombra sutil na imagem */
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
+    transition: transform 0.3s ease;
+  }
+  .team-member-card:hover .member-image-wrapper {
+    transform: scale(1.05);
+  }
+  
+  .member-avatar {
+    /* O Avatar do AntD já é circular */
+    border: 3px solid #fff; /* Borda branca sutil se necessário */
+    box-shadow: 0 0 10px rgba(0,0,0,0.05); /* Sombra muito leve no avatar */
+  }
+  
+  .member-info {
+    flex-grow: 1;
+  }
+  
+  .member-name-first, .member-name-last {
+    font-family: var(--team-font-family);
+    color: var(--team-text-name-color) !important;
+    font-weight: 700 !important; /* Inter Bold */
+    font-size: clamp(2.2rem, 5vw, 3rem) !important; /* Tamanho grande para o nome */
+    line-height: 1 !important; /* Para juntar as linhas do nome */
+    margin: 0 !important;
+    text-transform: none; /* Nome não é uppercase na imagem */
+  }
+  .member-name-first {
+    margin-bottom: 0px !important; /* Pouco espaço ou nenhum entre nome e sobrenome */
+  }
+  
+  .member-description-list {
+    margin-top: 20px; /* Espaço entre nome e descrição */
+  }
+  
+  .member-description-item {
+    font-family: var(--team-font-family);
+    color: var(--team-text-description-color) !important;
+    font-size: 0.95rem !important; /* Tamanho da descrição conforme imagem */
+    line-height: 1.65 !important;
+    font-weight: 400 !important; /* Inter Regular */
+    margin-bottom: 8px !important; /* Espaço entre itens da descrição */
+  }
+  .member-description-item:last-child {
+    margin-bottom: 0 !important;
+  }
+  
+  
+  .team-footer-row {
+    margin-top: 70px;
+    text-align: left;
+  }
+  @media (max-width: 575px) {
+    .team-footer-row { text-align: center; justify-content: center; }
+  }
+  
+  .team-footer-brand-text {
+    font-size: 0.75rem;
+    color: var(--team-text-footer-color);
+    font-weight: 500;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+  }
+  
+  /* Responsividade adicional */
+  @media (max-width: 991px) { /* md */
+    .team-section-content-area { padding: 0 30px; }
+    .member-name-first, .member-name-last {
+      font-size: clamp(2rem, 4.5vw, 2.8rem) !important;
+    }
+    .member-avatar {
+      width: 120px !important; /* Reduz avatar em tablet */
+      height: 120px !important;
+      line-height: 120px !important; /* Para o AntD Avatar */
+    }
+  }
+  
+  @media (max-width: 767px) { /* sm */
+    .team-section-wrapper { padding: 70px 0; }
+     /* A Col do AntD com sm={12} já vai fazer 2 colunas. Se quiser 1, mude para sm={24} */
+    .team-member-col:not(:last-child) {
+      margin-bottom: 40px; /* Espaço entre os membros quando empilhados ou em 2 colunas */
+    }
+  }
