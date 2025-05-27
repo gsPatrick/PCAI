@@ -29,16 +29,16 @@ const LandingPage = () => {
       {/* Seção 1: Hero com Logo e Slogan */}
       {/* Certifique-se que esta seção tenha um ID para o link do logo no header */}
       <Content id="hero-section" className="hero-section section">
-        <HeroSection />
         <ProductVideoSection />
+        <AboutIntroSection />
         <PillarsSection />
+        {/* <HeroSection /> */}
         <DifferentiatorsSection />
         <SolutionsOverviewSection />
-        <AboutIntroSection />
-        <TeamSection />
         <ExpectedBenefitsSection />
         <ContactSection />
         <EthicalCommitmentSection />
+        <TeamSection />
 
       </Content>
 

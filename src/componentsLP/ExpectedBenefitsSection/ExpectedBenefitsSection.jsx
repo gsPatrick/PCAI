@@ -1,13 +1,17 @@
 // src/components/ExpectedBenefitsSection/ExpectedBenefitsSection.jsx
 import React, { useEffect, useRef } from 'react';
 import { Row, Col, Typography } from 'antd';
-import { 
+import {
     LineChartOutlined,
     BulbOutlined,
     SafetyCertificateOutlined,
     UserOutlined
 } from '@ant-design/icons';
 import './ExpectedBenefitsSection.css';
+
+// Importar a nova imagem de fundo
+import backgroundCinza from '../../assets/images/backgroundCinza.png';
+
 
 const { Title, Paragraph, Text } = Typography;
 
@@ -17,7 +21,7 @@ const benefitsData = [
     icon: <LineChartOutlined />,
     title: "Eficiência Operacional e Redução de Custos",
     description: "Maximizamos a produtividade, minimizamos desperdícios e fortalecemos resultados financeiros.",
-    color: "var(--benefit-vibrant-color-1, #EF7C12)", 
+    color: "var(--benefit-vibrant-color-1, #EF7C12)",
   },
   {
     id: 'decisions',
@@ -45,12 +49,12 @@ const benefitsData = [
 const ExpectedBenefitsSection = () => {
   const sectionRef = useRef(null);
   const textContentRef = useRef(null);
-  const benefitCardRefs = useRef(benefitsData.map(() => React.createRef())); 
+  const benefitCardRefs = useRef(benefitsData.map(() => React.createRef()));
 
   useEffect(() => {
     const currentSectionRef = sectionRef.current;
     const targetsToObserve = [
-        textContentRef.current, 
+        textContentRef.current,
         ...benefitCardRefs.current.map(ref => ref.current)
     ].filter(Boolean);
 
@@ -59,24 +63,24 @@ const ExpectedBenefitsSection = () => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             entry.target.classList.add('benefit-item-active-vibrant');
-            observer.unobserve(entry.target); 
+            observer.unobserve(entry.target);
           }
         });
       },
-      { threshold: 0.1 } 
+      { threshold: 0.1 }
     );
 
     targetsToObserve.forEach(target => {
       if (target) observer.observe(target);
     });
-    
+
     const sectionEntryObserver = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting) {
             currentSectionRef.classList.add('benefits-section-activated-vibrant');
             sectionEntryObserver.unobserve(currentSectionRef);
         }
     }, { threshold: 0.05 });
-    
+
     if (currentSectionRef) sectionEntryObserver.observe(currentSectionRef);
 
     return () => {
@@ -88,7 +92,11 @@ const ExpectedBenefitsSection = () => {
   }, []);
 
   return (
-    <div ref={sectionRef} className="expected-benefits-section-wrapper vibrant-design">
+    <div
+      ref={sectionRef}
+      className="expected-benefits-section-wrapper vibrant-design"
+      style={{ backgroundImage: `url(${backgroundCinza})` }} // Aplicando a imagem de fundo
+    >
         {/* Elementos gráficos de fundo */}
         <div className="benefit-v-graphic graphic-swirl-1"></div>
         <div className="benefit-v-graphic graphic-blob-2"></div>
@@ -123,8 +131,8 @@ const ExpectedBenefitsSection = () => {
                 <Col xs={24} lg={14} className="benefits-cards-area-vibrant">
                     <div className="benefits-cards-grid-vibrant">
                         {benefitsData.map((benefit, index) => (
-                            <div 
-                                key={benefit.id} 
+                            <div
+                                key={benefit.id}
                                 ref={benefitCardRefs.current[index]}
                                 className={`benefit-card-vibrant animation-target-benefits-vibrant card-${benefit.id}`}
                                 style={{ '--benefit-card-accent': benefit.color, transitionDelay: `${0.3 + index * 0.18}s` }}

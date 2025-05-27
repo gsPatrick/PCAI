@@ -2,28 +2,32 @@
 :root {
     --contact-alt-font-family: 'Inter', sans-serif;
     --contact-alt-accent-orange: #EF7C12;
-    --contact-alt-text-primary: #1F2937;
-    --contact-alt-text-secondary: #4B5563;
-    --contact-alt-background: #FFFFFF; /* Fundo branco para um visual limpo */
+    /* Cores de texto ajustadas para combinar com a imagem de fundo cinza */
+    --contact-alt-text-primary: #2D3748; /* Azul escuro acinzentado */
+    --contact-alt-text-secondary: #718096; /* Cinza */
+    /* --contact-alt-background: #FFFFFF; REMOVIDO - usando imagem de fundo */
     --contact-alt-link-color: var(--contact-alt-accent-orange);
     --contact-alt-button-bg: var(--contact-alt-accent-orange);
     --contact-alt-button-hover-bg: #D96D0B;
-    --contact-alt-card-bg: #F9FAFB; /* Fundo sutilmente diferente para os cards de pessoa */
-    --contact-alt-card-border: #E5E7EB;
-  
+    --contact-alt-card-bg: #FFFFFF; /* Fundo branco para os cards */
+    --contact-alt-card-border: #E2E8F0; /* Borda clara para os cards */
+
     --animation-ease-out-back-alt: cubic-bezier(0.34, 1.56, 0.64, 1);
     --animation-ease-out-quint-alt: cubic-bezier(0.23, 1, 0.32, 1);
   }
-  
+
   .contact-section-wrapper.alt-contact-design {
     font-family: var(--contact-alt-font-family);
-    background-color: var(--contact-alt-background);
+    /* background-color: var(--contact-alt-background); REMOVIDO */
+    background-size: cover; /* Adicionado para a imagem de fundo */
+    background-position: center center; /* Adicionado para a imagem de fundo */
+    background-repeat: no-repeat; /* Adicionado para a imagem de fundo */
     padding: 100px 0 120px;
     position: relative;
     overflow: hidden;
     text-align: center;
   }
-  
+
   /* Elementos Gráficos */
   .contact-alt-graphic {
     position: absolute;
@@ -35,10 +39,11 @@
   .contact-section-wrapper.contact-alt-section-active .contact-alt-graphic {
     opacity: 1;
   }
-  
+
   .graphic-bg-wave { /* Onda suave no fundo */
     width: 150%; /* Mais largo que a tela */
     height: 400px; /* Altura da onda */
+    /* Ajuste o gradiente se necessário para combinar com a nova cor de fundo ou remova */
     background: linear-gradient(to right, rgba(239, 124, 18, 0.03), rgba(59, 130, 246, 0.03));
     bottom: -150px; /* Posicionada na parte inferior */
     left: 50%;
@@ -49,9 +54,9 @@
   }
   .contact-section-wrapper.contact-alt-section-active .graphic-bg-wave {
     transform: translateX(-50%) skewY(-3deg) scaleY(1);
-    opacity: 0.7;
+    opacity: 0.7; /* Opacidade final da onda */
   }
-  
+
   .graphic-accent-dots-alt {
     top: 10%;
     left: 5%;
@@ -78,45 +83,62 @@
     from { transform: scale(0.8); opacity: 0.1; }
     to { transform: scale(1.2); opacity: 0.3; }
   }
-  
-  
+
+
   .contact-alt-content-area {
     max-width: 900px;
     margin: 0 auto;
     padding: 0 30px;
     position: relative;
-    z-index: 1;
+    z-index: 1; /* Conteúdo acima dos gráficos de fundo */
   }
-  
+
   .animation-target-contact-alt {
     opacity: 0;
     transform: translateY(30px);
     transition: opacity 1s var(--animation-ease-out-quint-alt), transform 1s var(--animation-ease-out-quint-alt);
   }
-  .animation-target-contact-alt.contact-alt-item-visible {
-    opacity: 1;
-    transform: translateY(0);
+  /* A animação é agora acionada no nível do container pai (breadcrumb, main-call-block e details-grid) */
+  .contact-alt-breadcrumb-row.contact-alt-item-visible { transition-delay: 0.1s; opacity: 1; transform: translateY(0); } /* Breadcrumb primeiro */
+  .contact-main-call-block.contact-alt-item-visible { transition-delay: 0.25s; opacity: 1; transform: translateY(0); } /* Bloco principal depois */
+  .contact-details-grid-alt.contact-alt-item-visible { transition-delay: 0.4s; opacity: 1; transform: translateY(0); } /* Grid de cards depois */
+
+  /* Remove a classe de visível dos elementos filhos para não causar double animation/delay */
+  .contact-main-call-block .contact-alt-item-visible { opacity: 1; transform: translateY(0); }
+  .contact-details-grid-alt .contact-alt-item-visible { opacity: 1; transform: translateY(0); }
+
+
+  /* NOVO: Estilos para o breadcrumb "Contato" */
+  .contact-alt-breadcrumb-row {
+    margin-bottom: 50px; /* Espaço entre o breadcrumb e o título principal */
+    text-align: left; /* Alinhado à esquerda por padrão */
   }
-  
+  .contact-alt-breadcrumb-text {
+    font-size: 1.1rem; /* Tamanho do texto */
+    color: var(--contact-alt-text-secondary) !important; /* Cor cinza secundária */
+    font-weight: 500 !important; /* Inter Medium */
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+  }
+   @media (max-width: 767px) { /* Centraliza em mobile */
+      .contact-alt-breadcrumb-row {
+          text-align: center;
+      }
+   }
+
+
   .contact-main-call-block {
     margin-bottom: 70px;
-    padding: 40px 20px; /* Padding interno para o bloco */
-    background-color: rgba(255,255,255,0.7); /* Fundo levemente transparente sobre a onda */
-    backdrop-filter: blur(8px); /* Efeito de vidro fosco */
-    border-radius: 16px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-    transition-delay: 0.1s; /* Bloco principal entra primeiro */
+    /* REMOVIDO: padding, background, blur, shadow - Agora é apenas texto sobre a imagem de fundo */
+    /* padding: 40px 20px; */
+    /* background-color: rgba(255,255,255,0.7); */
+    /* backdrop-filter: blur(8px); */
+    /* border-radius: 16px; */
+    /* box-shadow: 0 10px 30px rgba(0,0,0,0.05); */
   }
-  
-  .contact-alt-logo {
-    max-width: 280px; /* Logo um pouco menor, integrado ao texto */
-    height: auto;
-    margin-bottom: 25px;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  
+
+  /* .contact-alt-logo { REMOVIDO } */
+
   .contact-main-heading-alt {
     font-size: clamp(2.2rem, 5vw, 3.2rem) !important;
     font-weight: 700 !important; /* Inter Bold */
@@ -127,151 +149,120 @@
   .contact-main-heading-alt .highlight-alt {
     color: var(--contact-alt-accent-orange);
   }
-  
+
   .contact-subtitle-alt {
     font-size: clamp(1rem, 2.2vw, 1.25rem);
+    font-weight: 400 !important; /* Regular */
     color: var(--contact-alt-text-secondary);
     line-height: 1.7;
     max-width: 650px;
-    margin: 0 auto 30px auto !important;
+    margin: 0 auto 0 auto !important; /* Ajustado margin-bottom, não há botão principal */
   }
-  
-  .contact-main-cta-button.ant-btn-primary {
-    background-color: var(--contact-alt-button-bg) !important;
-    border-color: var(--contact-alt-button-bg) !important;
-    color: #fff !important;
-    font-weight: 600; /* Inter SemiBold */
-    padding: 12px 35px !important; /* Botão maior */
-    height: auto !important;
-    font-size: 1.1rem !important;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(239, 124, 18, 0.3);
-    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-  }
-  .contact-main-cta-button.ant-btn-primary:hover {
-    background-color: var(--contact-alt-button-hover-bg) !important;
-    border-color: var(--contact-alt-button-hover-bg) !important;
-    transform: translateY(-3px) scale(1.03);
-    box-shadow: 0 6px 15px rgba(239, 124, 18, 0.4);
-  }
-  .contact-main-cta-button .anticon {
-    margin-right: 10px;
-    font-size: 1.1em;
-  }
-  
-  
+
+  /* .contact-main-cta-button.ant-btn-primary { REMOVIDO } */
+
+
   .contact-details-grid-alt {
     margin-top: 60px;
     padding-top: 40px;
     border-top: 1px solid var(--contact-alt-card-border);
-    transition-delay: 0.3s; /* Detalhes entram depois do bloco principal */
   }
-  
-  .contact-details-title {
-    font-size: 1.3rem !important;
-    color: var(--contact-alt-text-primary) !important;
-    font-weight: 600 !important;
-    margin-bottom: 30px !important;
-  }
-  
+
+  /* .contact-details-title { REMOVIDO } */
+
   .person-contact-col-alt {
     /* Animação individual para cada card de contato */
     opacity: 0;
     transform: scale(0.9);
     transition: opacity 0.7s ease-out, transform 0.7s ease-out;
   }
-  .animation-target-contact-alt.contact-alt-item-visible .person-contact-col-alt {
-      opacity: 1;
-      transform: scale(1);
-  }
-  .animation-target-contact-alt.contact-alt-item-visible .person-contact-col-alt:nth-child(1) { transition-delay: 0.1s; } /* Staggering dentro do bloco */
-  .animation-target-contact-alt.contact-alt-item-visible .person-contact-col-alt:nth-child(2) { transition-delay: 0.25s; }
-  
-  
+  /* Staggering nos cards, acionado quando o pai (details-grid) fica visível */
+  .contact-details-grid-alt.contact-alt-item-visible .person-contact-col-alt:nth-child(1) { transition-delay: 0.1s; opacity: 1; transform: scale(1); }
+  .contact-details-grid-alt.contact-alt-item-visible .person-contact-col-alt:nth-child(2) { transition-delay: 0.25s; opacity: 1; transform: scale(1); }
+
+
   .person-contact-card-alt {
     background-color: var(--contact-alt-card-bg);
     padding: 25px;
     border-radius: 10px;
     border: 1px solid var(--contact-alt-card-border);
-    text-align: left;
+    text-align: center; /* Centralizado conforme solicitado */
     height: 100%; /* Para cards da mesma altura na linha */
+    display: flex; /* Usar flexbox para alinhar itens verticalmente */
+    flex-direction: column;
+    align-items: center; /* Centralizar itens verticalmente */
+    justify-content: center; /* Centralizar itens horizontalmente */
     transition: box-shadow 0.3s ease, transform 0.3s ease;
   }
   .person-contact-card-alt:hover {
     box-shadow: 0 8px 20px rgba(0,0,0,0.06);
     transform: translateY(-4px);
   }
-  
-  
+
+
   .person-name-alt {
     font-size: 1.2rem !important;
     font-weight: 600 !important;
     color: var(--contact-alt-text-primary) !important;
-    margin-bottom: 15px !important;
+    margin-bottom: 20px !important; /* Espaço maior para o botão */
+    /* text-align: left; REMOVIDO */
   }
-  .person-contact-card-alt p {
-    font-size: 0.95rem;
-    color: var(--contact-alt-text-secondary);
-    margin-bottom: 8px !important;
-    display: flex;
+  /* REMOVIDO: estilos para parágrafos de email/telefone */
+  /* .person-contact-card-alt p {} */
+  /* .person-contact-card-alt .anticon {} */
+  /* .person-contact-card-alt a {} */
+
+
+  /* NOVO: Estilos para o botão "Entre em contato" dentro do card */
+  .contact-person-cta-button.ant-btn-primary {
+    background-color: var(--contact-alt-button-bg) !important;
+    border-color: var(--contact-alt-button-bg) !important;
+    color: #fff !important;
+    font-weight: 600;
+    padding: 8px 20px !important; /* Ajustado padding para caber no card */
+    height: auto !important;
+    font-size: 1rem !important; /* Ajustado tamanho da fonte */
+    border-radius: 6px; /* Ajustado border-radius */
+    box-shadow: 0 3px 8px rgba(239, 124, 18, 0.3);
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    display: inline-flex !important; /* Usar flex para alinhar ícone e texto */
     align-items: center;
-    gap: 8px;
+    justify-content: center;
   }
-  .person-contact-card-alt .anticon {
-    color: var(--contact-alt-accent-orange);
-    font-size: 1.05em;
+   .contact-person-cta-button.ant-btn-primary:hover {
+    background-color: var(--contact-alt-button-hover-bg) !important;
+    border-color: var(--contact-alt-button-hover-bg) !important;
+    transform: translateY(-2px) scale(1.05); /* Animação de hover sutil */
+    box-shadow: 0 4px 10px rgba(239, 124, 18, 0.4);
   }
-  .person-contact-card-alt a {
-    color: var(--contact-alt-link-color);
-    font-weight: 500;
-    text-decoration: none;
-    transition: color 0.3s ease;
-  }
-  .person-contact-card-alt a:hover {
-    color: var(--contact-alt-text-primary);
-    text-decoration: underline;
-  }
-  
-  .website-link-alt {
-    margin-top: 40px !important;
-    font-size: 1.05rem;
-    font-weight: 500;
-    color: var(--contact-alt-text-secondary);
-  }
-  .website-link-alt .anticon {
-    color: var(--contact-alt-accent-orange);
-    margin-right: 8px;
-  }
-  .website-link-alt a {
-    color: var(--contact-alt-link-color);
-    text-decoration: none;
-    border-bottom: 1px solid transparent;
-    transition: color 0.3s ease, border-color 0.3s ease;
-  }
-  .website-link-alt a:hover {
-    color: var(--contact-alt-text-primary);
-    border-bottom-color: var(--contact-alt-accent-orange);
-  }
-  
-  
+   .contact-person-cta-button .anticon {
+       margin-right: 8px; /* Espaço entre ícone e texto */
+       font-size: 1em;
+   }
+
+
+  /* .website-link-alt { REMOVIDO } */
+
+
   /* Responsividade */
   @media (max-width: 991px) {
     .contact-main-heading-alt { font-size: clamp(2rem, 4.5vw, 2.8rem) !important; }
     .graphic-bg-wave { height: 300px; bottom: -100px;}
+    .contact-details-grid-alt { margin-top: 40px; padding-top: 30px; } /* Ajustado espaçamento */
   }
-  
+
   @media (max-width: 767px) {
     .contact-section-wrapper.alt-contact-design { padding: 80px 0 100px; }
     .contact-alt-content-area { padding: 0 20px; }
     .person-contact-col-alt:not(:last-child) { margin-bottom: 25px; }
-    .graphic-accent-dots-alt { display: none; }
+    .graphic-accent-dots-alt { display: none; } /* Esconde alguns elementos gráficos */
+    .graphic-bg-wave { bottom: -80px; height: 250px;}
   }
-  
+
   @media (max-width: 480px) {
     .contact-main-heading-alt { font-size: clamp(1.8rem, 6vw, 2.4rem) !important; }
     .contact-subtitle-alt { font-size: 0.95rem; }
-    .contact-main-cta-button.ant-btn-primary { font-size: 1rem !important; padding: 10px 25px !important;}
     .person-name-alt { font-size: 1.1rem !important; }
-    .person-contact-card-alt p { font-size: 0.9rem;}
-    .graphic-bg-wave { height: 250px; bottom: -80px;}
+    .contact-person-cta-button.ant-btn-primary { font-size: 0.9rem !important; padding: 6px 15px !important;}
+    /* .graphic-bg-wave { REMOVIDO NA MEDIA ANTERIOR, REMOVER AQUI TB SE ESCONDEU EM 767 } */
   }

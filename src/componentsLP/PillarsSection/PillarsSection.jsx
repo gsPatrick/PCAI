@@ -3,6 +3,10 @@ import React, { useEffect, useRef } from 'react';
 import { Row, Col, Typography } from 'antd';
 import './PillarsSection.css';
 
+// Importar a nova imagem de fundo
+import backgroundCinza from '../../assets/images/backgroundCinza.png';
+
+
 const { Title, Paragraph, Text } = Typography;
 
 const pillarsData = [
@@ -63,7 +67,7 @@ const PillarsSection = () => {
           }
         });
       },
-      { threshold: 0.15 } 
+      { threshold: 0.15 }
     );
 
     currentPillarColRefs.forEach(ref => {
@@ -85,9 +89,13 @@ const PillarsSection = () => {
   }, []);
 
   return (
-    <div ref={sectionRef} className="pillars-section-wrapper">
+    <div
+      ref={sectionRef}
+      className="pillars-section-wrapper"
+      style={{ backgroundImage: `url(${backgroundCinza})` }} // Aplicando a imagem de fundo
+    >
       <div className="pillars-left-accent-bar"></div>
-      
+
       {/* Elementos Gráficos */}
       <div className="pillar-graphic graphic-circle-1"></div>
       <div className="pillar-graphic graphic-line-1"></div>
@@ -106,17 +114,18 @@ const PillarsSection = () => {
           </Col>
         </Row>
 
-        <Row gutter={{ xs: 30, sm: 40, md: 50, lg: 70 }} className="pillars-items-row" align="top">
+        {/* Ajustado o gutter para um espaçamento base */}
+        <Row gutter={{ xs: 30, sm: 40, md: 50, lg: 60, xl: 60 }} className="pillars-items-row" align="top">
           {pillarsData.map((pillar, index) => (
             <Col
               key={pillar.key}
-              xs={24} 
+              xs={24}
               sm={24}
-              md={8} 
+              md={8}
               className="pillar-column"
               ref={pillarColRefs.current[index]}
             >
-              <div className="pillar-content-holder">
+              <div className={`pillar-content-holder ${pillar.key === 'ai' ? 'ai-pillar-content' : ''}`}> {/* Adiciona classe específica para AI */}
                 <div className="pillar-title-wrapper">
                   <Title level={1} className="pillar-main-heading">
                     {pillar.title}

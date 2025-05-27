@@ -7,102 +7,101 @@
     --about-accent-orange: #EF7C12;
     --about-accent-orange-glow: #ff9d40; /* Laranja mais claro para brilho */
     --about-section-min-height: 95vh;
-  
+
     --animation-ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
     --animation-ease-in-out-sine: cubic-bezier(0.37, 0, 0.63, 1);
     --animation-ease-out-back: cubic-bezier(0.34, 1.56, 0.64, 1); /* Easing com "overshoot" */
   }
-  
+
   .about-intro-section-wrapper {
     font-family: var(--about-font-family);
     background-size: cover;
     background-position: center center;
-    background-repeat: no-repeat; 
+    background-repeat: no-repeat;
     padding: 140px 0;
     position: relative;
     min-height: var(--about-section-min-height);
     display: flex;
     align-items: center;
     overflow: hidden;
+    /* Removido background-color, usando apenas background-image */
   }
-  
+
   .about-intro-overlay {
     position: absolute;
     top: 0; left: 0; width: 100%; height: 100%;
     background: linear-gradient(160deg, rgba(10, 25, 45, 0.25) 0%, rgba(15, 30, 55, 0.45) 100%); /* Gradiente no overlay */
     z-index: 0;
   }
-  
-  /* Partículas animadas de fundo */
+
+  /* Partículas animadas de fundo (geradas por JS, CSS define estilo base) */
   .particle {
     position: absolute;
     border-radius: 50%;
-    background-color: rgba(255, 255, 255, 0.05); /* Partículas bem sutis */
-    opacity: 0;
-    animation: particleDrift 20s infinite linear;
+    /* Cor e opacidade iniciais são definidas por JS */
+    animation: particleDrift 20s infinite linear; /* Duração e tipo definidos por JS */
     will-change: transform, opacity;
+    z-index: 1; /* Acima do overlay, abaixo do conteúdo */
   }
-  .about-intro-section-wrapper.section-active-intro .particle {
-    opacity: 1; /* Opacidade final, o @keyframes controla a variação */
-  }
-  /* Definir vários tamanhos e posições iniciais (pode ser gerado com JS para mais aleatoriedade) */
-  .particle.p1 { width: 3px; height: 3px; top: 20%; left: 10%; animation-duration: 22s; animation-delay: 0s;}
-  .particle.p2 { width: 5px; height: 5px; top: 50%; left: 80%; animation-duration: 18s; animation-delay: -5s;}
-  .particle.p3 { width: 2px; height: 2px; top: 70%; left: 30%; animation-duration: 25s; animation-delay: -10s;}
-  .particle.p4 { width: 4px; height: 4px; top: 90%; left: 60%; animation-duration: 15s; animation-delay: -2s;}
-  .particle.p5 { width: 3px; height: 3px; top: 30%; left: 90%; animation-duration: 20s; animation-delay: -8s;}
-  
+  /* A opacidade final e a animação de entrada no view são controladas pela classe section-active-intro */
+  /* .about-intro-section-wrapper.section-active-intro .particle { opacity: var(--final-opacity); animation-play-state: running; } */
+
+  /* Keyframes para o movimento das partículas */
   @keyframes particleDrift {
     0% { transform: translateY(0px) translateX(0px) scale(0.5); opacity: 0; }
-    20% { opacity: 0.8; }
+    20% { opacity: 0.8; } /* Opacidade máxima */
     80% { opacity: 0.8; }
-    100% { transform: translateY(-100px) translateX(50px) scale(1.5); opacity: 0; } /* Movimento para cima e desaparece */
+    100% { transform: translateY(-150px) translateX(75px) scale(1.5); opacity: 0; } /* Movimento para cima e para a direita, desaparece */
   }
-  
-  
+
+
   .about-intro-content-area {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 40px;
     position: relative;
-    z-index: 1;
+    z-index: 2; /* Conteúdo principal acima de tudo */
   }
-  
-  /* Animação de entrada do bloco de texto geral */
-  .text-content-block {
-    opacity: 0;
-    transition: opacity 0.5s ease-out 0.1s; /* Fade-in rápido do container */
+
+  /* Animação de entrada do bloco de texto geral e do wrapper do GIF */
+  .animation-target-intro { /* Aplicado ao text-content-block e organic-image-wrapper */
+      opacity: 0;
+      transform: translateY(25px); /* Slide-up inicial */
+      transition: opacity 0.8s var(--animation-ease-out-expo), transform 0.8s var(--animation-ease-out-expo);
   }
-  .text-content-block.animate-item-in-view {
-    opacity: 1;
+  .animation-target-intro.animate-item-in-view {
+      opacity: 1;
+      transform: translateY(0);
   }
-  
-  /* Animação individual para cada parágrafo e tagline */
-  .section-tagline-about,
-  .main-paragraph-about,
-  .secondary-paragraph-about,
-  .emphasis-paragraph-about,
-  .about-footer-brand-text {
+  /* Staggering aplicado no JSX via delay seletivo nos refs/observables */
+
+
+  /* Animação individual para cada parágrafo e tagline DENTRO do bloco de texto */
+  .text-content-block .section-tagline-about,
+  .text-content-block .main-paragraph-about,
+  .text-content-block .secondary-paragraph-about,
+  .text-content-block .emphasis-paragraph-about,
+  .about-footer-row .about-footer-brand-text { /* Footer tratado separadamente */
     opacity: 0;
     transform: translateY(25px);
     transition: opacity 0.8s var(--animation-ease-out-expo), transform 0.8s var(--animation-ease-out-expo);
   }
-  
-  /* Staggering para os textos */
-  .animate-item-in-view .section-tagline-about { transition-delay: 0.2s; opacity: 1; transform: translateY(0); }
-  .animate-item-in-view .main-paragraph-about { transition-delay: 0.4s; opacity: 1; transform: translateY(0); }
-  .animate-item-in-view .secondary-paragraph-about { transition-delay: 0.6s; opacity: 1; transform: translateY(0); }
-  .animate-item-in-view .emphasis-paragraph-about { transition-delay: 0.8s; opacity: 1; transform: translateY(0); }
-  .animate-item-in-view.about-footer-row .about-footer-brand-text { transition-delay: 0.3s; opacity: 1; transform: translateY(0); } /* Footer anima com seu próprio container */
-  
-  
+
+  /* Staggering para os textos (ativos APENAS quando o bloco pai animation-target-intro está visível) */
+  .text-content-block.animate-item-in-view .section-tagline-about { transition-delay: 0.2s; opacity: 1; transform: translateY(0); }
+  .text-content-block.animate-item-in-view .main-paragraph-about { transition-delay: 0.4s; opacity: 1; transform: translateY(0); }
+  .text-content-block.animate-item-in-view .secondary-paragraph-about { transition-delay: 0.6s; opacity: 1; transform: translateY(0); }
+  .text-content-block.animate-item-in-view .emphasis-paragraph-about { transition-delay: 0.8s; opacity: 1; transform: translateY(0); }
+  .about-footer-row.animate-item-in-view .about-footer-brand-text { transition-delay: 0.3s; opacity: 1; transform: translateY(0); } /* Footer anima com seu próprio container */
+
+
   .about-text-column {
     display: flex;
     flex-direction: column;
     justify-content: center;
     z-index: 2;
   }
-  
+
   .section-tagline-about {
     color: var(--about-text-medium) !important;
     font-size: 1.2rem !important;
@@ -118,11 +117,11 @@
     bottom: -8px; left: 0; background-color: var(--about-accent-orange);
     transition: width 0.8s var(--animation-ease-out-expo) 0.5s; /* Anima após o texto aparecer */
   }
-  .animate-item-in-view .section-tagline-about::after {
+  .text-content-block.animate-item-in-view .section-tagline-about::after { /* Animação da linha */
     width: 70%;
   }
-  
-  
+
+
   .main-paragraph-about {
     font-size: clamp(1.8rem, 4vw, 2.7rem) !important; /* Ajustado para não ser excessivamente grande */
     color: var(--about-text-light) !important;
@@ -135,7 +134,7 @@
   .main-paragraph-about:hover {
     color: #ffffff !important; /* Mais brilho no hover */
   }
-  
+
   .company-name-highlight {
     color: var(--about-accent-orange) !important;
     font-weight: 600 !important;
@@ -143,7 +142,8 @@
     position: relative;
     display: inline-block;
   }
-  .animate-item-in-view .company-name-highlight::after { /* Brilho animado */
+  /* Efeito de brilho animado (mantido) */
+  .company-name-highlight::after {
     content: '';
     position: absolute;
     left: 0;
@@ -153,16 +153,21 @@
     background: linear-gradient(90deg, transparent, var(--about-accent-orange-glow), transparent);
     opacity: 0;
     transform: scaleX(0.5) translateX(-100%);
-    animation: highlightShine 3s ease-in-out 1.5s infinite; /* Animação contínua após entrada */
+    /* Inicia pausado e roda apenas quando o parent animation-target-intro está visível */
+    animation: highlightShine 3s ease-in-out 1.5s infinite paused; /* Adicionado paused */
     mix-blend-mode: lighten; /* Efeito de mistura */
   }
-  
+   .text-content-block.animate-item-in-view .company-name-highlight::after {
+       animation-play-state: running; /* Inicia a animação quando visível */
+   }
+
+
   @keyframes highlightShine {
     0%, 100% { transform: scaleX(0.5) translateX(-150%); opacity: 0; }
     50% { transform: scaleX(1) translateX(0%); opacity: 0.6; }
   }
-  
-  
+
+
   .secondary-paragraph-about {
     font-size: clamp(1.1rem, 2.4vw, 1.35rem) !important; /* Aumentado */
     color: var(--about-text-medium) !important;
@@ -170,7 +175,7 @@
     margin-bottom: 40px !important;
     max-width: 600px;
   }
-  
+
   .emphasis-paragraph-about {
     font-size: clamp(1.2rem, 2.7vw, 1.55rem) !important; /* Aumentado */
     color: var(--about-accent-orange) !important;
@@ -179,41 +184,51 @@
   }
   .emphasis-paragraph-about .emphasis-always {
     font-weight: 700;
-    /* Efeito de pulso no "Sempre" */
+    /* Efeito de pulso no "Sempre" (mantido) */
     display: inline-block;
-    animation: pulseOrangeText 2.5s infinite ease-in-out 2s;
+    /* Inicia pausado e roda apenas quando o parent animation-target-intro está visível */
+    animation: pulseOrangeText 2.5s infinite ease-in-out 2s paused; /* Adicionado paused */
   }
-  
+  .text-content-block.animate-item-in-view .emphasis-paragraph-about .emphasis-always {
+       animation-play-state: running; /* Inicia a animação quando visível */
+  }
+
+
   @keyframes pulseOrangeText {
     0%, 100% { transform: scale(1); opacity: 1; }
     50% { transform: scale(1.05); opacity: 0.8; color: var(--about-accent-orange-glow); }
   }
-  
+
   .about-shape-column {
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 400px;
+    min-height: 400px; /* Ajuda a coluna a manter um tamanho mínimo */
     position: relative;
+    /* Adicionado flex-basis e flex-grow para a coluna gerenciar melhor o espaço */
+    flex-basis: auto;
+    flex-grow: 1;
   }
   @media (max-width: 767px) {
     .about-shape-column { min-height: 320px; margin-top: 20px; }
   }
-  
-  .organic-image-wrapper { /* Removido .animation-target-intro daqui, a imagem tem sua própria */
-    will-change: transform;
+
+  .organic-image-wrapper { /* Aplicar animação de entrada aqui */
+    will-change: transform, opacity;
     position: relative;
-    opacity: 0; /* Animação de entrada da imagem */
-    transform: scale(0.7) translateY(var(--parallax-offset-y, 0px)) rotate(20deg);
-    transition: opacity 1.5s var(--animation-ease-out-back) 0.5s, transform 1.5s var(--animation-ease-out-back) 0.5s;
+    /* Removida a opacidade e transform iniciais para a classe animation-target-intro */
+    /* Ajuste para preencher a coluna */
+    width: 100%;
+    height: 100%; /* Ocupa toda a altura disponível da coluna */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* A animação de entrada e o parallax são aplicados a este wrapper */
+    /* Parallax offset aplicado via JS como custom property */
+    transform: translateY(var(--parallax-offset-y, 0px)); /* Inclui o offset do parallax */
   }
-  .organic-image-wrapper.animate-item-in-view {
-    opacity: 1;
-    transform: scale(1) translateY(var(--parallax-offset-y, 0px)) rotate(0deg);
-  }
-  
-  
-  .organic-image-wrapper::before {
+
+  .organic-image-wrapper::before { /* Brilho sutil ao redor */
     content: ''; position: absolute; top: 50%; left: 50%;
     width: 115%; height: 115%; /* Brilho um pouco maior */
     background: radial-gradient(circle, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0) 65%);
@@ -222,38 +237,32 @@
     opacity: 0; z-index: -1;
     transition: opacity 1.2s ease-out 0.8s, transform 1.2s ease-out 0.8s; /* Delay maior para o brilho */
   }
+  /* Animação do brilho junto com o wrapper */
   .organic-image-wrapper.animate-item-in-view::before {
     opacity: 1;
     transform: translate(-50%, -50%) scale(1);
   }
-  
-  .organic-image-element {
+
+  .organic-image-element { /* O GIF/Imagem em si */
     display: block;
-    width: clamp(380px, 60vw, 700px); /* IMAGEM AINDA MAIOR */
-    max-width: 115%; 
-    height: auto;
-    object-fit: contain;
+    /* Ajuste para o GIF preencher o wrapper sem distorcer */
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Garante que o GIF seja totalmente visível */
     filter: drop-shadow(0 20px 35px rgba(0,0,0,0.2)); /* Sombra mais intensa */
-    animation: organicImageMasterFloatEnhanced 18s infinite alternate var(--animation-ease-in-out-sine);
-    /* O transform inicial já está no .organic-image-wrapper */
+    /* Removida a animação de flutuação contínua (organicImageMasterFloatEnhanced) */
+    /* O parallax (translateY) é aplicado no wrapper, não no elemento */
   }
-  
-  @keyframes organicImageMasterFloatEnhanced { /* Flutuação mais ampla e com leve "respiração" */
-    0% { transform: translateY(var(--parallax-offset-y, 0px)) rotate(-4deg) scale(0.98); }
-    25% { transform: translateY(calc(var(--parallax-offset-y, 0px) - 15px)) rotate(0deg) scale(1); }
-    50% { transform: translateY(calc(var(--parallax-offset-y, 0px) - 35px)) rotate(5deg) scale(1.05); } /* Ponto alto */
-    75% { transform: translateY(calc(var(--parallax-offset-y, 0px) - 15px)) rotate(0deg) scale(1); }
-    100% { transform: translateY(var(--parallax-offset-y, 0px)) rotate(-4deg) scale(0.98); }
-  }
-  
-  
+
+  /* Removido @keyframes organicImageMasterFloatEnhanced */
+
+
   .about-footer-row {
     margin-top: 100px; text-align: left; width: 100%;
   }
-  .about-footer-row.animation-target-intro.animate-item-in-view {
-    /* A animação já é controlada pela classe .animate-item-in-view no footer */
-  }
-  
+  /* A animação já é controlada pela classe .animate-item-in-view no footer (aplicada no JSX) */
+
+
   .about-footer-brand-text {
     font-size: 0.9rem;
     color: var(--about-text-darker-on-blue); /* Cor mais contrastante para o footer */
@@ -262,21 +271,21 @@
     letter-spacing: 1.5px;
     text-transform: uppercase;
   }
-  
+
   /* Responsividade */
   @media (max-width: 1024px) { /* Ajuste para telas um pouco menores que xl */
-      .organic-image-element {
-          width: clamp(320px, 50vw, 550px);
-      }
+       /* O tamanho da imagem agora é mais flexível dentro do wrapper */
       .main-paragraph-about { font-size: clamp(1.7rem, 3.5vw, 2.4rem) !important; }
+      .about-shape-column { min-height: 360px; } /* Ajusta min-height */
   }
-  
+
   @media (max-width: 991px) {
     .about-intro-section-wrapper { padding: 100px 0; }
     .about-intro-content-area { padding: 0 30px; }
     .about-intro-row { align-items: center; /* Melhor alinhamento em tablet */ }
+     .about-shape-column { min-height: 300px; } /* Ajusta min-height */
   }
-  
+
   @media (max-width: 767px) {
     .about-intro-row { flex-direction: column; }
     .about-text-column { text-align: center; }
@@ -284,6 +293,24 @@
       margin-left: auto; margin-right: auto;
     }
     .section-tagline-about { text-align: center; width: auto; display: block; }
-    .organic-image-element { margin-top: 40px; width: clamp(280px, 70vw, 400px); }
+     .about-shape-column { min-height: 300px; margin-top: 40px; } /* Ajusta min-height e margin-top */
+    .organic-image-wrapper { /* Ajusta wrapper para telas pequenas */
+        width: clamp(280px, 80vw, 400px);
+        height: clamp(280px, 80vw, 400px);
+        margin: 0 auto; /* Centraliza o wrapper na coluna empilhada */
+        aspect-ratio: 1 / 1; /* Mantém proporção quadrada se necessário */
+    }
     .about-footer-row { text-align: center; justify-content: center; margin-top: 80px;}
+  }
+  @media (max-width: 480px) {
+      .about-intro-section-wrapper { padding: 80px 0;}
+      .about-intro-content-area { padding: 0 20px;}
+      .main-paragraph-about { font-size: clamp(1.6rem, 5vw, 2rem) !important; }
+      .secondary-paragraph-about { font-size: 1rem !important; }
+      .emphasis-paragraph-about { font-size: 1.1rem !important; }
+       .about-shape-column { min-height: 250px; margin-top: 30px; } /* Ajusta min-height */
+      .organic-image-wrapper { /* Ajusta wrapper para telas muito pequenas */
+        width: clamp(240px, 85vw, 300px);
+        height: clamp(240px, 85vw, 300px);
+      }
   }

@@ -2,29 +2,38 @@
 :root {
     --diff-e-font-family: 'Inter', sans-serif;
     --diff-e-accent-orange: #EF7C12;
-    --diff-e-text-primary: #1A202C;
-    --diff-e-text-secondary: #4A5568;
-    --diff-e-background: #F9FAFB;
-    --diff-e-bar-color: #3A3D57;
+    --diff-e-text-primary: #1A202C; /* Cor para o texto da lista */
+    --diff-e-text-secondary: #4A5568; /* Cor para o subtítulo */
+    /* --diff-e-background: #F9FAFB; Removido - usando imagem de fundo */
+    --diff-e-bar-color: #3A3D57; /* Cor da barra superior e pontos gráficos */
     --diff-e-list-icon-color: var(--diff-e-accent-orange);
     --diff-e-list-border-color: #E2E8F0;
-    --diff-e-list-hover-bg: #ffffff; /* Fundo mais claro no hover do item */
-    --diff-e-list-hover-shadow: 0 8px 25px rgba(0,0,0,0.07);
-  
+    /* Removido hover colors */
+
+    /* Nova cor para o título principal */
+    --diff-e-main-title-color: #0A1931; /* Um tom de azul marinho similar ao do logo */
+
     --animation-ease-out-quint: cubic-bezier(0.23, 1, 0.32, 1);
     --animation-ease-out-cubic: cubic-bezier(0.215, 0.61, 0.355, 1);
     --animation-ease-in-out-sine: cubic-bezier(0.37, 0, 0.63, 1); /* Para animações contínuas */
   }
-  
+
+  body { /* Garante que a fonte Inter seja aplicada globalmente se não estiver em outro lugar */
+    font-family: var(--diff-e-font-family);
+  }
+
   .differentiators-section-wrapper.enhanced-modern {
     font-family: var(--diff-e-font-family);
-    background-color: var(--diff-e-background);
+    /* background-color: var(--diff-e-background); REMOVIDO */
+    background-size: cover; /* Adicionado para a imagem de fundo */
+    background-position: center center; /* Adicionado para a imagem de fundo */
+    background-repeat: no-repeat; /* Adicionado para a imagem de fundo */
     padding-bottom: 120px;
     position: relative;
-    min-height: 85vh; /* Aumentar um pouco para dar espaço às animações */
+    min-height: 85vh;
     overflow: hidden;
   }
-  
+
   .horizontal-connecting-bar-enhanced {
     width: 100%;
     height: 70px;
@@ -40,288 +49,225 @@
   .differentiators-section-wrapper.section-active-enhanced .horizontal-connecting-bar-enhanced {
     transform: scaleX(1);
   }
-  
+
   /* Elementos Gráficos Aprimorados e Animados */
+  /* Classe base para elementos gráficos que serão animados */
   .diff-graphic-enhanced {
     position: absolute;
     opacity: 0;
     z-index: 0;
     pointer-events: none;
     transition-property: opacity, transform;
-    transition-duration: 1.3s; /* Duração um pouco maior */
+    transition-duration: 1.3s; /* Duração da transição para os gráficos */
     transition-timing-function: var(--animation-ease-out-quint);
+    /* transition-delay é definido na classe específica do gráfico */
   }
-  .diff-graphic-enhanced.graphic-in-view {
-    opacity: 1;
-    transform: none; 
+  /* Estado final da animação para gráficos */
+  .graphic-animation-target.graphic-in-view {
+      opacity: 1;
+      transform: none; /* Remove transform inicial */
   }
-  
-  .graphic-circle-subtle {
-    width: 320px; /* Um pouco maior */
-    height: 320px;
-    background: radial-gradient(circle, rgba(239, 124, 18, 0.03), rgba(239, 124, 18, 0) 65%);
-    border-radius: 50%;
-    top: 45%; /* Ajustado */
-    left: -160px;
-    transform: translateY(-50%) scale(0.6) rotate(-30deg);
-    /* Animação contínua de flutuação */
-    animation: subtleFloat 10s infinite alternate var(--animation-ease-in-out-sine) 2s; /* Delay para começar a flutuar */
-  }
-  .graphic-circle-subtle.graphic-in-view {
-    opacity: 0.6; 
-    transform: translateY(-50%) scale(1) rotate(0deg);
-  }
-  
-  @keyframes subtleFloat {
-    0% { transform: translateY(-50%) scale(1) rotate(0deg); }
-    100% { transform: translateY(calc(-50% - 15px)) scale(1.03) rotate(5deg); }
-  }
-  
-  
+
+
+  /* Removido .graphic-circle-subtle */
+  /* Removido @keyframes subtleFloat */
+
+
   .graphic-lines-pattern {
     bottom: 12%;
     right: -50px;
     display: flex;
     flex-direction: column;
-    gap: 12px; /* Espaço entre linhas */
+    gap: 12px;
     transform: translateX(60px);
+    /* Delay na entrada deste gráfico específico */
+    transition-delay: 0.5s;
   }
-  .graphic-lines-pattern .line {
-    height: 3px; /* Linhas um pouco mais grossas */
-    background-color: var(--diff-e-accent-orange);
-    border-radius: 1.5px;
-    transform: scaleX(0);
-    transform-origin: right;
-    transition: transform 0.9s var(--animation-ease-out-cubic), opacity 0.7s ease-out;
-    opacity: 0; /* Inicia invisível */
-  }
+  /* Animação das linhas internas ativada quando o container pai (.graphic-lines-pattern)
+     recebe a classe de visibilidade (.graphic-in-view) */
   .graphic-lines-pattern.graphic-in-view .line {
-    opacity: 0.3; /* Opacidade final */
+    opacity: 0.3;
     transform: scaleX(1);
   }
   /* Stagger e tamanhos diferentes para as linhas */
   .graphic-lines-pattern.graphic-in-view .line:nth-child(1) { transition-delay: 0.15s; width: 110px;}
   .graphic-lines-pattern.graphic-in-view .line:nth-child(2) { transition-delay: 0.3s; width: 140px;}
   .graphic-lines-pattern.graphic-in-view .line:nth-child(3) { transition-delay: 0.45s; width: 100px;}
-  
-  
-  .graphic-accent-shape { /* Agora um círculo */
-    width: 90px; /* Tamanho do círculo */
-    height: 90px;
-    background-color: var(--diff-e-bar-color); /* Usa cor da barra */
-    border-radius: 50%; /* Transforma em círculo */
-    opacity: 0.08; /* Sutil */
-    top: 18%; 
-    left: 18%;
-    transform: translateY(-100%) scale(0.4);
-    /* Animação contínua de pulso */
-    animation: subtlePulse 8s infinite alternate var(--animation-ease-in-out-sine) 2.5s;
-  }
-  .graphic-accent-shape.graphic-in-view {
-    opacity: 0.07; /* Opacidade final */
-    transform: translateY(0) scale(1);
-  }
-  
-  @keyframes subtlePulse {
-    0% { transform: translateY(0) scale(1); opacity: 0.07; }
-    50% { transform: translateY(-5px) scale(1.05); opacity: 0.1; }
-    100% { transform: translateY(0) scale(1); opacity: 0.07; }
-  }
-  
-  
+
+
+  /* Removido .graphic-accent-shape */
+  /* Removido @keyframes subtlePulse */
+
+
+  /* Classe base para o bloco principal de conteúdo (texto + lista) */
   .differentiators-main-content-enhanced {
     max-width: 1120px;
     margin: 0 auto;
+    /* Padding ajustado para considerar a barra superior */
     padding: calc(70px + 100px) 40px 0 40px;
     position: relative;
-    z-index: 2;
+    z-index: 2; /* Conteúdo acima dos gráficos de fundo e da barra */
+    text-align: center; /* Centralizado após remover logo */
   }
-  
-  .animation-target-enhanced {
+
+   /* Classe auxiliar usada pelo JS para indicar que o conteúdo principal deve animar */
+  .main-content-animation-target {
     opacity: 0;
-    transform: translateY(35px); /* Aumenta um pouco o slide inicial */
+    transform: translateY(35px);
     transition: opacity 1.1s var(--animation-ease-out-cubic), transform 1.1s var(--animation-ease-out-cubic);
+    transition-delay: 0.2s; /* Delay na entrada do bloco de conteúdo principal */
   }
-  .animation-target-enhanced.content-in-view-enhanced {
+  /* Estado final da animação para o conteúdo principal */
+  .main-content-animation-target.content-in-view-enhanced {
     opacity: 1;
     transform: translateY(0px);
-    transition-delay: 0.2s; 
   }
-  
+
+
   .title-logo-column-enhanced {
-    text-align: left;
+    text-align: center; /* Centralizado após remover logo */
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center; /* Centraliza o conteúdo interno */
+    margin-bottom: 50px; /* Adiciona espaço inferior após remover logo */
   }
-  @media (max-width: 767px) {
-    .title-logo-column-enhanced { text-align: center; margin-bottom: 50px;}
-  }
-  
-  .logo-container-enhanced {
-    margin-bottom: 40px; /* Mais espaço */
-    opacity: 0;
-    transform: scale(0.85) rotate(-3deg); /* Animação de entrada mais dinâmica */
-    transition: opacity 0.9s ease-out 0.25s, transform 0.9s var(--animation-ease-out-quint) 0.25s;
-    /* Animação de hover no logo */
-    transition: transform 0.4s var(--animation-ease-out-cubic);
-  }
-  .animation-target-enhanced.content-in-view-enhanced .logo-container-enhanced {
-    opacity: 1;
-    transform: scale(1) rotate(0deg);
-  }
-  .logo-container-enhanced:hover {
-      transform: scale(1.05) rotate(2deg) !important; /* Força o hover mesmo após animação de entrada */
-  }
-  
-  
-  .company-logo-main-enhanced {
-    max-width: 320px; /* LOGO MAIOR */
-    height: auto;
-    display: block;
-  }
-  @media (max-width: 767px) {
-    .company-logo-main-enhanced { margin-left: auto; margin-right: auto; }
-  }
-  
-  
+
+
+  /* Removido .logo-container-enhanced */
+  /* Removido .company-logo-main-enhanced */
+
+
   .section-main-title-enhanced {
-    font-weight: 800 !important; /* Inter ExtraBold para mais impacto */
+    font-weight: 800 !important; /* Inter ExtraBold */
     font-size: clamp(2.5rem, 4.5vw, 3.3rem) !important;
     line-height: 1.28 !important;
-    color: var(--diff-e-text-primary) !important;
+    color: var(--diff-e-main-title-color) !important; /* Usando a nova cor azul marinho */
     margin-bottom: 20px !important;
   }
   .section-main-title-enhanced .highlight-orange-enhanced {
     color: var(--diff-e-accent-orange) !important;
-    /* Efeito de sublinhado sutil no hover do título (opcional) */
-    /* position: relative; */
-    /* display: inline-block; */
   }
-  /*
-  .section-main-title-enhanced .highlight-orange-enhanced::after {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 3px;
-    bottom: -5px;
-    left: 0;
-    background-color: var(--diff-e-accent-orange);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.4s var(--animation-ease-out-cubic);
-  }
-  .title-logo-column-enhanced:hover .section-main-title-enhanced .highlight-orange-enhanced::after {
-    transform: scaleX(1);
-  }
-  */
-  
+
   .section-main-title-enhanced .plus-separator-enhanced {
     color: var(--diff-e-text-secondary);
     font-weight: 600;
     margin: 0 0.4em;
   }
-  
+
   .section-subtitle-enhanced {
-    font-size: clamp(1.1rem, 2.1vw, 1.25rem); /* Subtítulo maior */
+    font-size: clamp(1.1rem, 2.1vw, 1.25rem);
     color: var(--diff-e-text-secondary);
     line-height: 1.85;
-    max-width: 520px; /* Um pouco mais estreito para forçar quebra de linha se necessário */
+    max-width: 520px;
+    margin-left: auto; /* Centraliza o subtítulo */
+    margin-right: auto; /* Centraliza o subtítulo */
   }
-  @media (max-width: 767px) {
-    .section-subtitle-enhanced { margin-left: auto; margin-right: auto; }
-  }
-  
-  
+
+
   .list-items-column-enhanced {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    /* Ajusta o alinhamento em telas menores se necessário */
+    @media (max-width: 991px) {
+        align-items: center;
+    }
   }
-  
+
   .differentiators-list-enhanced {
     width: 100%;
+    max-width: 500px; /* Limita a largura da lista */
+    margin: 0 auto; /* Centraliza a lista */
   }
-  
+
   .differentiator-list-point-enhanced {
-    padding: 16px 10px !important; /* Mais padding */
+    padding: 16px 10px !important;
     border-bottom: 1px solid var(--diff-e-list-border-color) !important;
     display: flex !important;
     align-items: center !important;
-    opacity: 0;
-    transform: translateX(-30px); /* Slide maior na entrada */
-    transition: opacity 0.8s var(--animation-ease-out-cubic), transform 0.8s var(--animation-ease-out-cubic),
-                background-color 0.3s ease, border-left-color 0.3s ease, box-shadow 0.3s ease;
-    border-left: 4px solid transparent; /* Para o hover effect */
-    position: relative; /* Para o ::before */
+    opacity: 0; /* Estado inicial da animação */
+    transform: translateX(-30px); /* Estado inicial da animação */
+    transition: opacity 0.8s var(--animation-ease-out-cubic), transform 0.8s var(--animation-ease-out-cubic); /* Transições de entrada */
+    /* transition-delay é aplicado via inline style no JSX para stagger */
+    border-left: 4px solid transparent; /* Mantém a borda para consistência visual */
+    position: relative;
   }
-  .animation-target-enhanced.content-in-view-enhanced .differentiator-list-point-enhanced {
+  /* Animação dos itens da lista ativada quando o container pai (main-content-animation-target)
+     recebe a classe de visibilidade (.content-in-view-enhanced) */
+   .main-content-animation-target.content-in-view-enhanced .differentiator-list-point-enhanced {
     opacity: 1;
     transform: translateX(0);
   }
-  
-  /* Efeito de Hover nos Itens da Lista */
-  .differentiator-list-point-enhanced:hover {
-    background-color: var(--diff-e-list-hover-bg);
-    border-left-color: var(--diff-e-accent-orange);
-    transform: translateX(8px) !important; /* Leve deslocamento e força sobre a animação de entrada */
-    box-shadow: var(--diff-e-list-hover-shadow);
-    cursor: default; /* Ou pointer se for clicável */
-  }
-  .differentiator-list-point-enhanced:hover .list-point-icon-enhanced {
-      transform: rotate(10deg) scale(1.15) !important; /* Animação do ícone no hover do item */
-      color: var(--diff-e-accent-orange);
-  }
-  .differentiator-list-point-enhanced:hover .list-point-text-enhanced {
-      color: var(--diff-e-accent-orange); /* Texto também muda de cor no hover */
-  }
-  
-  
+
+
+  /* Removido Efeito de Hover nos Itens da Lista */
+
+
   .differentiator-list-point-enhanced:last-child {
     border-bottom: none !important;
   }
-  
+
   .list-point-icon-enhanced {
-    color: var(--diff-e-text-secondary) !important; /* Ícone inicialmente cinza */
-    font-size: 1.25rem; 
+    color: var(--diff-e-accent-orange) !important; /* Ícone laranja desde o início */
+    font-size: 1.25rem;
     margin-right: 18px;
     flex-shrink: 0;
+    /* Animação de entrada do ícone */
     transform: rotate(-30deg) scale(0.6);
     opacity: 0;
     transition: transform 0.7s var(--animation-ease-out-quint) 0.25s, opacity 0.7s ease-out 0.25s, color 0.3s ease;
   }
-  .animation-target-enhanced.content-in-view-enhanced .differentiator-list-point-enhanced .list-point-icon-enhanced {
+   /* Animação de entrada do ícone em coordenação com o item */
+  .main-content-animation-target.content-in-view-enhanced .differentiator-list-point-enhanced .list-point-icon-enhanced {
       transform: rotate(0deg) scale(1);
       opacity: 1;
   }
-  
-  
+
+
   .list-point-text-enhanced {
-    font-size: 1.2rem; /* Texto da lista ainda maior */
-    color: var(--diff-e-text-primary);
+    font-size: 1.2rem;
+    color: var(--diff-e-text-primary); /* Mantido preto/cinza escuro para contraste na lista */
     font-weight: 500;
     line-height: 1.7;
-    transition: color 0.3s ease;
+    /* Removida transição de cor de hover */
   }
-  
+
   /* Responsividade */
+  @media (max-width: 1200px) {
+      .differentiators-main-content-enhanced {
+          padding: calc(70px + 100px) 30px 0 30px;
+      }
+  }
+
   @media (max-width: 991px) { /* md */
+    .differentiators-section-wrapper.enhanced-modern { padding: 100px 0; }
     .differentiators-main-content-enhanced {
       padding-top: calc(70px + 80px);
     }
     .section-main-title-enhanced {
       font-size: clamp(2.3rem, 4vw, 3rem) !important;
     }
-    .graphic-circle-subtle { left: -200px; width: 280px; height: 280px; }
+    /* Removido graphic-circle-subtle adjustment */
     .graphic-lines-pattern { right: -70px; }
   }
-  
-  @media (max-width: 576px) { /* xs */
-    .horizontal-connecting-bar-enhanced { height: 50px; }
-    .differentiators-main-content-enhanced { padding: calc(50px + 60px) 20px 0 20px; }
+
+  @media (max-width: 767px) { /* sm */
+    .differentiators-section-wrapper.enhanced-modern { padding: 80px 0 100px; }
+    .differentiators-main-content-enhanced { padding: calc(70px + 60px) 20px 0 20px; }
     .section-main-title-enhanced { font-size: clamp(2rem, 5.8vw, 2.6rem) !important; }
     .section-subtitle-enhanced { font-size: 1.05rem; }
     .list-point-text-enhanced { font-size: 1.1rem; }
-    .company-logo-main-enhanced { max-width: 260px; }
-    .graphic-circle-subtle, .graphic-lines-pattern, .graphic-accent-shape { display: none; }
+    .graphic-lines-pattern { display: none; } /* Esconde as linhas em telas menores */
+    .horizontal-connecting-bar-enhanced { height: 50px; } /* Ajusta altura da barra superior */
+    .differentiators-main-content-enhanced { padding-top: calc(50px + 60px); } /* Ajusta padding com a nova altura da barra */
+  }
+
+  @media (max-width: 576px) { /* xs */
+    /* Ajustes para mobile, muitos já cobertos por 767px */
+     .differentiators-section-wrapper.enhanced-modern { padding: 70px 0 80px; }
+     .differentiators-main-content-enhanced { padding: calc(50px + 50px) 15px 0 15px; } /* Mais ajuste de padding */
+     .section-main-title-enhanced { font-size: clamp(1.8rem, 6.5vw, 2.4rem) !important; }
+     .section-subtitle-enhanced { font-size: 1rem; }
+     .list-point-text-enhanced { font-size: 1.05rem; }
   }

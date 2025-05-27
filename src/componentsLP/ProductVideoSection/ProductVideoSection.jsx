@@ -1,28 +1,29 @@
 // src/components/ProductVideoSection/ProductVideoSection.jsx
-import React, { useState, useEffect, useRef } from 'react';
-import { Row, Col, Typography, Button, Tooltip } from 'antd';
-import { SoundOutlined, MutedOutlined, PlayCircleOutlined, PauseCircleOutlined, ExpandOutlined, ShrinkOutlined } from '@ant-design/icons';
+import React, { useEffect, useRef } from 'react';
+// Remover imports de Typography e Button
+// import { Row, Col, Typography, Button } from 'antd';
+// Remover imports de ícones de controle de player, manter apenas o da seta
+import { ArrowDownOutlined } from '@ant-design/icons';
 import './ProductVideoSection.css'
 import ReactPlayer from 'react-player/youtube';
 ;
 
-//import localVideo from '../../assets/media/video.mp4';
-// Importe o backgroundAzul.png
-import backgroundAzul from '../../assets/images/backgroundAzul.png';
+// Importar a imagem de background, mesmo que seja para um overlay ou detalhe futuro
+// import backgroundAzul from '../../assets/images/backgroundAzul.png';
 
 
-const { Title, Paragraph } = Typography;
+// Remover Title e Paragraph já que não haverá texto principal
+// const { Title, Paragraph } = Typography;
+
 
 const ProductVideoSection = () => {
-  const [animateContent, setAnimateContent] = useState(false);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [isMuted, setIsMuted] = useState(true);
-  const [progress, setProgress] = useState(0);
-  const [duration, setDuration] = useState(0);
-  const [isFullScreen, setIsFullScreen] = useState(false);
-  
-  const videoRef = useRef(null);
-  const videoContainerRef = useRef(null);
+  // Remover todos os states de controle de player
+  // const [isPlaying, setIsPlaying] = useState(false);
+  // const [isMuted, setIsMuted] = useState(true);
+  // const [showOverlayButton, setShowOverlayButton] = useState(true);
+
+  // Manter apenas a referência do vídeo e da seção
+  const videoRef = useRef(null); // Referência para o player
   const sectionRef = useRef(null);
 
   useEffect(() => {
@@ -31,166 +32,102 @@ const ProductVideoSection = () => {
       (entries) => {
         const entry = entries[0];
         if (entry.isIntersecting) {
-          currentSectionRef.classList.add('video-section-bg-active'); // Ativa animações de fundo
-          setAnimateContent(true); // Ativa animações de conteúdo (texto, player)
-          
-          if (videoRef.current) {
-            videoRef.current.play().catch(error => {
-              console.warn("Autoplay com som bloqueado.", error);
-            });
-          }
-          observer.unobserve(currentSectionRef);
+          currentSectionRef.classList.add('video-section-active'); // Ativa animações da seção e gráficos de fundo
+
+          // Não é mais necessário forçar o play/mute via JS aqui,
+          // o componente ReactPlayer com playing={true}, loop={true} e muted={true}
+          // deve lidar com isso automaticamente assim que estiver pronto e visível.
+          // A única exceção é o autoplay bloqueado por políticas do navegador,
+          // que só permitirá autoplay mutado.
+
+          observer.unobserve(currentSectionRef); // Observa apenas uma vez
         }
+         // Remover a lógica de pausar ao sair da viewport
       },
-      { threshold: 0.15 } // Um pouco mais de visibilidade para iniciar tudo
+      { threshold: 0.1 } // Um pouco mais de visibilidade para iniciar tudo
     );
 
     if (currentSectionRef) {
       observer.observe(currentSectionRef);
     }
 
+    // Limpar o observer ao desmontar
     return () => {
       if (currentSectionRef) {
         observer.unobserve(currentSectionRef);
       }
+       // Parar o player ao desmontar (opcional, mas boa prática)
+       if (videoRef.current && videoRef.current.getInternalPlayer) {
+            const player = videoRef.current.getInternalPlayer();
+            if (player && player.stopVideo) { // Para YouTube
+                player.stopVideo();
+            }
+       }
     };
   }, []);
 
-  // Lógica do player (mesma da versão anterior, apenas adaptando nomes de classes se necessário)
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-    const updatePlayState = () => setIsPlaying(!video.paused);
-    const updateMuteState = () => setIsMuted(video.muted);
-    const updateProgress = () => {
-      if (video.duration) {
-        setProgress((video.currentTime / video.duration) * 100);
-      }
-    };
-    const setVideoDuration = () => {
-        if (video.duration && !isNaN(video.duration)) {
-            setDuration(video.duration);
-        }
-    };
-    video.addEventListener('play', updatePlayState);
-    video.addEventListener('pause', updatePlayState);
-    video.addEventListener('ended', updatePlayState);
-    video.addEventListener('volumechange', updateMuteState);
-    video.addEventListener('timeupdate', updateProgress);
-    video.addEventListener('loadedmetadata', setVideoDuration);
-    video.muted = isMuted;
-    return () => {
-      video.removeEventListener('play', updatePlayState);
-      video.removeEventListener('pause', updatePlayState);
-      video.removeEventListener('ended', updatePlayState);
-      video.removeEventListener('volumechange', updateMuteState);
-      video.removeEventListener('timeupdate', updateProgress);
-      video.removeEventListener('loadedmetadata', setVideoDuration);
-    };
-  }, [isMuted]);
 
-  const togglePlayPause = () => {
-    if (videoRef.current) {
-      if (videoRef.current.paused || videoRef.current.ended) {
-        videoRef.current.play();
-      } else {
-        videoRef.current.pause();
-      }
-    }
-  };
-  const toggleMute = () => {
-    if (videoRef.current) {
-      videoRef.current.muted = !videoRef.current.muted;
-      setIsMuted(videoRef.current.muted);
-    }
-  };
-  const handleProgressChange = (e) => {
-    if (videoRef.current && duration) {
-      const newTime = (e.target.value / 100) * duration;
-      videoRef.current.currentTime = newTime;
-      setProgress(parseFloat(e.target.value));
-    }
-  };
-  const formatTime = (timeInSeconds) => {
-    if (isNaN(timeInSeconds) || timeInSeconds === 0 || !isFinite(timeInSeconds)) return '00:00';
-    const minutes = Math.floor(timeInSeconds / 60);
-    const seconds = Math.floor(timeInSeconds % 60);
-    return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-  };
-  const toggleFullScreen = () => {
-    const elem = videoContainerRef.current;
-    if (!elem) return;
-    if (!document.fullscreenElement) {
-      if (elem.requestFullscreen) elem.requestFullscreen();
-      else if (elem.mozRequestFullScreen) elem.mozRequestFullScreen();
-      else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
-      else if (elem.msRequestFullscreen) elem.msRequestFullscreen();
-    } else {
-      if (document.exitFullscreen) document.exitFullscreen();
-    }
-  };
-  useEffect(() => {
-    const handleFullScreenChange = () => setIsFullScreen(!!document.fullscreenElement);
-    document.addEventListener('fullscreenchange', handleFullScreenChange);
-    document.addEventListener('webkitfullscreenchange', handleFullScreenChange);
-    document.addEventListener('mozfullscreenchange', handleFullScreenChange);
-    document.addEventListener('MSFullscreenChange', handleFullScreenChange);
-    return () => {
-      document.removeEventListener('fullscreenchange', handleFullScreenChange);
-      document.removeEventListener('webkitfullscreenchange', handleFullScreenChange);
-      document.removeEventListener('mozfullscreenchange', handleFullScreenChange);
-      document.removeEventListener('MSFullscreenChange', handleFullScreenChange);
-    };
-  }, []);
+  // Remover handlers de player (handlePlayerReady, handlePlay, handlePause, handleEnded, handleButtonClick)
+
 
   return (
-    <div 
-      ref={sectionRef} 
-      className="product-video-section-wrapper rich-bg-video-player"
-      style={{ backgroundImage: `url(${backgroundAzul})` }} // Aplicando o backgroundAzul
-    >
-      <div className="video-section-overlay-rich"></div> {/* Overlay para contraste */}
+    // Remover a imagem de background inline se ela não for mais usada como BG principal
+    // <div ref={sectionRef} className="product-video-section-wrapper hero-video-bg" style={{ backgroundImage: `url(${backgroundAzul})` }}>
+    <div ref={sectionRef} className="product-video-section-wrapper hero-video-bg">
+      {/* Overlay para escurecer o vídeo */}
+      <div className="video-background-overlay"></div>
 
-      {/* Elementos Gráficos de Fundo Adicionais */}
-      <div className="video-rich-graphic graphic-ring-1"></div>
-      <div className="video-rich-graphic graphic-ring-2"></div>
-      <div className="video-rich-graphic graphic-plus-pattern">
-        {[...Array(10)].map((_,i)=><div className="plus-shape" key={i} style={{animationDelay: `${Math.random() * 2}s`}}>+</div>)}
+      {/* Container para o vídeo que vai cobrir a seção */}
+      <div className="video-player-cover-container">
+          <ReactPlayer
+            ref={videoRef}
+            // Manter o URL do seu vídeo do YouTube
+            url="https://www.youtube.com/watch?v=u31qwQUeGuM"
+            className="react-player" // Classe para estilizar
+            width="100%"
+            height="100%"
+            playing={true} // Toca automaticamente SEMPRE
+            loop={true} // Em loop SEMPRE
+            muted={true} // SEMPRE mutado para autoplay funcionar
+            controls={false} // Esconde os controles nativos
+            // Remover todos os listeners de eventos e onClick
+            // onReady={handlePlayerReady}
+            // onPlay={handlePlay}
+            // onPause={handlePause}
+            // onEnded={handleEnded}
+            // onClick={togglePlayPause} // Não há mais toggleClick
+             config={{
+                 youtube: {
+                     playerVars: { showinfo: 0, rel: 0, loop: 1, playlist: 'u31qwQUeGuM', controls: 0 } // Configurações YouTube: sem info, sem relacionados, loop, playlist com o mesmo ID para loop funcionar corretamente, controls: 0 para garantir que os controles do YouTube não apareçam NUNCA
+                 }
+             }}
+          />
       </div>
-      <div className="video-rich-graphic graphic-accent-line-video"></div>
+
+      {/* Elementos Gráficos de Fundo Adicionais - Z-index ajustado */}
+      {/* Mantendo apenas os gráficos que fazem sentido como fundo */}
+      <div className="video-bg-graphic graphic-ring-1"></div>
+      <div className="video-bg-graphic graphic-ring-2"></div>
 
 
-      <Row justify="center" className={`product-video-header-row-rich ${animateContent ? 'content-visible' : ''}`}>
-        <Col xs={22} sm={20} md={18} lg={16} xl={14} className="product-video-text-content-rich">
-          <Title level={1} className="product-video-title-rich">
-            Veja a Inovação em <span className="highlight-video">Ação.</span>
-          </Title>
-          <Paragraph className="product-video-description-rich">
-            Uma demonstração clara de como nossa IA humanizada transforma desafios em oportunidades reais e resultados tangíveis.
-          </Paragraph>
-        </Col>
-      </Row>
+      {/* Remover o Botão central de Play/Unmute/Pause */}
+      {/*
+       <Button
+          type="primary"
+          shape="circle"
+          size="large"
+          className={`center-play-mute-button ${showOverlayButton ? 'visible' : ''}`}
+          icon={renderButtonIcon()}
+          onClick={handleButtonClick}
+          aria-label={isMuted ? "Reproduzir e Desmutar Vídeo" : isPlaying ? "Pausar Vídeo" : "Reproduzir Vídeo"}
+       />
+       */}
 
-      <Row justify="center" className="video-player-row-rich">
-      <Col xs={23} sm={22} md={20} lg={18} xl={16}>
-  <div ref={videoContainerRef} className={`video-player-outer-container-rich ${animateContent ? 'content-visible' : ''}`}>
-    <div className="video-player-frame-decoration"></div> {/* Moldura decorativa */}
-    <div className="video-aspect-ratio-keeper-rich">
-      <ReactPlayer
-        url="https://www.youtube.com/watch?v=u31qwQUeGuM7"
-        className="main-product-video-rich"
-        width="100%"
-        height="100%"
-        playing
-        loop
-        muted
-        controls={false}
-        onClick={togglePlayPause}
-      />
-    </div>
-  </div>
-</Col>
-      </Row>
+        {/* Indicador de Scroll - Manter e estilizar */}
+        <div className="scroll-indicator">
+            <ArrowDownOutlined className="scroll-arrow" />
+        </div>
+
     </div>
   );
 };

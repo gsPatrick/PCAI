@@ -5,16 +5,19 @@
 
 import React, { useEffect, useRef } from 'react';
 import { Row, Col, Typography, List, Divider } from 'antd';
-import { 
-    AuditOutlined, 
-    UserSwitchOutlined, 
-    EyeOutlined,        
-    LockOutlined,       
-    TeamOutlined,       
-    HeartOutlined,      
-    SafetyCertificateOutlined 
+import {
+    AuditOutlined,
+    UserSwitchOutlined,
+    EyeOutlined,
+    LockOutlined,
+    TeamOutlined,
+    HeartOutlined,
+    SafetyCertificateOutlined
 } from '@ant-design/icons';
 import './EthicalCommitmentSection.css'; // Certifique-se que o nome do arquivo CSS é o mesmo
+
+// Importar a nova imagem de fundo
+import backgroundCinza from '../../assets/images/backgroundCinza.png';
 
 const { Title, Paragraph, Text } = Typography;
 
@@ -37,47 +40,53 @@ const internationalStandards = [
 
 const EthicalCommitmentSection = () => {
   const sectionRef = useRef(null);
-  const mainContentRef = useRef(null);
+  const mainContentRef = useRef(null); // Ref para o bloco do título principal
   const principlesListRef = useRef(null);
-  const diagramSideRef = useRef(null);
+  const diagramSideRef = useRef(null); // Ref para o bloco da direita
+  // Ref para o breadcrumb
+  const breadcrumbRef = useRef(null);
   // Refs para elementos gráficos
-  const graphicRefs = useRef([]); 
+  const graphicRefs = useRef([]);
 
   useEffect(() => {
     const currentSectionRef = sectionRef.current;
     graphicRefs.current = graphicRefs.current.slice(0, 3); // Para 3 elementos gráficos de exemplo
 
     const targetsToObserve = [
-        mainContentRef.current, 
-        principlesListRef.current, 
+        breadcrumbRef.current, // Adiciona o breadcrumb aos targets de observação
+        mainContentRef.current,
+        principlesListRef.current,
         diagramSideRef.current,
         ...graphicRefs.current.filter(Boolean) // Adiciona os gráficos ao observer
     ].filter(Boolean);
 
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('ethics-item-visible-enhanced');
-          // Aplicar delay se necessário para gráficos
-          if (entry.target.dataset.graphicDelay) {
-            entry.target.style.transitionDelay = entry.target.dataset.graphicDelay;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('ethics-item-visible-enhanced');
+            // Aplicar delay se necessário para gráficos
+            if (entry.target.dataset.graphicDelay) {
+              entry.target.style.transitionDelay = entry.target.dataset.graphicDelay;
+            }
+            observer.unobserve(entry.target);
           }
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.1 });
+        });
+      },
+      { threshold: 0.1 }
+    );
 
     targetsToObserve.forEach(target => {
-        if(target) observer.observe(target);
+      if(target) observer.observe(target);
     });
-    
+
     const sectionEntryObserver = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting) {
             currentSectionRef.classList.add('ethics-section-active-enhanced');
             sectionEntryObserver.unobserve(currentSectionRef);
         }
     }, { threshold: 0.05 });
-    
+
     if (currentSectionRef) sectionEntryObserver.observe(currentSectionRef);
 
     return () => {
@@ -89,7 +98,14 @@ const EthicalCommitmentSection = () => {
   }, []);
 
   return (
-    <div ref={sectionRef} className="ethical-commitment-section-wrapper enhanced-ethics">
+    <div
+      ref={sectionRef}
+      className="ethical-commitment-section-wrapper enhanced-ethics"
+      style={{ backgroundImage: `url(${backgroundCinza})` }} // Aplicando a imagem de fundo
+    >
+      {/* Removido o overlay, pois a imagem de fundo já tem um ton escuro e textura */}
+      {/* <div className="ethical-intro-overlay"></div> */}
+
       {/* Elementos Gráficos Aprimorados */}
       <div ref={el => graphicRefs.current[0] = el} className="ethics-graphic-enhanced graphic-concentric-circles" data-graphic-delay="0.3s">
         <div className="circle c1"></div>
@@ -105,16 +121,28 @@ const EthicalCommitmentSection = () => {
 
 
       <div className="ethical-commitment-content-area-enhanced">
+
+        {/* NOVA ROW PARA O BREADCRUMB */}
+        <Row ref={breadcrumbRef} className="ethics-breadcrumb-row animation-target-ethics-enhanced" data-delay="0.2"> {/* Adicionado ref e classes de animação */}
+          <Col>
+            <Text className="ethics-breadcrumb-text">
+              Quem somos | <span className="breadcrumb-current">Compromisso Ético</span> {/* Texto do breadcrumb */}
+            </Text>
+          </Col>
+        </Row>
+
+
         <div ref={mainContentRef} className="ethical-main-text-block-enhanced animation-target-ethics-enhanced">
           <Title level={1} className="ethical-main-title-enhanced">
-            O nosso <span className="highlight-ethics-enhanced">Compromisso Ético</span> com Pessoas e Tecnologia
+            O nosso <span className="highlight-ethics-enhanced">Compromisso Ético</span><br />com Pessoas e Tecnologia {/* Adicionada quebra de linha */}
           </Title>
           <Paragraph className="ethical-intro-paragraph-enhanced">
-            Acreditamos que a inovação tecnológica só faz sentido se respeitar, proteger e potenciar as pessoas. 
+            Acreditamos que a inovação tecnológica só faz sentido se respeitar, proteger e potenciar as pessoas.
             Na <strong className="company-name-ethics-enhanced">People Change AI Consulting</strong>, a ética não é um acessório — é a base de tudo o que criamos.
           </Paragraph>
         </div>
 
+        {/* Removido align="top". O padrão do Ant Design Row é stretch, e com flex-grow no conteúdo, as colunas devem alinhar os fundos. */}
         <Row gutter={[64, 56]} className="ethical-details-row-enhanced"> {/* Aumentado gutter vertical */}
           <Col xs={24} md={14} lg={15} className="principles-column-enhanced">
             <div ref={principlesListRef} className="principles-list-block-enhanced animation-target-ethics-enhanced">
@@ -124,14 +152,15 @@ const EthicalCommitmentSection = () => {
                 itemLayout="horizontal"
                 dataSource={corePrinciples}
                 renderItem={(item, index) => (
-                  <List.Item 
-                    className="principle-item-enhanced" 
+                  <List.Item
+                    className="principle-item-enhanced"
                     style={{transitionDelay: `${0.4 + index * 0.12}s`}} // Stagger mais suave
                   >
                     <List.Item.Meta
                       avatar={<span className="principle-icon-enhanced">{item.icon}</span>}
                       title={<span className="principle-text-enhanced">{item.text}</span>}
                     />
+                    {/* Mantido o elemento da linha, mas o hover foi removido no CSS */}
                     <div className="principle-item-accent-line"></div>
                   </List.Item>
                 )}
@@ -140,6 +169,7 @@ const EthicalCommitmentSection = () => {
           </Col>
 
           <Col xs={24} md={10} lg={9} className="diagram-standards-column-enhanced">
+            {/* diagramSideRef e animation-target-ethics-enhanced no container pai */}
             <div ref={diagramSideRef} className="diagram-and-standards-block-enhanced animation-target-ethics-enhanced">
               <div className="ethical-diagram-placeholder-enhanced">
                 <div className="diagram-icon-bg">
@@ -162,7 +192,7 @@ const EthicalCommitmentSection = () => {
             </div>
           </Col>
         </Row>
-        
+
         <div className="ethical-closing-statement-enhanced animation-target-ethics-enhanced">
             <Paragraph>
             Inovamos para o progresso humano e construímos o futuro com <span className="highlight-ethics-enhanced">ética</span>, <span className="highlight-ethics-enhanced">inteligência</span> e <span className="highlight-ethics-enhanced">propósito</span>.

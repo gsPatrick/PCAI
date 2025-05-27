@@ -6,6 +6,9 @@ import './TeamSection.css';
 // Importe as imagens dos membros da equipe
 import marcoImg from '../../assets/images/marco.png';
 import hugoImg from '../../assets/images/hugo.png';
+// Importar a nova imagem de fundo
+import backgroundCinza from '../../assets/images/backgroundCinza.png';
+
 
 const { Title, Paragraph, Text } = Typography;
 
@@ -77,11 +80,15 @@ const TeamSection = () => {
   }, []);
 
   return (
-    <div ref={sectionRef} className="team-section-wrapper">
+    <div
+      ref={sectionRef}
+      className="team-section-wrapper"
+      style={{ backgroundImage: `url(${backgroundCinza})` }} // Aplicando a imagem de fundo
+    >
       <div className="team-section-content-area">
         <Row className="team-header-row">
           <Col>
-            <Text className="team-section-tagline">Quem somos</Text>
+            <Text className="team-section-tagline">Quem somos | Co-Founders</Text>
           </Col>
         </Row>
 
@@ -98,10 +105,10 @@ const TeamSection = () => {
             >
               <div className="team-member-card">
                 <div className="member-image-wrapper">
-                  <Avatar 
+                  <Avatar
                     size={140} // Tamanho da imagem circular, pode ajustar
-                    src={member.image} 
-                    alt={`${member.nameFirst} ${member.nameLast}`} 
+                    src={member.image}
+                    alt={`${member.nameFirst} ${member.nameLast}`}
                     className="member-avatar"
                   />
                 </div>

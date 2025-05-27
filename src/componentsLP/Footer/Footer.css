@@ -2,18 +2,25 @@
 :root {
     --footer-font-family: 'Inter', sans-serif;
     --footer-accent-orange: #EF7C12;
-    --footer-text-primary: #E5E7EB; /* Um pouco mais claro */
-    --footer-text-secondary: #9CA3AF; /* Cinza para textos menos importantes */
-    --footer-title-color: #FFFFFF;
+    /* Cores de texto ajustadas para serem mais claras */
+    --footer-text-primary: #F8F9FA; /* Mais branco */
+    --footer-text-secondary: #CED4DA; /* Cinza claro para textos menos importantes */
+    --footer-title-color: #FFFFFF; /* Branco */
     --footer-link-hover-color: var(--footer-accent-orange);
-    --footer-divider-color: rgba(255, 255, 255, 0.1); /* Divisor mais sutil */
-    --footer-background-overlay: rgba(15, 23, 42, 0.75); /* Overlay mais escuro e azulado */
+    --footer-divider-color: rgba(255, 255, 255, 0.2); /* Divisor um pouco mais visível */
+    /* --footer-background-overlay: rgba(15, 23, 42, 0.75); REMOVIDO */
     --footer-social-icon-hover-bg: rgba(239, 124, 18, 0.1);
-  
+
+    /* Cores para os novos botões de contato */
+    --footer-button-bg: var(--footer-accent-orange);
+    --footer-button-hover-bg: #D96D0B;
+    --footer-button-text: #FFFFFF;
+    --footer-button-border: rgba(255, 255, 255, 0.3); /* Borda opcional */
+
     --animation-ease-out-quint: cubic-bezier(0.23, 1, 0.32, 1);
     --animation-ease-out-back-footer: cubic-bezier(0.34, 1.56, 0.64, 1);
   }
-  
+
   .footer-wrapper.enhanced {
     font-family: var(--footer-font-family);
     background-size: cover;
@@ -21,44 +28,40 @@
     background-repeat: no-repeat;
     padding: 90px 0 50px;
     position: relative;
-    color: var(--footer-text-primary);
+    /* Usar a cor secundária clara como padrão */
+    color: var(--footer-text-secondary);
     overflow: hidden;
   }
-  
-  .footer-overlay-enhanced {
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background-color: var(--footer-background-overlay);
-    z-index: 0;
-  }
-  
+
+  /* Removido o estilo para .footer-overlay-enhanced */
+
   .footer-graphic-pattern {
     position: absolute;
     top: 0; left: 0; width: 100%; height: 100%;
     background-image:
-      radial-gradient(circle at 1px 1px, rgba(255,255,255,0.03) 1px, transparent 0),
-      radial-gradient(circle at 25px 25px, rgba(255,255,255,0.03) 1px, transparent 0);
+      radial-gradient(circle at 1px 1px, rgba(255,255,255,0.05) 1px, transparent 0), /* Opacidade um pouco maior */
+      radial-gradient(circle at 25px 25px, rgba(255,255,255,0.05) 1px, transparent 0);
     background-size: 50px 50px;
     animation: subtlePatternScroll 40s linear infinite;
     opacity: 0;
     transition: opacity 1s ease-out 0.5s;
-    z-index: -1;
+    z-index: 0;
   }
   .footer-wrapper.footer-container-visible .footer-graphic-pattern {
-    opacity: 1;
+    opacity: 0.8; /* Opacidade final um pouco maior */
   }
   @keyframes subtlePatternScroll {
     100% { background-position: 50px 50px; }
   }
-  
+
   .footer-content-area-enhanced {
     max-width: 1180px;
     margin: 0 auto;
     padding: 0 30px;
     position: relative;
-    z-index: 1;
+    z-index: 1; /* Conteúdo acima do padrão gráfico */
   }
-  
+
   .footer-wrapper .anim-target {
     opacity: 0;
     transform: translateY(25px);
@@ -69,12 +72,13 @@
   .footer-wrapper.footer-container-visible .anim-target.footer-element-visible {
     opacity: 1;
     transform: translateY(0);
+    /* transition-delay is set by data-delay in JSX */
   }
-  
+
   .footer-main-row-enhanced {
     margin-bottom: 50px;
   }
-  
+
   .footer-col-enhanced {
     margin-bottom: 30px;
     text-align: left;
@@ -82,28 +86,28 @@
   @media (max-width: 767px) {
     .footer-col-enhanced { text-align: center; }
   }
-  
-  /* Estilos para o logo como link */
+
   .footer-logo-link {
-    display: inline-block; 
+    display: inline-block;
     transition: transform 0.4s var(--animation-ease-out-back-footer);
-    margin-bottom: 25px; /* Movido de .footer-logo-enhanced para o link */
+    margin-bottom: 25px;
   }
   .footer-logo-link:hover {
-    transform: scale(1.05) rotate(-2deg); 
+    transform: scale(1.05) rotate(-2deg);
   }
-  .footer-logo-enhanced { /* Apenas a imagem, sem margem inferior */
+  .footer-logo-enhanced {
     max-width: 240px;
     height: auto;
-    display: block; 
+    display: block;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3)); /* Sombra para destaque */
   }
-  @media (max-width: 767px) {
-    .footer-logo-link { margin-left: auto; margin-right: auto; } /* Centraliza o link */
+   @media (max-width: 767px) {
+    .footer-logo-link { margin-left: auto; margin-right: auto; }
   }
-  
-  
+
+
   .footer-description-enhanced {
-    color: var(--footer-text-secondary);
+    color: var(--footer-text-secondary); /* Usa a nova cor secundária clara */
     font-size: 1rem;
     line-height: 1.75;
     margin-bottom: 30px;
@@ -112,24 +116,24 @@
   @media (max-width: 767px) {
     .footer-description-enhanced { max-width: 100%; }
   }
-  
-  
+
+
   .footer-social-icons-enhanced .anticon {
     font-size: 2rem;
-    color: var(--footer-text-secondary);
+    color: var(--footer-text-secondary); /* Usa a nova cor secundária clara */
     transition: color 0.3s ease, transform 0.3s var(--animation-ease-out-back-footer), background-color 0.3s ease;
     padding: 8px;
     border-radius: 50%;
   }
   .footer-social-icons-enhanced a:hover .anticon {
-    color: #FFFFFF;
+    color: var(--footer-title-color); /* Cor branca no hover */
     background-color: var(--footer-social-icon-hover-bg);
     transform: scale(1.2) translateY(-3px) rotate(5deg);
   }
-  
-  
+
+
   .footer-col-title-enhanced {
-    color: var(--footer-title-color) !important;
+    color: var(--footer-title-color) !important; /* Branco */
     font-size: 1.15rem !important;
     font-weight: 600 !important;
     margin-bottom: 25px !important;
@@ -148,15 +152,15 @@
       .footer-col-title-enhanced::after { left: 50%; transform-origin: center; transform: translateX(-50%) scaleX(0); }
   }
   .footer-wrapper.footer-container-visible .anim-target.footer-element-visible .footer-col-title-enhanced::after {
-      transform: scaleX(1);
+      transform: translateX(-50%) scaleX(1);
   }
   @media (max-width: 767px) {
       .footer-wrapper.footer-container-visible .anim-target.footer-element-visible .footer-col-title-enhanced::after {
           transform: translateX(-50%) scaleX(1);
       }
   }
-  
-  
+
+  /* Navegação */
   .footer-link-list-enhanced {
     list-style: none; padding: 0; margin: 0;
   }
@@ -164,7 +168,7 @@
     margin-bottom: 12px;
   }
   .footer-link-list-enhanced li a {
-    color: var(--footer-text-secondary);
+    color: var(--footer-text-secondary); /* Usa a nova cor secundária clara */
     font-size: 1rem;
     text-decoration: none;
     transition: color 0.3s ease, transform 0.3s ease;
@@ -172,39 +176,63 @@
     align-items: center;
   }
   .footer-link-list-enhanced li a:hover {
-    color: var(--footer-link-hover-color);
+    color: var(--footer-link-hover-color); /* Cor laranja no hover */
     transform: translateX(5px);
   }
   .link-arrow {
-      font-size: 0.8em; margin-right: 8px; opacity: 0.6;
+      font-size: 0.8em; margin-right: 8px; opacity: 0.8; /* Opacidade um pouco maior */
       transition: opacity 0.3s ease, transform 0.3s ease;
   }
   .footer-link-list-enhanced li a:hover .link-arrow {
       opacity: 1; transform: scale(1.1);
   }
-  
-  
-  .footer-contact-item-enhanced {
-    color: var(--footer-text-secondary);
-    font-size: 1rem;
-    margin-bottom: 12px !important;
-    display: flex;
-    align-items: center;
-    gap: 10px;
+
+  /* Novos estilos para os botões de contato */
+  .footer-contact-buttons {
+      display: flex;
+      flex-direction: column; /* Botões empilhados */
+      gap: 12px; /* Espaço entre os botões */
   }
-  .footer-contact-item-enhanced .anticon {
-    color: var(--footer-accent-orange);
-    font-size: 1.2em;
+   @media (max-width: 767px) {
+      .footer-contact-buttons { align-items: center; } /* Centraliza botões em mobile */
   }
-  .footer-contact-item-enhanced a {
-    color: var(--footer-text-secondary);
-    text-decoration: none;
-    transition: color 0.3s ease;
+
+  .footer-contact-button.ant-btn {
+      background-color: transparent !important; /* Fundo transparente */
+      border: 1px solid var(--footer-button-border) !important; /* Borda sutil */
+      color: var(--footer-button-text) !important; /* Texto branco */
+      font-weight: 500 !important;
+      padding: 10px 18px !important;
+      height: auto !important;
+      font-size: 1rem !important;
+      border-radius: 8px !important;
+      width: 100%; /* Ocupa a largura total da coluna */
+      max-width: 250px; /* Limite a largura máxima dos botões */
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 8px; /* Espaço entre ícone e texto */
+      transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
   }
-  .footer-contact-item-enhanced a:hover {
-    color: var(--footer-link-hover-color);
+
+  .footer-contact-button.ant-btn:hover {
+      background-color: var(--footer-button-bg) !important; /* Fundo laranja no hover */
+      border-color: var(--footer-button-bg) !important;
+      color: var(--footer-button-text) !important;
+      transform: translateY(-3px);
+      box-shadow: 0 4px 10px rgba(239, 124, 18, 0.3);
   }
-  
+
+  .footer-contact-button.ant-btn .anticon {
+      color: var(--footer-accent-orange) !important; /* Ícone laranja por padrão */
+      font-size: 1.1em !important;
+      transition: color 0.3s ease;
+  }
+  .footer-contact-button.ant-btn:hover .anticon {
+      color: var(--footer-button-text) !important; /* Ícone branco no hover */
+  }
+
+
   .footer-divider-wrapper {}
   .footer-divider-enhanced {
     border-color: var(--footer-divider-color) !important;
@@ -216,13 +244,14 @@
   .footer-wrapper.footer-container-visible .anim-target.footer-element-visible .footer-divider-enhanced {
       transform: scaleX(1);
   }
-  
+
   .footer-credits-row-enhanced {
     margin-bottom: 25px;
+    text-align: center; /* Centralizado */
   }
   .footer-credits-text-enhanced {
     font-size: 0.95rem;
-    color: var(--footer-text-secondary);
+    color: var(--footer-text-secondary); /* Usa a nova cor secundária clara */
     line-height: 1.7;
   }
   .heart-icon {
@@ -239,15 +268,15 @@
   @media (max-width: 480px) {
       .footer-credits-text-enhanced .mobile-break { display: block; }
   }
-  
+
   /* Estilos para o link do desenvolvedor */
   .patrick-developer-link {
     color: var(--footer-accent-orange);
-    font-weight: 600; 
+    font-weight: 600;
     text-decoration: none;
     position: relative;
-    display: inline-block; 
-    padding: 2px 0; 
+    display: inline-block;
+    padding: 2px 0;
     transition: color 0.3s ease;
   }
   .patrick-developer-link::after {
@@ -263,20 +292,22 @@
     transition: transform 0.4s var(--animation-ease-out-quint);
   }
   .patrick-developer-link:hover {
-    color: var(--footer-link-hover-color); 
+    color: var(--footer-link-hover-color);
   }
   .patrick-developer-link:hover::after {
     transform: scaleX(1);
     transform-origin: bottom left;
   }
-  
-  .footer-copyright-row-enhanced {}
+
+  .footer-copyright-row-enhanced {
+    text-align: center; /* Centralizado */
+  }
   .footer-copyright-text-enhanced {
     font-size: 0.9rem;
-    color: var(--footer-text-secondary);
+    color: var(--footer-text-secondary); /* Usa a nova cor secundária clara */
     opacity: 0.9;
   }
-  
+
   @media (max-width: 767px) {
     .footer-wrapper.enhanced { padding: 70px 0 40px; }
     .footer-content-area-enhanced { padding: 0 20px; }
@@ -284,5 +315,6 @@
     .footer-social-icons-enhanced { justify-content: center; }
     .footer-link-list-enhanced { text-align: center; }
     .footer-link-list-enhanced li a { justify-content: center; }
-    .footer-contact-item-enhanced { justify-content: center; }
+    /* Removido o estilo anterior para centralizar o item, agora o container flexbox centraliza */
+    /* .footer-contact-item-enhanced { justify-content: center; } */
   }

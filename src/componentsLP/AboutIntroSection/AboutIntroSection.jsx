@@ -4,14 +4,16 @@ import { Row, Col, Typography } from 'antd';
 import './AboutIntroSection.css';
 
 import bgAzul from '../../assets/images/backgroundAzul.png';
-import bolaBrancaImg from '../../assets/images/bola-branca.png';
+// Importar o novo GIF
+import bola2Gif from '../../assets/images/bola3.gif';
+
 
 const { Title, Paragraph, Text } = Typography;
 
 const AboutIntroSection = () => {
   const sectionRef = useRef(null);
   const contentRef = useRef(null);
-  const organicImageRef = useRef(null);
+  const organicImageRef = useRef(null); // Ref para o wrapper do GIF
 
   useEffect(() => {
     const currentSectionRef = sectionRef.current;
@@ -21,7 +23,12 @@ const AboutIntroSection = () => {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
+            // Adiciona a classe de animação aos targets (texto e wrapper do GIF)
             entry.target.classList.add('animate-item-in-view');
+            // Para o IntersectionObserver do elemento individual após animar
+            if (targetsToObserve.includes(entry.target)) {
+                 observer.unobserve(entry.target);
+            }
           }
         });
       },
@@ -31,42 +38,54 @@ const AboutIntroSection = () => {
     targetsToObserve.forEach(target => {
       if (target) observer.observe(target);
     });
-    
-    const handleScroll = () => {
-      if (organicImageRef.current && currentSectionRef.classList.contains('section-active-intro')) {
-        const sectionRect = currentSectionRef.getBoundingClientRect();
-        const viewportHeight = window.innerHeight;
-        
-        // Calcula o progresso de scroll dentro da seção (0 quando o topo da seção atinge o topo da viewport, 1 quando o fundo sai)
-        // No entanto, para um efeito de parallax simples, vamos usar a posição relativa ao viewport.
-        const scrollYRelativeToViewportTop = sectionRect.top;
 
-        // Queremos que o parallax seja mais suave e não tão extremo
-        const parallaxIntensity = 0.1; // Ajuste este valor
-        let parallaxOffset = -scrollYRelativeToViewportTop * parallaxIntensity;
-        
-        // Limitar o offset para evitar movimentos muito grandes
-        const maxParallax = 60; // Limite máximo de deslocamento do parallax
-        parallaxOffset = Math.max(-maxParallax, Math.min(maxParallax, parallaxOffset));
-
-        // A animação 'organicImageFloat' já cuida da rotação e escala base.
-        // O JS aqui só adiciona o translateY do parallax.
-        organicImageRef.current.style.setProperty('--parallax-offset-y', `${parallaxOffset}px`);
-      }
-    };
-    
+    // Observer para adicionar a classe 'section-active-intro' quando a seção entra na viewport
+    // Isso ativa o parallax e as animações contínuas (se houver)
     let sectionEntryObserver;
     if (currentSectionRef) {
         sectionEntryObserver = new IntersectionObserver((entries) => {
           if (entries[0].isIntersecting) {
               currentSectionRef.classList.add('section-active-intro');
+              // Adiciona o listener de scroll APENAS quando a seção está ativa
               window.addEventListener('scroll', handleScroll, { passive: true });
-              sectionEntryObserver.unobserve(currentSectionRef);
+              sectionEntryObserver.unobserve(currentSectionRef); // Para de observar após ativar
+          } else {
+              // Opcional: remover a classe se a seção sair completamente da viewport
+              // currentSectionRef.classList.remove('section-active-intro');
+              // window.removeEventListener('scroll', handleScroll); // Remover listener se sair (pode ser muito agressivo)
           }
-        }, { threshold: 0.01 });
-        
+        }, { threshold: 0.01 }); // Ativa assim que uma pequena parte da seção fica visível
+
         sectionEntryObserver.observe(currentSectionRef);
     }
+    
+    // Função de Parallax - aplica translateY no wrapper do GIF
+    const handleScroll = () => {
+      if (organicImageRef.current && currentSectionRef && currentSectionRef.classList.contains('section-active-intro')) {
+        const sectionRect = currentSectionRef.getBoundingClientRect();
+        const viewportHeight = window.innerHeight;
+
+        // Calcula a posição do meio da seção relativa ao meio da viewport
+        const sectionMidpoint = sectionRect.top + sectionRect.height / 2;
+        const viewportMidpoint = viewportHeight / 2;
+        const distanceFromViewportMid = sectionMidpoint - viewportMidpoint;
+
+        // Queremos que o parallax seja baseado na posição da seção na viewport
+        // O offset será 0 quando o centro da seção estiver no centro da viewport.
+        // Será negativo quando a seção estiver acima do centro e positivo quando estiver abaixo.
+        const parallaxIntensity = 0.3; // Ajuste este valor para controlar a intensidade
+
+        // Inverte o cálculo para que o objeto suba quando a seção desce (scroll para baixo)
+        let parallaxOffset = -distanceFromViewportMid * parallaxIntensity;
+
+        // Limitar o offset para evitar movimentos muito grandes
+        const maxParallax = 80; // Limite máximo de deslocamento do parallax em px
+        parallaxOffset = Math.max(-maxParallax, Math.min(maxParallax, parallaxOffset));
+
+        organicImageRef.current.style.setProperty('--parallax-offset-y', `${parallaxOffset}px`);
+      }
+    };
+
 
     return () => {
       targetsToObserve.forEach(target => {
@@ -75,18 +94,36 @@ const AboutIntroSection = () => {
       if (sectionEntryObserver && currentSectionRef) {
           sectionEntryObserver.unobserve(currentSectionRef);
       }
+      // Garante que o listener de scroll é removido ao desmontar
       window.removeEventListener('scroll', handleScroll);
     };
-  }, []);
+  }, []); // Dependências vazias para executar apenas uma vez ao montar
 
   return (
-    <div 
-      ref={sectionRef} 
-      className="about-intro-section-wrapper" 
-      style={{ backgroundImage: `url(${bgAzul})` }}
+    <div
+      ref={sectionRef}
+      className="about-intro-section-wrapper"
+      style={{ backgroundImage: `url(${bgAzul})` }} // Mantém o backgroundAzul
     >
       <div className="about-intro-overlay"></div>
-      
+
+      {/* Partículas animadas de fundo (mantidas) */}
+      {[...Array(10)].map((_, i) => ( // Aumentei o número de partículas
+          <div
+              key={i}
+              className={`particle p${(i % 5) + 1}`} // Reutiliza as classes de tamanho/velocidade
+              style={{
+                width: `${Math.random() * 3 + 2}px`, // Tamanho aleatório entre 2 e 5px
+                height: `${Math.random() * 3 + 2}px`,
+                top: `${Math.random() * 100}%`,      // Posição vertical aleatória
+                left: `${Math.random() * 100}%`,     // Posição horizontal aleatória
+                animationDuration: `${Math.random() * 10 + 15}s`, // Duração da animação aleatória (15 a 25s)
+                animationDelay: `${Math.random() * -15}s`,      // Delay negativo para iniciar em diferentes fases
+                backgroundColor: `rgba(255, 255, 255, ${Math.random() * 0.08 + 0.02})` // Opacidade e cor sutis
+              }}
+          ></div>
+      ))}
+
       <div className="about-intro-content-area">
         <Row gutter={[64, 48]} align="middle" className="about-intro-row"> {/* Gutter horizontal maior */}
           <Col xs={24} lg={13} xl={12} className="about-text-column"> {/* Coluna de texto um pouco mais estreita em telas grandes */}
@@ -107,17 +144,18 @@ const AboutIntroSection = () => {
             </div>
           </Col>
 
-          <Col xs={24} lg={11} xl={12} className="about-shape-column"> {/* Coluna da imagem ganha mais espaço */}
+          <Col xs={24} lg={11} xl={12} className="about-shape-column"> {/* Coluna da imagem/GIF ganha mais espaço */}
+            {/* O ref e a classe animation-target-intro vão no wrapper */}
             <div ref={organicImageRef} className="organic-image-wrapper animation-target-intro">
-              <img 
-                src={bolaBrancaImg} 
-                alt="Forma orgânica da People Change AI" 
-                className="organic-image-element"
+              <img
+                src={bola2Gif} // Usando o GIF importado
+                alt="Forma orgânica da People Change AI"
+                className="organic-image-element" // A classe continua a mesma
               />
             </div>
           </Col>
         </Row>
-        
+
         <Row className="about-footer-row animation-target-intro">
           <Col>
             <Text className="about-footer-brand-text">PEOPLE CHANGE AI CONSULTING</Text>

@@ -4,12 +4,14 @@ import { Row, Col, Typography, List } from 'antd';
 import { CheckOutlined } from '@ant-design/icons';
 import './DifferentiatorsSection.css';
 
-import fullCompanyLogo from '../../assets/images/logo-people-change.png'; 
+// Importar a nova imagem de fundo
+import backgroundCinza from '../../assets/images/backgroundCinza.png';
+
+// Removida a importação do logo: import fullCompanyLogo from '../../assets/images/logo-people-change.png';
 
 const { Title, Paragraph } = Typography;
 
 const differentiatorsData = [
-  "IA Humanizada",
   "Tecnologia com Propósito",
   "Impacto Medido",
   "Adaptativa",
@@ -19,86 +21,127 @@ const differentiatorsData = [
 
 const DifferentiatorsSection = () => {
   const sectionRef = useRef(null);
-  const contentWrapperRef = useRef(null);
-  const graphicElementsRef = useRef([]); // Para animar elementos gráficos individualmente
+  // Ref para o container principal do conteúdo (texto + lista) que anima junto
+  const mainContentRef = useRef(null);
+  // Ref para o elemento gráfico restante (graphic-lines-pattern)
+  const graphicElementsRef = useRef([]);
 
   useEffect(() => {
     const currentSectionRef = sectionRef.current;
-    const currentContentWrapperRef = contentWrapperRef.current;
+    const currentMainContentRef = mainContentRef.current;
+    // Filtrar apenas os elementos gráficos que sobraram (apenas graphic-lines-pattern)
     const currentGraphicElements = graphicElementsRef.current.filter(Boolean);
 
-    const sectionObserver = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting) {
-        currentSectionRef.classList.add('section-active-enhanced');
-        sectionObserver.unobserve(currentSectionRef);
-      }
-    }, { threshold: 0.05 });
+    // Observer para a classe da seção principal (anima a barra superior)
+    const sectionEntryObserver = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+            currentSectionRef.classList.add('section-active-enhanced');
+            sectionEntryObserver.unobserve(currentSectionRef);
+        }
+    }, { threshold: 0.05 }); // Threshold baixo para animar a barra logo
 
     if (currentSectionRef) {
-      sectionObserver.observe(currentSectionRef);
+        sectionEntryObserver.observe(currentSectionRef);
     }
 
-    const contentObserver = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting) {
-        currentContentWrapperRef.classList.add('content-in-view-enhanced');
-        contentObserver.unobserve(currentContentWrapperRef);
-        
-        // Animar elementos gráficos quando o conteúdo principal estiver visível
-        currentGraphicElements.forEach((el, index) => {
-            setTimeout(() => {
-                el.classList.add('graphic-in-view');
-            }, index * 200 + 500); // Staggering para os gráficos após o conteúdo
-        });
-      }
-    }, { threshold: 0.15 });
+    // Observer para o bloco principal de conteúdo (texto e lista)
+    const mainContentObserver = new IntersectionObserver(
+        (entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Adiciona a classe que ativa a animação para o bloco de conteúdo
+                    entry.target.classList.add('content-in-view-enhanced');
+                    mainContentObserver.unobserve(entry.target); // Deixa de observar após animar
+                }
+            });
+        },
+        { threshold: 0.1 } // Threshold para o conteúdo principal
+    );
 
-    if (currentContentWrapperRef) {
-      contentObserver.observe(currentContentWrapperRef);
+    if (currentMainContentRef) {
+      mainContentObserver.observe(currentMainContentRef);
     }
 
+    // Observer para os elementos gráficos
+    const graphicObserver = new IntersectionObserver(
+        (entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Adiciona a classe que ativa a animação para o gráfico
+                    entry.target.classList.add('graphic-in-view');
+                    graphicObserver.unobserve(entry.target); // Deixa de observar após animar
+                }
+            });
+        },
+        { threshold: 0.2 } // Threshold para os gráficos
+    );
+
+    // Observa cada elemento gráfico restante
+    currentGraphicElements.forEach(target => {
+        if (target) graphicObserver.observe(target);
+    });
+
+
+    // Função de Limpeza (Cleanup)
     return () => {
-      if (currentSectionRef) sectionObserver.unobserve(currentSectionRef);
-      if (currentContentWrapperRef) contentObserver.unobserve(currentContentWrapperRef);
+        if (currentSectionRef && sectionEntryObserver) {
+            sectionEntryObserver.unobserve(currentSectionRef);
+        }
+        if (currentMainContentRef && mainContentObserver) {
+            mainContentObserver.unobserve(currentMainContentRef);
+        }
+        // Unobserva cada elemento gráfico que foi observado
+         currentGraphicElements.forEach(target => {
+             if (target && graphicObserver) {
+                graphicObserver.unobserve(target);
+            }
+        });
     };
-  }, []);
+
+  }, []); // Array de dependências vazio significa que o efeito roda uma vez ao montar e limpa ao desmontar
+
 
   return (
-    <div ref={sectionRef} className="differentiators-section-wrapper enhanced-modern">
+    <div
+      ref={sectionRef}
+      className="differentiators-section-wrapper enhanced-modern"
+      style={{ backgroundImage: `url(${backgroundCinza})` }} // Aplicando a imagem de fundo
+    >
       <div className="horizontal-connecting-bar-enhanced"></div>
-      
-      {/* Elementos Gráficos */}
-      <div ref={el => graphicElementsRef.current[0] = el} className="diff-graphic-enhanced graphic-circle-subtle"></div>
-      <div ref={el => graphicElementsRef.current[1] = el} className="diff-graphic-enhanced graphic-lines-pattern">
+
+      {/* Elementos Gráficos (graphic-lines-pattern é o único restante com ref[0]) */}
+       {/* Adicionada classe auxiliar 'graphic-animation-target' para o JS observer */}
+      <div ref={el => graphicElementsRef.current[0] = el} className="diff-graphic-enhanced graphic-lines-pattern graphic-animation-target">
         <div className="line"></div>
         <div className="line"></div>
         <div className="line"></div>
       </div>
-      <div ref={el => graphicElementsRef.current[2] = el} className="diff-graphic-enhanced graphic-accent-shape"></div>
 
-      <div ref={contentWrapperRef} className="differentiators-main-content-enhanced animation-target-enhanced">
+
+      {/* Ref para o container principal do conteúdo (texto + lista) que anima junto */}
+      {/* Adicionada classe auxiliar 'main-content-animation-target' para o JS observer */}
+      <div ref={mainContentRef} className="differentiators-main-content-enhanced main-content-animation-target">
         <Row gutter={[64, 56]} align="middle" justify="center">
           <Col xs={24} md={11} lg={12} className="title-logo-column-enhanced">
-            <div className="logo-container-enhanced">
-              <img src={fullCompanyLogo} alt="People Change AI Consulting Logo" className="company-logo-main-enhanced" />
-            </div>
             <Title level={2} className="section-main-title-enhanced">
               Tecnologia com <span className="highlight-orange-enhanced">Propósito Humano</span>
               <span className="plus-separator-enhanced"> + </span>
               Mindset de <span className="highlight-orange-enhanced">Inovação</span>
             </Title>
             <Paragraph className="section-subtitle-enhanced">
-              Estes são os pilares que nos definem e impulsionam cada solução que criamos, sempre com foco em resultados e na valorização humana.
+              Esse é o diferencial que definem e impulsionam cada solução que criamos, sempre com foco em resultados e na valorização humana.
             </Paragraph>
           </Col>
 
-          <Col xs={24} md={11} lg={10} className="list-items-column-enhanced"> {/* Ajustado lg para dar mais espaço ao título */}
+          <Col xs={24} md={11} lg={10} className="list-items-column-enhanced">
             <List
-              className="differentiators-list-enhanced"
+              // Mantido sem ref direto na List, pois a animação dos itens é via CSS pelo pai.
+              className="differentiators-list-enhanced" // Animação controlada pelo CSS quando o pai (mainContentRef) fica visível
               dataSource={differentiatorsData}
               renderItem={(item, index) => (
-                <List.Item 
+                <List.Item
                     className="differentiator-list-point-enhanced"
-                    style={{transitionDelay: `${0.6 + index * 0.1}s`}} // Staggering para itens da lista
+                    style={{transitionDelay: `${0.6 + index * 0.1}s`}} // Staggering aplicado via CSS delay
                 >
                   <CheckOutlined className="list-point-icon-enhanced" />
                   <span className="list-point-text-enhanced">{item}</span>

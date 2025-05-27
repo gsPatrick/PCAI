@@ -2,28 +2,39 @@
 :root {
     --ethics-font-family: 'Inter', sans-serif;
     --ethics-accent-orange: #EF7C12;
-    --ethics-text-primary: #111827; 
-    --ethics-text-secondary: #374151;
-    --ethics-text-light: #6B7280;
-    --ethics-background: #F9FAFB; /* Fundo off-white para suavidade */
+    --ethics-text-primary: #111827; /* Preto mais profundo, para textos gerais */
+    --ethics-text-title-blue: #3A3D57; /* Azul Marinho para o título principal */
+    --ethics-text-secondary: #374151; /* Cinza escuro */
+    --ethics-text-light: #6B7280; /* Cinza claro */
+    --ethics-breadcrumb-color: #718096; /* Cor para o texto "Quem somos |" */
+    --ethics-breadcrumb-current-color: #2D3748; /* Cor para o texto "Compromisso Ético" */
+    /* --ethics-background: #F9FAFB; Removido - usando imagem de fundo */
     --ethics-icon-color: var(--ethics-accent-orange);
     --ethics-border-color: #D1D5DB; /* Borda um pouco mais escura */
-    --ethics-card-hover-bg: #FFFFFF;
+    --ethics-card-hover-bg: #FFFFFF; /* Mantido caso decida adicionar algum hover sutil futuro */
     --ethics-graphic-color-1: rgba(239, 124, 18, 0.1); /* Laranja sutil */
     --ethics-graphic-color-2: rgba(59, 130, 246, 0.08); /* Azul sutil */
-  
+
     --animation-ease-out-quint-enhanced: cubic-bezier(0.23, 1, 0.32, 1);
     --animation-ease-in-out-sine-enhanced: cubic-bezier(0.37, 0, 0.63, 1);
   }
-  
+
   .ethical-commitment-section-wrapper.enhanced-ethics {
     font-family: var(--ethics-font-family);
-    background-color: var(--ethics-background);
+    /* background-color: var(--ethics-background); Removido */
+    background-size: cover; /* Adicionado para a imagem de fundo */
+    background-position: center center; /* Adicionado para a imagem de fundo */
+    background-repeat: no-repeat; /* Adicionado para a imagem de fundo */
+    background-attachment: fixed; /* Opcional: fixa o background para efeito parallax suave */
     padding: 120px 0 140px; /* Mais padding */
     position: relative;
     overflow: hidden;
   }
-  
+
+  .ethical-intro-overlay {
+      /* Removido o overlay do HTML, então este estilo não é mais aplicado */
+  }
+
   /* Elementos Gráficos Aprimorados */
   .ethics-graphic-enhanced {
     position: absolute;
@@ -39,7 +50,7 @@
     opacity: 1;
     transform: none; /* Remove transform inicial */
   }
-  
+
   .graphic-concentric-circles {
     top: 10%; left: 5%;
     width: 250px; height: 250px;
@@ -62,8 +73,8 @@
     opacity: 1; /* A opacidade final é controlada pela animação dos círculos */
     transform: scale(1) rotate(0deg);
   }
-  
-  
+
+
   .graphic-dynamic-lines {
     bottom: 15%; right: 5%;
     width: 180px; height: 100px; /* Container para as linhas */
@@ -86,8 +97,8 @@
     opacity: 0.7; /* Opacidade final do container das linhas */
     transform: translateY(0);
   }
-  
-  
+
+
   .graphic-subtle-grid { /* Padrão de grid de pontos muito sutil */
       position: absolute;
       width: 100%; height: 100%;
@@ -101,8 +112,8 @@
   .ethical-commitment-section-wrapper.ethics-section-active-enhanced .graphic-subtle-grid.ethics-item-visible-enhanced {
       opacity: 0.05; /* Extremamente sutil */
   }
-  
-  
+
+
   .ethical-commitment-content-area-enhanced {
     max-width: 1140px;
     margin: 0 auto;
@@ -110,7 +121,27 @@
     position: relative;
     z-index: 1;
   }
-  
+
+  /* Adiciona estilo e animação para o novo breadcrumb row */
+  .ethics-breadcrumb-row {
+    text-align: left; /* Alinhar à esquerda */
+    margin-bottom: 40px; /* Espaço entre o breadcrumb e o título principal */
+    /* Animação inicial no .animation-target-ethics-enhanced */
+  }
+  .ethics-breadcrumb-row.animation-target-ethics-enhanced.ethics-item-visible-enhanced {
+      transition-delay: 0.1s; /* Entra antes do título principal */
+  }
+
+  .ethics-breadcrumb-text {
+    font-size: 1.1rem; /* Tamanho similar ao dos Pilares */
+    color: var(--ethics-breadcrumb-color); /* Cor para "Quem somos |" */
+    font-weight: 500; /* Inter Medium */
+  }
+  .ethics-breadcrumb-text .breadcrumb-current {
+    color: var(--ethics-breadcrumb-current-color); /* Cor para "Compromisso Ético" */
+    font-weight: 600; /* Inter SemiBold */
+  }
+
   .animation-target-ethics-enhanced {
     opacity: 0;
     transform: translateY(30px);
@@ -120,17 +151,22 @@
     opacity: 1;
     transform: translateY(0);
   }
-  
+
   .ethical-main-text-block-enhanced {
     text-align: center;
     margin-bottom: 80px; /* Mais espaço */
-    transition-delay: 0.1s;
+    transition-delay: 0.1s; /* Delay base */
   }
-  
+  /* Ajusta o delay do main-text-block agora que o breadcrumb entra primeiro */
+  .ethical-main-text-block-enhanced.animation-target-ethics-enhanced.ethics-item-visible-enhanced {
+      transition-delay: 0.3s;
+  }
+
+
   .ethical-main-title-enhanced {
     font-size: clamp(2.2rem, 4.2vw, 3rem) !important;
-    font-weight: 700 !important;
-    color: var(--ethics-text-primary) !important;
+    font-weight: 700 !important; /* Inter Bold */
+    color: var(--ethics-text-title-blue) !important; /* Usando a nova cor azul */
     line-height: 1.35;
     margin-bottom: 25px !important;
   }
@@ -139,6 +175,7 @@
     position: relative; /* Para efeito de sublinhado animado */
     display: inline-block;
   }
+  /* Mantido o sublinhado animado para o highlight */
   .ethical-main-title-enhanced .highlight-ethics-enhanced::after {
       content: '';
       position: absolute;
@@ -152,8 +189,8 @@
   .animation-target-ethics-enhanced.ethics-item-visible-enhanced .ethical-main-title-enhanced .highlight-ethics-enhanced::after {
       width: 100%;
   }
-  
-  
+
+
   .ethical-intro-paragraph-enhanced {
     font-size: clamp(1.1rem, 2.1vw, 1.25rem);
     color: var(--ethics-text-secondary);
@@ -165,14 +202,27 @@
     font-weight: 600;
     color: var(--ethics-text-primary);
   }
-  
-  .ethical-details-row-enhanced { /*  */ }
-  
-  .principles-column-enhanced { /*  */ }
-  .principles-list-block-enhanced.animation-target-ethics-enhanced {
-    transition-delay: 0.3s;
+
+  .ethical-details-row-enhanced {
+       /* Row do Ant Design padrão é display: flex com flex-wrap: wrap.
+          align-items: stretch (padrão) + flex-grow: 1 nos conteúdos internos
+          ajuda a alinhar os fundos das colunas. */
   }
-  
+
+  .principles-column-enhanced {
+      display: flex;
+      flex-direction: column;
+  }
+  .principles-list-block-enhanced.animation-target-ethics-enhanced {
+    transition-delay: 0.3s; /* Delay base */
+    flex-grow: 1; /* Permite que a lista preencha o espaço vertical na coluna esticada */
+  }
+    /* Ajusta o delay do principles-list-block agora que o main-text-block entra antes */
+  .principles-list-block-enhanced.animation-target-ethics-enhanced.ethics-item-visible-enhanced {
+      transition-delay: 0.5s;
+  }
+
+
   .principles-list-title-enhanced {
     font-size: 1.6rem !important; /* Título da lista maior */
     font-weight: 600 !important;
@@ -184,49 +234,51 @@
   @media (max-width: 767px) {
     .principles-list-title-enhanced { text-align: center; }
   }
-  
-  
+
+
   .core-principles-list-enhanced .principle-item-enhanced {
-    padding: 18px 10px !important; /* Aumentado padding vertical */
+    /* AUMENTADO O PADDING VERTICAL PARA AJUDAR NO ALINHAMENTO DA CAIXA */
+    padding: 28px 10px !important; /* Ajustado padding vertical - AGORA MENOS */
     border-bottom: 1px solid var(--ethics-border-color) !important;
     opacity: 0;
     transform: translateX(-25px); /* Slide-in da esquerda */
-    transition: opacity 0.7s ease-out, transform 0.7s ease-out, background-color 0.3s ease, border-left-color 0.3s ease;
-    border-left: 4px solid transparent; /* Para hover */
+    transition: opacity 0.7s ease-out, transform 0.7s ease-out; /* Removidas transições de hover */
+    /* Removida border-left e transition de hover */
     position: relative;
   }
   .animation-target-ethics-enhanced.ethics-item-visible-enhanced .core-principles-list-enhanced .principle-item-enhanced {
+    /* Staggering individual baseado no JS */
     opacity: 1;
     transform: translateX(0);
   }
-  
+
   .core-principles-list-enhanced .principle-item-enhanced:last-child {
     border-bottom: none !important;
   }
-  .core-principles-list-enhanced .principle-item-enhanced:hover {
-    background-color: var(--ethics-card-hover-bg);
-    border-left-color: var(--ethics-accent-orange);
-    transform: translateX(5px) !important; /* Leve deslocamento no hover */
-  }
-  .core-principles-list-enhanced .principle-item-enhanced:hover .principle-icon-enhanced {
-      transform: scale(1.15) rotate(5deg);
-      color: var(--ethics-accent-orange);
-  }
-  
-  
+  /* REMOVIDOS ESTILOS DE HOVER PARA O ITEM DA LISTA */
+  /* .core-principles-list-enhanced .principle-item-enhanced:hover { ... } */
+
   .principle-icon-enhanced {
     font-size: 1.8rem; /* Ícones maiores */
     color: var(--ethics-icon-color); /* Cor inicial do ícone */
     margin-right: 20px;
     display: flex;
     align-items: center;
-    transition: transform 0.3s ease, color 0.3s ease;
+    /* Removida transição de hover */
+    transition: transform 0.3s ease; /* Mantida transição da animação de entrada */
   }
+   /* REMOVIDO ESTILO DE HOVER PARA O ÍCONE */
+   /* .core-principles-list-enhanced .principle-item-enhanced:hover .principle-icon-enhanced { ... } */
+
   .principle-text-enhanced {
     font-size: 1.15rem; /* Texto do princípio aumentado */
     font-weight: 500;
     color: var(--ethics-text-primary);
+    /* Removida transição de hover */
   }
+   /* REMOVIDO ESTILO DE HOVER PARA O TEXTO */
+   /* .core-principles-list-enhanced .principle-item-enhanced:hover .principle-text-enhanced { ... } */
+
   .principle-item-accent-line { /* Linha decorativa no item da lista */
       position: absolute;
       bottom: 0; left: 50px; /* Alinhado com o texto, após o ícone */
@@ -234,19 +286,30 @@
       height: 2px;
       background-color: var(--ethics-accent-orange);
       opacity: 0.5;
-      transition: width 0.5s var(--animation-ease-out-quint-enhanced);
+      /* Removida transição de hover */
   }
-  .core-principles-list-enhanced .principle-item-enhanced:hover .principle-item-accent-line {
-      width: calc(100% - 60px); /* Anima a largura no hover */
+  /* REMOVIDO ANIMAÇÃO DE HOVER PARA A LINHA DE ACENTO */
+  /* .core-principles-list-enhanced .principle-item-enhanced:hover .principle-item-accent-line { ... } */
+
+
+  .diagram-standards-column-enhanced {
+       display: flex;
+       flex-direction: column;
   }
-  
-  
-  
-  .diagram-standards-column-enhanced { /*  */ }
+  /* O .diagram-and-standards-block-enhanced já contém os dois sub-blocos */
   .diagram-and-standards-block-enhanced.animation-target-ethics-enhanced {
-    transition-delay: 0.5s; /* Coluna da direita entra depois */
+    transition-delay: 0.5s; /* Delay base */
+    flex-grow: 1; /* Permite que este bloco preencha o espaço vertical na coluna esticada */
+    display: flex; /* Transforma o bloco pai dos itens da direita em flex container */
+    flex-direction: column; /* Empilha os itens internos verticalmente */
+    /* justify-content: space-between; Se quiser espalhar diagram e standards */
   }
-  
+    /* Ajusta o delay do diagram-and-standards-block agora que o main-text-block entra antes */
+  .diagram-and-standards-block-enhanced.animation-target-ethics-enhanced.ethics-item-visible-enhanced {
+      transition-delay: 0.7s;
+  }
+
+
   .ethical-diagram-placeholder-enhanced {
     background-color: #FFFFFF; /* Fundo branco para o placeholder */
     border-radius: 12px;
@@ -257,6 +320,7 @@
     box-shadow: 0 5px 15px rgba(0,0,0,0.03);
     position: relative; /* Para o brilho */
     overflow: hidden;
+    /* flex-shrink: 0; Impede que este item encolha se for preciso */
   }
   /* Efeito de brilho no placeholder */
   .ethical-diagram-placeholder-enhanced::before {
@@ -277,8 +341,8 @@
   @keyframes rotateBorder {
     to { transform: rotate(360deg); }
   }
-  
-  
+
+
   .diagram-icon-bg { /* Wrapper para o ícone com fundo */
       width: 80px; height: 80px;
       background-color: rgba(239, 124, 18, 0.1); /* Laranja bem claro */
@@ -297,7 +361,7 @@
   .diagram-text-enhanced {
     font-size: 1.15rem !important;
     font-weight: 600 !important;
-    color: var(--ethics-text-primary) !important;
+    color: var(--ethics-text-primary) !important; /* Mantido texto primário */
     display: block;
     margin-bottom: 6px !important;
     position: relative; z-index: 1;
@@ -309,12 +373,16 @@
     letter-spacing: 0.8px;
     position: relative; z-index: 1;
   }
-  
-  .standards-block-enhanced { text-align: left; }
+
+  .standards-block-enhanced {
+      text-align: left;
+      /* Se quiser que este bloco empurre para baixo o máximo possível na coluna esticada */
+      /* margin-top: auto; */
+  }
   .standards-title-enhanced {
     font-size: 1.05rem !important;
     font-weight: 600 !important;
-    color: var(--ethics-text-primary) !important;
+    color: var(--ethics-text-primary) !important; /* Mantido texto primário */
     margin-bottom: 12px !important;
   }
   .standards-intro-enhanced {
@@ -338,6 +406,7 @@
     transition: opacity 0.6s ease-out, transform 0.6s ease-out;
   }
   .animation-target-ethics-enhanced.ethics-item-visible-enhanced .standards-list-enhanced li {
+    /* Staggering individual baseado no JS */
     opacity: 1;
     transform: translateX(0);
   }
@@ -345,27 +414,31 @@
     content: '›'; /* Seta mais elegante */
     color: var(--ethics-accent-orange);
     font-weight: bold;
-    display: inline-block; 
+    display: inline-block;
     position: absolute;
     left: 0; top: 0;
-    transition: transform 0.3s ease;
+    /* Removida transição de hover */
   }
-  .standards-list-enhanced li:hover::before {
-      transform: translateX(3px); /* Leve movimento da seta no hover */
-  }
-  
-  
+  /* REMOVIDO HOVER DA SETA */
+  /* .standards-list-enhanced li:hover::before { ... } */
+
+
   .ethical-closing-statement-enhanced {
     text-align: center;
     margin-top: 80px;
     padding-top: 40px;
     border-top: 1px solid var(--ethics-border-color);
-    transition-delay: 0.7s;
+    transition-delay: 0.7s; /* Delay base */
   }
+   /* Ajusta o delay do closing-statement agora que os blocos anteriores entram antes */
+  .ethical-closing-statement-enhanced.animation-target-ethics-enhanced.ethics-item-visible-enhanced {
+      transition-delay: 0.9s;
+  }
+
   .ethical-closing-statement-enhanced p {
     font-size: clamp(1.15rem, 2.3vw, 1.35rem); /* Texto de fechamento maior */
     font-weight: 500;
-    color: var(--ethics-text-primary);
+    color: var(--ethics-text-primary); /* Mantido texto primário */
     line-height: 1.75;
     max-width: 750px;
     margin: 0 auto !important;
@@ -381,12 +454,12 @@
     0%, 100% { transform: scale(1); opacity: 1;}
     50% { transform: scale(1.03); opacity: 0.9;}
   }
-  
-  
+
+
   /* Responsividade */
   @media (max-width: 991px) {
     .ethical-commitment-section-wrapper.enhanced-ethics { padding: 90px 0 110px; }
-    .ethical-details-row-enhanced { flex-direction: column; }
+    .ethical-details-row-enhanced { flex-direction: column; } /* AntD Stack em MD */
     .principles-column-enhanced, .diagram-standards-column-enhanced {
       max-width: 700px; margin-left: auto; margin-right: auto;
     }
@@ -394,8 +467,9 @@
     .principles-list-title-enhanced { text-align: center; }
     .graphic-concentric-circles { top: 5%; left: -50px; }
     .graphic-dynamic-lines { bottom: 5%; right: -30px; }
+    .ethics-breadcrumb-row { text-align: center; } /* Centraliza breadcrumb em telas menores */
   }
-  
+
   @media (max-width: 576px) {
     .ethical-commitment-section-wrapper.enhanced-ethics { padding: 70px 0 90px; }
     .ethical-commitment-content-area-enhanced { padding: 0 20px; }
@@ -405,4 +479,5 @@
     .principle-text-enhanced { font-size: 1.05rem; }
     .ethical-closing-statement-enhanced p { font-size: 1.1rem; }
     .ethics-graphic-enhanced { display: none; }
+    .ethics-breadcrumb-row { margin-bottom: 30px; }
   }

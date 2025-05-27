@@ -4,29 +4,32 @@
     --benefit-v-accent-orange: #EF7C12;
     --benefit-v-text-primary: #111827; /* Preto mais profundo */
     --benefit-v-text-secondary: #374151; /* Cinza escuro */
-    --benefit-v-background: #F3F4F6; /* Cinza muito claro para o fundo */
+    /* --benefit-v-background: #F3F4F6; Removido */
     --benefit-v-card-bg: #FFFFFF;
     --benefit-v-card-shadow: 0 10px 20px rgba(0,0,0,0.05), 0 3px 6px rgba(0,0,0,0.03);
     --benefit-v-card-hover-shadow: 0 15px 30px rgba(0,0,0,0.08), 0 5px 10px rgba(0,0,0,0.05);
-  
+
     /* Cores para os cards */
     --benefit-vibrant-color-1: #EF7C12; /* Laranja */
     --benefit-vibrant-color-2: #3B82F6; /* Azul */
     --benefit-vibrant-color-3: #10B981; /* Verde */
     --benefit-vibrant-color-4: #8B5CF6; /* Roxo */
-  
+
     --animation-ease-out-quint-v: cubic-bezier(0.23, 1, 0.32, 1);
     --animation-ease-in-out-circ-v: cubic-bezier(0.86, 0, 0.07, 1);
   }
-  
+
   .expected-benefits-section-wrapper.vibrant-design {
     font-family: var(--benefit-v-font-family);
-    background: linear-gradient(180deg, #F3F4F6 0%, #E5E7EB 100%); /* Gradiente sutil no fundo */
+    /* background: linear-gradient(180deg, #F3F4F6 0%, #E5E7EB 100%); REMOVIDO */
+    background-size: cover; /* Adicionado */
+    background-position: center center; /* Adicionado */
+    background-repeat: no-repeat; /* Adicionado */
     padding: 120px 0 140px; /* Mais padding vertical */
     position: relative;
     overflow: hidden;
   }
-  
+
   /* Elementos Gráficos de Fundo Animados */
   .benefit-v-graphic {
     position: absolute;
@@ -38,9 +41,10 @@
   .expected-benefits-section-wrapper.benefits-section-activated-vibrant .benefit-v-graphic {
     opacity: 1;
   }
-  
+
   .graphic-swirl-1 { /* Forma de espiral/swirl suave */
     width: 45vw; height: 45vw; max-width: 550px; max-height: 550px;
+    /* Ajuste o gradiente se necessário */
     background: radial-gradient(circle, rgba(239, 124, 18, 0.02) 0%, transparent 50%);
     border: 1px solid rgba(239, 124, 18, 0.08);
     border-radius: 50%;
@@ -56,9 +60,10 @@
     from { transform: rotate(0deg) scale(1); }
     to { transform: rotate(360deg) scale(1.05); }
   }
-  
+
   .graphic-blob-2 { /* Outra forma orgânica */
     width: 30vw; height: 30vw; max-width: 400px; max-height: 400px;
+    /* Ajuste o gradiente se necessário */
     background: linear-gradient(45deg, rgba(59, 130, 246, 0.03), rgba(16, 185, 129, 0.03));
     border-radius: 30% 70% 50% 50% / 50% 40% 60% 50%;
     bottom: 5%; right: -15vw;
@@ -74,7 +79,7 @@
     50% { transform: scale(1.1) rotate(5deg); }
     100% { transform: scale(1) rotate(0deg); }
   }
-  
+
   .graphic-dots-floating {
     position: absolute;
     top: 0; left: 0; width: 100%; height: 100%;
@@ -100,8 +105,8 @@
     50% { transform: translateY(-60px) scale(1); opacity: 0.3; }
     100% { transform: translateY(-120px) scale(0.5); opacity: 0; }
   }
-  
-  
+
+
   .expected-benefits-content-area-vibrant {
     max-width: 1200px; /* Um pouco mais largo */
     margin: 0 auto;
@@ -109,7 +114,7 @@
     position: relative;
     z-index: 1;
   }
-  
+
   .animation-target-benefits-vibrant {
     opacity: 0;
     transform: translateY(40px); /* Slide de entrada um pouco maior */
@@ -119,7 +124,7 @@
     opacity: 1;
     transform: translateY(0);
   }
-  
+
   .benefits-text-column-vibrant {
     display: flex;
     flex-direction: column;
@@ -129,11 +134,11 @@
   @media (max-width: 991px) {
     .benefits-text-column-vibrant { padding-right: 0; margin-bottom: 60px; text-align: center;}
   }
-  
+
   .benefits-text-block-vibrant.animation-target-benefits-vibrant {
     transition-delay: 0.2s;
   }
-  
+
   .benefits-main-heading-vibrant {
     font-size: clamp(2.2rem, 4.2vw, 3rem) !important; /* Título mais impactante */
     font-weight: 800 !important; /* Inter ExtraBold */
@@ -148,7 +153,7 @@
     /* -webkit-background-clip: text; */
     /* -webkit-text-fill-color: transparent; */
   }
-  
+
   .benefits-paragraph-vibrant {
     font-size: 1.1rem; /* Texto do parágrafo aumentado */
     color: var(--benefit-v-text-secondary);
@@ -159,7 +164,7 @@
     font-weight: 600; /* Inter SemiBold */
     color: var(--benefit-v-text-primary);
   }
-  
+
   .benefits-quote-vibrant {
     font-size: 1.2rem; /* Citação aumentada */
     font-style: italic;
@@ -174,7 +179,7 @@
     color: var(--benefit-v-accent-orange);
     font-weight: 600;
   }
-  
+
   .benefits-section-footer-vibrant {
     display: block;
     margin-top: 40px;
@@ -184,18 +189,18 @@
     text-transform: uppercase;
     letter-spacing: 1px;
   }
-  
-  
+
+
   .benefits-cards-area-vibrant {
     /* Container para os cards */
   }
-  
+
   .benefits-cards-grid-vibrant {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Tenta 2 colunas, quebra para 1 */
     gap: 30px;
   }
-  
+
   .benefit-card-vibrant {
     background-color: var(--benefit-v-card-bg);
     border-radius: 16px; /* Bordas mais arredondadas */
@@ -220,8 +225,8 @@
   .benefit-card-vibrant:hover .card-vibrant-icon-bg .anticon {
       transform: scale(1.15) rotate(5deg);
   }
-  
-  
+
+
   .card-vibrant-icon-bg {
     width: 64px;
     height: 64px;
@@ -239,11 +244,11 @@
     color: #fff; /* Ícones brancos */
     transition: transform 0.3s ease;
   }
-  
+
   .card-vibrant-content {
     flex-grow: 1; /* Para empurrar a decoração para baixo se houver */
   }
-  
+
   .card-vibrant-title {
     font-size: 1.3rem !important; /* Título do card */
     font-weight: 700 !important; /* Inter Bold */
@@ -251,14 +256,14 @@
     margin: 0 0 12px 0 !important;
     line-height: 1.4;
   }
-  
+
   .card-vibrant-description {
     font-size: 1rem; /* Descrição do card */
     color: var(--benefit-v-text-secondary);
     line-height: 1.75;
     margin: 0 !important;
   }
-  
+
   .card-vibrant-decoration { /* Elemento decorativo no card */
     position: absolute;
     bottom: 0;
@@ -269,8 +274,8 @@
     opacity: 0.1; /* Sutil */
     transition: height 0.4s var(--animation-ease-out-quint-v), opacity 0.4s ease;
   }
-  
-  
+
+
   /* Responsividade */
   @media (max-width: 991px) {
     .expected-benefits-section-wrapper.vibrant-design { padding: 100px 0; }
@@ -283,7 +288,7 @@
     }
     .graphic-swirl-1 { left: -30vw; }
   }
-  
+
   @media (max-width: 576px) {
     .expected-benefits-section-wrapper.vibrant-design { padding: 80px 0; }
     .benefits-main-heading-vibrant { font-size: clamp(1.9rem, 6vw, 2.6rem) !important; }
