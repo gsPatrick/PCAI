@@ -12,9 +12,50 @@
     --contact-alt-card-bg: #FFFFFF; /* Fundo branco para os cards */
     --contact-alt-card-border: #E2E8F0; /* Borda clara para os cards */
 
+    /* Cores padronizadas para títulos de seção (replicadas) */
+    --standard-title-category-color: #3A3D57; /* Azul marinho */
+    --standard-title-current-color: #2D3748; /* Azul escuro acinzentado */
+
     --animation-ease-out-back-alt: cubic-bezier(0.34, 1.56, 0.64, 1);
     --animation-ease-out-quint-alt: cubic-bezier(0.23, 1, 0.32, 1);
   }
+
+  /* Estilos Padronizados para Títulos de Seção (Breadcrumb-like) - REPLICADOS */
+  /* Usamos a classe animation-target-contact-alt para a animação */
+  .section-standard-title-row {
+      margin-bottom: 40px; /* Espaço consistente abaixo do título */
+      text-align: left; /* Alinhamento padrão */
+      width: 100%; /* Ocupa a largura total para centralização em mobile */
+  }
+  /* Centralizar em telas menores */
+  @media (max-width: 767px) {
+      .section-standard-title-row {
+          text-align: center;
+      }
+  }
+
+  .section-standard-title-text {
+      font-size: 1.1rem;
+      font-weight: 500; /* Inter Medium */
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: var(--standard-title-current-color); /* Usar a cor 'current' para títulos de uma palavra */
+  }
+   /* Remover estilo para a span 'current' se o título for uma palavra */
+  /* .section-standard-title-current { ... } */
+
+   /* Adiciona animação para o título padronizado (usando a classe de animação da seção) */
+   .section-standard-title-row.animation-target-contact-alt {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 1s var(--animation-ease-out-quint-alt), transform 1s var(--animation-ease-out-quint-alt);
+      transition-delay: 0.1s; /* Entra antes do bloco principal */
+   }
+   .section-standard-title-row.animation-target-contact-alt.contact-alt-item-visible {
+      opacity: 1;
+      transform: translateY(0px);
+   }
+
 
   .contact-section-wrapper.alt-contact-design {
     font-family: var(--contact-alt-font-family);
@@ -93,13 +134,14 @@
     z-index: 1; /* Conteúdo acima dos gráficos de fundo */
   }
 
+  /* A classe animation-target-contact-alt é aplicada aos blocos principais (título padronizado, main-call-block, details-grid) */
   .animation-target-contact-alt {
     opacity: 0;
     transform: translateY(30px);
     transition: opacity 1s var(--animation-ease-out-quint-alt), transform 1s var(--animation-ease-out-quint-alt);
   }
-  /* A animação é agora acionada no nível do container pai (breadcrumb, main-call-block e details-grid) */
-  .contact-alt-breadcrumb-row.contact-alt-item-visible { transition-delay: 0.1s; opacity: 1; transform: translateY(0); } /* Breadcrumb primeiro */
+  /* A animação é agora acionada no nível do container pai (título padronizado, main-call-block e details-grid) */
+  /* Removido o delay do breadcrumb, agora ele está no estilo do título padronizado */
   .contact-main-call-block.contact-alt-item-visible { transition-delay: 0.25s; opacity: 1; transform: translateY(0); } /* Bloco principal depois */
   .contact-details-grid-alt.contact-alt-item-visible { transition-delay: 0.4s; opacity: 1; transform: translateY(0); } /* Grid de cards depois */
 
@@ -108,23 +150,9 @@
   .contact-details-grid-alt .contact-alt-item-visible { opacity: 1; transform: translateY(0); }
 
 
-  /* NOVO: Estilos para o breadcrumb "Contato" */
-  .contact-alt-breadcrumb-row {
-    margin-bottom: 50px; /* Espaço entre o breadcrumb e o título principal */
-    text-align: left; /* Alinhado à esquerda por padrão */
-  }
-  .contact-alt-breadcrumb-text {
-    font-size: 1.1rem; /* Tamanho do texto */
-    color: var(--contact-alt-text-secondary) !important; /* Cor cinza secundária */
-    font-weight: 500 !important; /* Inter Medium */
-    letter-spacing: 0.8px;
-    text-transform: uppercase;
-  }
-   @media (max-width: 767px) { /* Centraliza em mobile */
-      .contact-alt-breadcrumb-row {
-          text-align: center;
-      }
-   }
+  /* REMOVIDO: Estilos para o breadcrumb "Contato" */
+  /* .contact-alt-breadcrumb-row { ... } */
+  /* .contact-alt-breadcrumb-text { ... } */
 
 
   .contact-main-call-block {
@@ -249,6 +277,10 @@
     .contact-main-heading-alt { font-size: clamp(2rem, 4.5vw, 2.8rem) !important; }
     .graphic-bg-wave { height: 300px; bottom: -100px;}
     .contact-details-grid-alt { margin-top: 40px; padding-top: 30px; } /* Ajustado espaçamento */
+     /* Centraliza título padronizado em tablet */
+    .section-standard-title-row {
+        text-align: center;
+    }
   }
 
   @media (max-width: 767px) {
@@ -257,6 +289,10 @@
     .person-contact-col-alt:not(:last-child) { margin-bottom: 25px; }
     .graphic-accent-dots-alt { display: none; } /* Esconde alguns elementos gráficos */
     .graphic-bg-wave { bottom: -80px; height: 250px;}
+     /* Centraliza título padronizado em mobile */
+     .section-standard-title-row {
+        text-align: center;
+    }
   }
 
   @media (max-width: 480px) {

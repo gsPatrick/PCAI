@@ -8,7 +8,7 @@ import {
     MailOutlined,
     WhatsAppOutlined,
     HeartFilled,
-    RightOutlined, 
+    RightOutlined,
 
 } from '@ant-design/icons';
 import './Footer.css';
@@ -18,37 +18,47 @@ import backgroundAzul from '../../assets/images/backgroundAzul.png'; // Já impo
 
 const { Title, Paragraph, Text, Link: AntLink } = Typography;
 
-// Modificado para representar botões
-const contactButtons = [
-    { key: 'email', text: "Enviar E-mail", href: "mailto:contato@peoplechangeai.com", icon: <MailOutlined /> },
-    { key: 'whatsapp', text: "Fale via WhatsApp", href: "https://wa.me/SEUNUMEROWHATSAPP", icon: <WhatsAppOutlined /> } // TODO: Substituir SEUNUMEROWHATSAPP
-];
+// Modificado para representar botões - REMOVIDO, pois a seção de contato com botões foi removida
+// const contactButtons = [
+//     { key: 'email', text: "Enviar E-mail", href: "mailto:contato@peoplechangeai.com", icon: <MailOutlined /> },
+//     { key: 'whatsapp', text: "Fale via WhatsApp", href: "https://wa.me/SEUNUMEROWHATSAPP", icon: <WhatsAppOutlined /> } // TODO: Substituir SEUNUMEROWHATSAPP
+// ];
 
 
 const Footer = () => {
   const footerRef = useRef(null);
   const logoRef = useRef(null);
-  const descriptionRef = useRef(null);
-  const socialIconsRef = useRef(null);
-  const navLinksTitleRef = useRef(null);
-  const contactTitleRef = useRef(null);
+  // Removido ref para o Space
+  // const socialIconsRef = useRef(null);
+  // Ref para o novo div wrapper do ícone social
+  const socialIconWrapperRef = useRef(null);
+
+  // Removidos refs para Navegação e Contato, pois as seções foram removidas
+  // const navLinksTitleRef = useRef(null);
+  // const contactTitleRef = useRef(null);
   const creditsRef = useRef(null);
   const copyrightRef = useRef(null);
   const dividerRef = useRef(null);
-  
-  // Ajustar o slice para o número correto de links de navegação (mantido 5)
-  const navLinkItemRefs = useRef(Array(5).fill(null).map(() => React.createRef()));
-  // Ajustar o slice para o número correto de botões de contato (2)
-  const contactButtonRefs = useRef(Array(contactButtons.length).fill(null).map(() => React.createRef()));
+  const descriptionRef = useRef(null);
+
+  // Ajustar o slice para o número correto de links de navegação (mantido 5) - REMOVIDO
+  // const navLinkItemRefs = useRef(Array(5).fill(null).map(() => React.createRef()));
+  // Ajustar o slice para o número correto de botões de contato (2) - REMOVIDO
+  // const contactButtonRefs = useRef(Array(contactButtons.length).fill(null).map(() => React.createRef()));
 
   useEffect(() => {
     const currentFooterRef = footerRef.current;
 
+    // Atualizar a lista de elementos a serem observados
     const elementsToObserve = [
-        logoRef.current, descriptionRef.current, socialIconsRef.current,
-        navLinksTitleRef.current, ...navLinkItemRefs.current.map(ref => ref.current).filter(Boolean),
-        contactTitleRef.current, ...contactButtonRefs.current.map(ref => ref.current).filter(Boolean),
-        creditsRef.current, copyrightRef.current, dividerRef.current
+        logoRef.current,
+        descriptionRef.current,
+        socialIconWrapperRef.current, // Usa o novo ref
+        // navLinksTitleRef.current, ...navLinkItemRefs.current.map(ref => ref.current).filter(Boolean), // REMOVIDOS
+        // contactTitleRef.current, ...contactButtonRefs.current.map(ref => ref.current).filter(Boolean), // REMOVIDOS
+        dividerRef.current, // Adiciona o divisor
+        creditsRef.current, // Mantém créditos
+        copyrightRef.current // Mantém copyright
     ].filter(Boolean);
 
 
@@ -99,18 +109,14 @@ const Footer = () => {
   }, []);
 
 
-  const currentYear = new Date().getFullYear();
-  const navLinks = [
-      { href: "#hero-section", text: "Início" }, // Ajustado para id da seção Hero
-      { href: "#section-quem-somos", text: "Quem Somos" }, // Exemplo de ID
-      { href: "#section-solucoes", text: "Soluções" }, // Exemplo de ID
-      { href: "#section-beneficios", text: "Benefícios" }, // Exemplo de ID
-      { href: "#section-contato", text: "Contato" }, // Exemplo de ID
-  ];
-  // Removido contactItems - usando contactButtons
+  // Corrigido o ano para 2025 conforme solicitado
+  const currentYear = 2025; // Alterado para 2025
+  // Removido navLinks e contactItems
+
 
   return (
     <footer
+      id="footer" // Adicionado ID para possível linkagem futura, embora não esteja no header
       ref={footerRef}
       className="footer-wrapper enhanced"
       style={{ backgroundImage: `url(${backgroundAzul})` }}
@@ -120,8 +126,9 @@ const Footer = () => {
       <div className="footer-graphic-pattern"></div>
 
       <div className="footer-content-area-enhanced">
-        <Row gutter={[40, 56]} justify="space-between" className="footer-main-row-enhanced">
-          <Col xs={24} sm={24} md={10} lg={8} className="footer-col-enhanced">
+        {/* Apenas a coluna principal com logo, descrição e social icons */}
+        <Row gutter={[40, 0]} justify="center" className="footer-main-row-enhanced"> {/* Gutter horizontal e centralizado */}
+          <Col xs={24} sm={24} md={18} lg={16} xl={14} className="footer-col-enhanced"> {/* Coluna maior para centralizar o conteúdo */}
             <a href="/#hero-section" ref={logoRef} className="footer-logo-link anim-target" data-delay="0.1">
               <img src={logoBranca} alt="People Change AI Consulting - Voltar ao topo" className="footer-logo-enhanced"/>
             </a>
@@ -129,53 +136,28 @@ const Footer = () => {
               Transformando o futuro dos negócios com Inteligência Artificial humanizada,
               focada em resultados e no potencial das pessoas.
             </Paragraph>
-            <Space ref={socialIconsRef} size="large" className="footer-social-icons-enhanced anim-target" data-delay="0.3">
-              {/* Mantido apenas o LinkedIn */}
-              <AntLink href="https://linkedin.com" target="_blank" aria-label="LinkedIn"><LinkedinFilled /></AntLink>
-            </Space>
-          </Col>
-
-          <Col xs={24} sm={12} md={6} lg={7} className="footer-col-enhanced">
-            <Title ref={navLinksTitleRef} level={5} className="footer-col-title-enhanced anim-target" data-delay="0.25">Navegação</Title>
-            <ul className="footer-link-list-enhanced">
-              {navLinks.map((link, index) => (
-                <li key={link.href} ref={navLinkItemRefs.current[index]} className="anim-target" data-delay={0.3 + index * 0.08}> {/* Delay por item da lista */}
-                  <AntLink href={link.href}><RightOutlined className="link-arrow"/> {link.text}</AntLink>
-                </li>
-              ))}
-            </ul>
-          </Col>
-
-          <Col xs={24} sm={12} md={8} lg={7} className="footer-col-enhanced">
-            <Title ref={contactTitleRef} level={5} className="footer-col-title-enhanced anim-target" data-delay="0.3">Entre em Contato</Title>
-            <div className="footer-contact-buttons"> {/* Novo container para os botões */}
-                {contactButtons.map((item, index) => (
-                     <Button
-                        key={item.key}
-                        ref={contactButtonRefs.current[index]}
-                        className="footer-contact-button anim-target"
-                        data-delay={0.35 + index * 0.1} // Delay por botão
-                        type="primary" // AntD primary style base
-                        icon={item.icon}
-                        href={item.href}
-                        target={item.href.startsWith('http') ? "_blank" : undefined}
-                     >
-                        {item.text}
-                     </Button>
-                ))}
+            {/* Substituído Space por div para melhor controle da centralização com 1 item */}
+            <div ref={socialIconWrapperRef} className="footer-social-icon-wrapper anim-target" data-delay="0.3">
+              <AntLink href="https://linkedin.com/company/people-change-ai-consulting" target="_blank" aria-label="LinkedIn"><LinkedinFilled /></AntLink> {/* Exemplo de link real */}
             </div>
           </Col>
+
+          {/* REMOVIDAS COLUNAS DE NAVEGAÇÃO E CONTATO */}
+          {/* <Col xs={24} sm={12} md={6} lg={7} className="footer-col-enhanced"> ... </Col> */}
+          {/* <Col xs={24} sm={12} md={8} lg={7} className="footer-col-enhanced"> ... </Col> */}
+
         </Row>
 
-        <div ref={dividerRef} className="footer-divider-wrapper anim-target" data-delay="0.6">
+        <div ref={dividerRef} className="footer-divider-wrapper anim-target" data-delay="0.4"> {/* Ajustado delay */}
             <Divider className="footer-divider-enhanced" />
         </div>
 
-        <Row ref={creditsRef} justify="center" align="middle" className="footer-credits-row-enhanced anim-target" data-delay="0.7">
+        {/* ÁREA DE CRÉDITOS - Removida a frase "Orgulhosamente..." e adicionada quebra de linha */}
+        <Row ref={creditsRef} justify="center" align="middle" className="footer-credits-row-enhanced anim-target" data-delay="0.5"> {/* Ajustado delay */}
             <Col>
+                 {/* Adicionada quebra de linha <br /> antes do link do desenvolvedor */}
                 <Paragraph className="footer-credits-text-enhanced">
-                    Orgulhosamente construído com IA e paixão humana. <br className="mobile-break"/>
-                    Desenvolvido com <HeartFilled className="heart-icon" /> por
+                     Desenvolvido com <HeartFilled className="heart-icon" /> por <br className="mobile-break-dev"/> {/* Adicionada quebra de linha específica */}
                     <a href="https://codebypatrick.dev" target="_blank" rel="noopener noreferrer" className="patrick-developer-link">
                          Patrick.Developer
                     </a>
@@ -183,10 +165,11 @@ const Footer = () => {
             </Col>
         </Row>
 
-        <Row ref={copyrightRef} justify="center" className="footer-copyright-row-enhanced anim-target" data-delay="0.8">
+        {/* ÁREA DE COPYRIGHT - Atualizada com o ano e texto solicitado */}
+        <Row ref={copyrightRef} justify="center" className="footer-copyright-row-enhanced anim-target" data-delay="0.6"> {/* Ajustado delay */}
           <Col>
             <Text className="footer-copyright-text-enhanced">
-              © {currentYear} People Change AI Consulting. Todos os direitos reservados.
+              © {currentYear} People Change AI Consulting. {/* Texto atualizado e ano */}
             </Text>
           </Col>
         </Row>

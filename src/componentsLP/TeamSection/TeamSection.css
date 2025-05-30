@@ -7,6 +7,10 @@
     --team-text-footer-color: #A0AEC0; /* Cinza claro para o footer */
     /* --team-background-color: #F7F7F7; Removido */
 
+     /* Cores padronizadas para títulos de seção (replicadas) */
+    --standard-title-category-color: #3A3D57; /* Azul marinho */
+    --standard-title-current-color: #2D3748; /* Azul escuro acinzentado */
+
     --animation-ease-out-cubic: cubic-bezier(0.215, 0.61, 0.355, 1);
     --animation-ease-out-quart: cubic-bezier(0.165, 0.84, 0.44, 1);
   }
@@ -29,8 +33,46 @@
     padding: 0 40px;
   }
 
-  /* Animação de entrada para header e footer da seção */
-  .team-header-row, .team-footer-row {
+  /* ESTILOS PADRONIZADOS PARA TÍTULOS DE SEÇÃO (Breadcrumb-like) - REPLICADOS */
+  .section-standard-title-row {
+      margin-bottom: 40px; /* Espaço consistente abaixo do título */
+      text-align: left; /* Alinhamento padrão */
+      width: 100%; /* Ocupa a largura total para centralização em mobile */
+      /* Animação de entrada controlada por JS com data-delay */
+      opacity: 0;
+      transform: translateY(20px);
+      transition-property: opacity, transform;
+      transition-duration: 0.8s;
+      transition-timing-function: var(--animation-ease-out-cubic);
+  }
+  /* Centralizar em telas menores */
+  @media (max-width: 575px) { /* Ajustado para mobile vertical */
+      .section-standard-title-row {
+          text-align: center;
+      }
+  }
+
+  .section-standard-title-text {
+      font-size: 1.1rem;
+      font-weight: 500; /* Inter Medium */
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: var(--standard-title-category-color); /* Cor para a categoria */
+  }
+
+  .section-standard-title-current {
+      font-weight: 600; /* Inter SemiBold */
+      color: var(--standard-title-current-color); /* Cor para a seção atual */
+  }
+
+   /* NOVA CLASSE PARA CONTROLAR A VISIBILIDADE VIA JS E ATIVAR ANIMAÇÕES */
+   .team-item-visible-new {
+       opacity: 1;
+       transform: translateY(0px) scale(1); /* Estado final */
+   }
+
+  /* REMOVIDA ANIMAÇÃO ANTIGA DO HEADER ROW */
+  /* .team-header-row, .team-footer-row {
     opacity: 0;
     transform: translateY(20px);
     transition: opacity 0.8s var(--animation-ease-out-cubic), transform 0.8s var(--animation-ease-out-cubic);
@@ -43,20 +85,12 @@
   .team-section-wrapper.team-section-visible .team-footer-row {
     opacity: 1;
     transform: translateY(0);
-    transition-delay: 0.8s; /* Footer entra depois dos cards */
-  }
+    transition-delay: 0.8s;
+  } */
 
 
-  .team-header-row {
-    margin-bottom: 60px;
-    text-align: left; /* Conforme a imagem */
-  }
-
-  .team-section-tagline {
-    font-size: 1.1rem;
-    color: var(--team-text-tagline-color) !important;
-    font-weight: 500; /* Inter Medium */
-  }
+  /* REMOVIDO ESTILO DA TAGLINE ANTIGA */
+  /* .team-section-tagline { ... } */
 
   .team-members-row {
     /* Gutter e justify já definidos no JSX */
@@ -65,11 +99,14 @@
   .team-member-col {
     /* Animação de entrada para cada card de membro */
     opacity: 0;
-    transform: translateY(30px) scale(0.95);
-    transition: opacity 0.9s var(--animation-ease-out-quart), transform 0.9s var(--animation-ease-out-quart);
+    transform: translateY(30px) scale(0.95); /* Estado inicial */
+    transition-property: opacity, transform; /* Propriedades a animar */
+    transition-duration: 0.9s; /* Duração da animação */
+    transition-timing-function: var(--animation-ease-out-quart); /* Easing */
+    /* transition-delay: é definido por data-delay no JSX */
   }
-  /* Staggering para os cards - removido o seletor :nth-child do CSS e aplicado no JS com ref e delay */
-  .team-member-col.team-member-visible { /* Estado final da animação */
+  /* NOVA CLASSE DE VISIBILIDADE PARA ATIVAR ANIMAÇÃO DOS MEMBROS */
+  .team-member-col.team-item-visible-new { /* Estado final da animação */
     opacity: 1;
     transform: translateY(0) scale(1);
   }
@@ -142,7 +179,19 @@
   .team-footer-row {
     margin-top: 70px;
     text-align: left;
+     /* Animação de entrada controlada por JS com data-delay */
+    opacity: 0;
+    transform: translateY(20px);
+    transition-property: opacity, transform;
+    transition-duration: 0.8s;
+    transition-timing-function: var(--animation-ease-out-cubic);
   }
+  /* NOVA CLASSE DE VISIBILIDADE PARA ATIVAR ANIMAÇÃO DO FOOTER */
+  .team-footer-row.team-item-visible-new {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
   @media (max-width: 575px) {
     .team-footer-row { text-align: center; justify-content: center; }
   }
@@ -174,4 +223,12 @@
     .team-member-col:not(:last-child) {
       margin-bottom: 40px; /* Espaço entre os membros quando empilhados ou em 2 colunas */
     }
+  }
+
+  @media (max-width: 575px) { /* xs */
+      /* Ajustes para mobile vertical */
+    .team-section-content-area { padding: 0 20px; }
+    .team-section-wrapper { padding: 60px 0; } /* Reduzir um pouco o padding vertical geral */
+    .team-header-row { margin-bottom: 40px; } /* Reduzir margin-bottom do header */
+    .team-footer-row { margin-top: 50px; } /* Reduzir margin-top do footer */
   }

@@ -1,4 +1,3 @@
-/* src/components/ExpectedBenefitsSection/ExpectedBenefitsSection.css */
 :root {
     --benefit-v-font-family: 'Inter', sans-serif;
     --benefit-v-accent-orange: #EF7C12;
@@ -6,8 +5,9 @@
     --benefit-v-text-secondary: #374151; /* Cinza escuro */
     /* --benefit-v-background: #F3F4F6; Removido */
     --benefit-v-card-bg: #FFFFFF;
-    --benefit-v-card-shadow: 0 10px 20px rgba(0,0,0,0.05), 0 3px 6px rgba(0,0,0,0.03);
-    --benefit-v-card-hover-shadow: 0 15px 30px rgba(0,0,0,0.08), 0 5px 10px rgba(0,0,0,0.05);
+    --benefit-v-card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.03);
+    --benefit-v-card-hover-shadow: 0 15px 30px rgba(0, 0, 0, 0.08), 0 5px 10px rgba(0, 0, 0, 0.05);
+    --benefit-v-quote-bg: rgba(239, 124, 18, 0.03); /* Fundo sutil para a citação */
 
     /* Cores para os cards */
     --benefit-vibrant-color-1: #EF7C12; /* Laranja */
@@ -17,7 +17,53 @@
 
     --animation-ease-out-quint-v: cubic-bezier(0.23, 1, 0.32, 1);
     --animation-ease-in-out-circ-v: cubic-bezier(0.86, 0, 0.07, 1);
+
+    --header-height: 80px; /* Altura do header fixo */
+
+    /* Cores padronizadas para títulos de seção (replicadas) */
+    --standard-title-category-color: #3A3D57; /* Azul marinho */
+    --standard-title-current-color: #2D3748; /* Azul escuro acinzentado */
+
+    /* Estilo para a fonte Nazalization */
+    --benefit-v-nazalization-font: 'Nazalization', cursive, sans-serif; /* Placeholder */
   }
+
+  /* Estilo para a fonte Nazalization */
+  .nazalization-font {
+      font-family: var(--benefit-v-nazalization-font);
+  }
+
+   /* Estilos Padronizados para Títulos de Seção (Breadcrumb-like) - REPLICADOS */
+  .section-standard-title-row {
+      margin-bottom: 40px; /* Espaço consistente abaixo do título */
+      text-align: left; /* Alinhamento padrão */
+      width: 100%; /* Ocupa a largura total para centralização em mobile */
+  }
+  /* Centralizar em telas menores */
+  @media (max-width: 767px) {
+      .section-standard-title-row {
+          text-align: center;
+      }
+  }
+
+  .section-standard-title-text {
+      font-size: 1.1rem;
+      font-weight: 500; /* Inter Medium */
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: var(--standard-title-category-color); /* Cor para a categoria */
+  }
+
+  .section-standard-title-current {
+      font-weight: 600; /* Inter SemiBold */
+      color: var(--standard-title-current-color); /* Cor para a seção atual */
+  }
+
+   /* Adiciona animação para o título padronizado (usa a mesma classe base) */
+   .section-standard-title-row.animation-target-benefits-vibrant {
+      transition-delay: 0.1s; /* Entra antes do bloco de conteúdo principal */
+   }
+
 
   .expected-benefits-section-wrapper.vibrant-design {
     font-family: var(--benefit-v-font-family);
@@ -30,7 +76,7 @@
     overflow: hidden;
   }
 
-  /* Elementos Gráficos de Fundo Animados */
+  /* Elementos Gráficos de Fundo Animados (Ajustar opacidade para fundo cinza claro) */
   .benefit-v-graphic {
     position: absolute;
     opacity: 0;
@@ -45,8 +91,8 @@
   .graphic-swirl-1 { /* Forma de espiral/swirl suave */
     width: 45vw; height: 45vw; max-width: 550px; max-height: 550px;
     /* Ajuste o gradiente se necessário */
-    background: radial-gradient(circle, rgba(239, 124, 18, 0.02) 0%, transparent 50%);
-    border: 1px solid rgba(239, 124, 18, 0.08);
+    background: radial-gradient(circle, rgba(239, 124, 18, 0.08) 0%, transparent 50%); /* Ajustado opacidade */
+    border: 1px solid rgba(239, 124, 18, 0.15); /* Ajustado opacidade */
     border-radius: 50%;
     top: 10%; left: -20vw;
     transform: rotate(-45deg) scale(0.7);
@@ -54,7 +100,7 @@
     animation: swirlAnimation 30s linear infinite alternate 1s;
   }
   .expected-benefits-section-wrapper.benefits-section-activated-vibrant .graphic-swirl-1 {
-    transform: rotate(0deg) scale(1); opacity: 0.6;
+    transform: rotate(0deg) scale(1); opacity: 0.3; /* Ajustado opacidade final */
   }
   @keyframes swirlAnimation {
     from { transform: rotate(0deg) scale(1); }
@@ -64,7 +110,7 @@
   .graphic-blob-2 { /* Outra forma orgânica */
     width: 30vw; height: 30vw; max-width: 400px; max-height: 400px;
     /* Ajuste o gradiente se necessário */
-    background: linear-gradient(45deg, rgba(59, 130, 246, 0.03), rgba(16, 185, 129, 0.03));
+    background: linear-gradient(45deg, rgba(59, 130, 246, 0.05), rgba(16, 185, 129, 0.05)); /* Ajustado opacidade */
     border-radius: 30% 70% 50% 50% / 50% 40% 60% 50%;
     bottom: 5%; right: -15vw;
     transform: rotate(20deg) scale(0.7);
@@ -72,7 +118,7 @@
     animation: blobPulse 8s ease-in-out infinite alternate 1.5s;
   }
   .expected-benefits-section-wrapper.benefits-section-activated-vibrant .graphic-blob-2 {
-    transform: rotate(0deg) scale(1); opacity: 0.5;
+    transform: rotate(0deg) scale(1); opacity: 0.2; /* Ajustado opacidade final */
   }
   @keyframes blobPulse {
     0% { transform: scale(1) rotate(0deg); }
@@ -102,7 +148,7 @@
   /* Adicione mais se necessário */
   @keyframes floatAndFade {
     0% { transform: translateY(0px) scale(0.5); opacity: 0; }
-    50% { transform: translateY(-60px) scale(1); opacity: 0.3; }
+    50% { transform: translateY(-60px) scale(1); opacity: 0.15; /* Ajustado opacidade */ }
     100% { transform: translateY(-120px) scale(0.5); opacity: 0; }
   }
 
@@ -172,9 +218,16 @@
     padding: 15px 20px; /* Padding ao redor da citação */
     border-left: 4px solid var(--benefit-v-accent-orange);
     margin: 30px 0 !important;
-    background-color: rgba(239, 124, 18, 0.03); /* Fundo sutil para a citação */
+    background-color: var(--benefit-v-quote-bg); /* Fundo sutil para a citação */
     border-radius: 0 6px 6px 0;
   }
+   /* Aplica a fonte Nazalization APENAS ao texto dentro da citação */
+  .benefits-quote-vibrant .nazalization-font {
+      font-family: var(--benefit-v-nazalization-font);
+      font-style: normal; /* Garante que a Nazalization não seja italic se o pai for */
+      font-weight: normal; /* Garante peso normal, ajuste se precisar */
+  }
+
   .benefits-quote-vibrant .highlight-quote-vibrant {
     color: var(--benefit-v-accent-orange);
     font-weight: 600;

@@ -6,35 +6,40 @@ import { MenuOutlined } from '@ant-design/icons';
 import './HeaderLP.css';
 
 // Importar as novas imagens
-import logoLaranjaImage from '../../assets/images/logoColorida1.png'; // A nova logo laranja
+import logoLaranjaImage from '../../assets/images/logocompletolaranja.png'; // A nova logo laranja
 import backgroundCinzaImage from '../../assets/images/backgroundCinza.png'; // O novo background cinza
 
 const { Header } = Layout;
 const { Title, Text } = Typography;
 
 const menuItems = [
-  { key: 'quem-somos', label: 'Quem Somos', path: '#about' }, // Usar fragmentos para links internos
-  { key: 'solucoes', label: 'Soluções', path: '#solutions' },
-  { key: 'diferencial', label: 'Diferencial', path: '#diferencial' }, // Corrigir para o ID real
-  { key: 'compromisso', label: 'Compromisso Ético', path: '#ethical-commitment' }, // Corrigir para o ID real
-  { key: 'contato', label: 'Contato', path: '#contact' }, // Corrigir para o ID real
+  { key: 'quem-somos', label: 'Quem Somos', path: '#video' }, // Usar fragmentos para links internos
+  { key: 'solucoes', label: 'As Soluções', path: '#solutions' }, // Alterado
+  { key: 'diferencial', label: 'O Nosso Diferencial', path: '#diferencial' }, // Alterado
+  { key: 'compromisso', label: 'Compromisso Ético', path: '#ethical-commitment' }, // Alterado
+  { key: 'contato', label: 'Contactos', path: '#contact' }, // Alterado
+  // Nota: 'Benefícios Esperados' não estava na lista original do Header, será adicionado agora
+  // Inserindo na posição lógica após 'As Soluções'
+  { key: 'beneficios', label: 'Benefícios Esperados', path: '#benefits' }, // Novo item
 ];
 
-const HeaderLP = () => {
-  const [visible, setVisible] = useState(false);
-  const [drawerVisible, setDrawerVisible] = useState(false);
-  // Não precisamos mais de useLocation se estamos usando apenas links de fragmento na mesma página
-  // const location = useLocation();
+// Reordenar o array para a ordem desejada
+const orderedMenuItems = [
+    menuItems.find(item => item.key === 'quem-somos'),
+    menuItems.find(item => item.key === 'o-nosso-diferencial'), // Chave pode ser 'diferencial' ou 'o-nosso-diferencial' - mantendo 'diferencial'
+    menuItems.find(item => item.key === 'solucoes'),
+    menuItems.find(item => item.key === 'beneficios'), // Novo item
+    menuItems.find(item => item.key === 'compromisso'),
+    menuItems.find(item => item.key === 'contato'), // Chave pode ser 'contato' ou 'contactos' - mantendo 'contato'
+].filter(Boolean); // Remove itens que não foram encontrados (se houver algum erro na chave)
 
+
+const HeaderLP = () => {
+  const [drawerVisible, setDrawerVisible] = useState(false);
   const headerRef = useRef(null); // Ref para o header
 
   useEffect(() => {
-    // Animação de entrada via CSS, apenas garantimos que a classe 'fade-in' (ou similar) seja adicionada
-    // setVisible(true); // removido, animação agora lida pela classe
-  }, []);
-
-    useEffect(() => {
-      const currentHeaderRef = headerRef.current;
+    const currentHeaderRef = headerRef.current;
         // Observer para animar o header quando a página carrega ou rola para o topo
         const observer = new IntersectionObserver(
           (entries) => {
@@ -85,7 +90,7 @@ const HeaderLP = () => {
   const getCurrentSelectedKey = () => {
       // Se estiver na raiz, realça o primeiro item (Início, se houver)
       if (window.location.pathname === '/' && window.location.hash === '') {
-          return menuItems.length > 0 ? [menuItems[0].key] : [];
+          return orderedMenuItems.length > 0 ? [orderedMenuItems[0].key] : [];
       }
       // Lógica mais complexa de scroll spy seria necessária aqui
       return []; // Nenhum item realçado por padrão com links de fragmento
@@ -106,7 +111,7 @@ const HeaderLP = () => {
           <Col className="logo-area">
             {/* NOVO: Logo Laranja no lugar da antiga logo e nome */}
             {/* Link para a seção Hero (assumindo ID "hero-section") */}
-            <a href="#hero-section" className="logo-link" onClick={(e) => {
+            <a id="hero-section" href="#hero-section" className="logo-link" onClick={(e) => {
                  e.preventDefault(); // Previne o comportamento padrão do link
                  scrollToSection('hero-section'); // Rola suavemente
              }}>
@@ -135,7 +140,7 @@ const HeaderLP = () => {
               // selectedKeys={getCurrentSelectedKey()} // Desativado realce dinâmico
               className="header-menu"
             >
-              {menuItems.map((item) => (
+              {orderedMenuItems.map((item) => (
                 <Menu.Item key={item.key} className="header-menu-item">
                   {/* Usar tags 'a' ou Link AntD com onClick para scroll suave */}
                    <a href={item.path} onClick={(e) => {
@@ -193,7 +198,7 @@ const HeaderLP = () => {
           className="drawer-menu"
           // Usar onClick no Menu ou em cada Item para fechar o drawer e rolar
         >
-          {menuItems.map((item) => (
+          {orderedMenuItems.map((item) => ( // Usar o array ordenado aqui também
             <Menu.Item key={item.key} className="drawer-menu-item">
               {/* Usar tags 'a' com onClick para scroll suave e fechar drawer */}
               <a href={item.path} onClick={(e) => {

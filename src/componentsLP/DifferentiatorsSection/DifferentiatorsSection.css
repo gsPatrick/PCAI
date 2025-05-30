@@ -12,6 +12,10 @@
 
     /* Nova cor para o título principal */
     --diff-e-main-title-color: #0A1931; /* Um tom de azul marinho similar ao do logo */
+    /* Cores padronizadas para títulos de seção (replicadas do AboutIntroSection.css) */
+    --standard-title-category-color: #3A3D57; /* Azul marinho */
+    --standard-title-current-color: #2D3748; /* Azul escuro acinzentado */
+
 
     --animation-ease-out-quint: cubic-bezier(0.23, 1, 0.32, 1);
     --animation-ease-out-cubic: cubic-bezier(0.215, 0.61, 0.355, 1);
@@ -22,6 +26,45 @@
     font-family: var(--diff-e-font-family);
   }
 
+  /* Estilos Padronizados para Títulos de Seção (Breadcrumb-like) - REPLICADOS */
+  .section-standard-title-row {
+      margin-bottom: 40px; /* Espaço consistente abaixo do título */
+      text-align: left; /* Alinhamento padrão */
+      width: 100%; /* Ocupa a largura total para centralização em mobile */
+  }
+  /* Centralizar em telas menores */
+  @media (max-width: 767px) {
+      .section-standard-title-row {
+          text-align: center;
+      }
+  }
+
+  .section-standard-title-text {
+    color: #718096 !important; /* Cor para a categoria */
+      font-size: 1.1rem;
+      font-weight: 500; /* Inter Medium */
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+  }
+
+  .section-standard-title-current {
+    color: #2d3748 !important;
+      font-weight: 600; /* Inter SemiBold */
+  }
+
+   /* Adiciona animação para o título padronizado */
+   .section-standard-title-row.animation-target-enhanced {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 1s var(--animation-ease-out-cubic), transform 1s var(--animation-ease-out-cubic);
+      transition-delay: 0.1s; /* Entra antes do bloco de conteúdo principal */
+   }
+   .section-standard-title-row.animation-target-enhanced.content-in-view-enhanced {
+      opacity: 1;
+      transform: translateY(0px);
+   }
+
+
   .differentiators-section-wrapper.enhanced-modern {
     font-family: var(--diff-e-font-family);
     /* background-color: var(--diff-e-background); REMOVIDO */
@@ -31,8 +74,16 @@
     padding-bottom: 120px;
     position: relative;
     min-height: 85vh;
+    display: flex; /* Para alinhar ao centro verticalmente */
+    align-items: center; /* Para alinhar ao centro verticalmente */
     overflow: hidden;
   }
+
+  /* Novo estilo para alinhar o conteúdo no centro quando a barra está à esquerda */
+   .differentiators-section-wrapper.enhanced-modern .differentiators-main-content-enhanced {
+       align-self: center;
+   }
+
 
   .horizontal-connecting-bar-enhanced {
     width: 100%;
@@ -111,14 +162,14 @@
   }
 
    /* Classe auxiliar usada pelo JS para indicar que o conteúdo principal deve animar */
-  .main-content-animation-target {
+  .main-content-animation-target.animation-target-enhanced {
     opacity: 0;
     transform: translateY(35px);
     transition: opacity 1.1s var(--animation-ease-out-cubic), transform 1.1s var(--animation-ease-out-cubic);
     transition-delay: 0.2s; /* Delay na entrada do bloco de conteúdo principal */
   }
   /* Estado final da animação para o conteúdo principal */
-  .main-content-animation-target.content-in-view-enhanced {
+  .main-content-animation-target.animation-target-enhanced.content-in-view-enhanced {
     opacity: 1;
     transform: translateY(0px);
   }
@@ -142,15 +193,25 @@
     font-weight: 800 !important; /* Inter ExtraBold */
     font-size: clamp(2.5rem, 4.5vw, 3.3rem) !important;
     line-height: 1.28 !important;
-    color: var(--diff-e-main-title-color) !important; /* Usando a nova cor azul marinho */
+    color: var(--diff-e-main-title-color) !important; /* Usando a nova cor azul marinho como cor base */
     margin-bottom: 20px !important;
   }
   .section-main-title-enhanced .highlight-orange-enhanced {
     color: var(--diff-e-accent-orange) !important;
+    /* Efeito de gradiente no texto laranja */
+    /* background: linear-gradient(45deg, #EF7C12, #ffae73); */
+    /* -webkit-background-clip: text; */
+    /* -webkit-text-fill-color: transparent; */
   }
 
+  /* NOVA CLASSE PARA O TEXTO AZUL MARINHO NO TÍTULO PRINCIPAL */
+  .section-main-title-enhanced .highlight-blue-marinho-enhanced {
+      color: var(--diff-e-main-title-color) !important; /* Usa a cor base do título para a parte azul marinho */
+  }
+
+
   .section-main-title-enhanced .plus-separator-enhanced {
-    color: var(--diff-e-text-secondary);
+    color: var(--diff-e-text-secondary); /* Cor original para o + */
     font-weight: 600;
     margin: 0 0.4em;
   }
@@ -195,7 +256,7 @@
   }
   /* Animação dos itens da lista ativada quando o container pai (main-content-animation-target)
      recebe a classe de visibilidade (.content-in-view-enhanced) */
-   .main-content-animation-target.content-in-view-enhanced .differentiator-list-point-enhanced {
+   .main-content-animation-target.animation-target-enhanced.content-in-view-enhanced .differentiator-list-point-enhanced {
     opacity: 1;
     transform: translateX(0);
   }
@@ -219,7 +280,7 @@
     transition: transform 0.7s var(--animation-ease-out-quint) 0.25s, opacity 0.7s ease-out 0.25s, color 0.3s ease;
   }
    /* Animação de entrada do ícone em coordenação com o item */
-  .main-content-animation-target.content-in-view-enhanced .differentiator-list-point-enhanced .list-point-icon-enhanced {
+  .main-content-animation-target.animation-target-enhanced.content-in-view-enhanced .differentiator-list-point-enhanced .list-point-icon-enhanced {
       transform: rotate(0deg) scale(1);
       opacity: 1;
   }

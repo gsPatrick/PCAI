@@ -12,18 +12,25 @@ const { Title, Paragraph, Text } = Typography;
 
 const AboutIntroSection = () => {
   const sectionRef = useRef(null);
+  // Ref para o novo título padronizado
+  const standardTitleRef = useRef(null);
   const contentRef = useRef(null);
   const organicImageRef = useRef(null); // Ref para o wrapper do GIF
 
   useEffect(() => {
     const currentSectionRef = sectionRef.current;
-    const targetsToObserve = [contentRef.current, organicImageRef.current].filter(Boolean);
+    // Observar o novo título padronizado, o bloco de texto e o wrapper da imagem
+    const targetsToObserve = [
+        standardTitleRef.current, // Novo target
+        contentRef.current,
+        organicImageRef.current
+    ].filter(Boolean);
 
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            // Adiciona a classe de animação aos targets (texto e wrapper do GIF)
+            // Adiciona a classe de animação aos targets
             entry.target.classList.add('animate-item-in-view');
             // Para o IntersectionObserver do elemento individual após animar
             if (targetsToObserve.includes(entry.target)) {
@@ -58,7 +65,7 @@ const AboutIntroSection = () => {
 
         sectionEntryObserver.observe(currentSectionRef);
     }
-    
+
     // Função de Parallax - aplica translateY no wrapper do GIF
     const handleScroll = () => {
       if (organicImageRef.current && currentSectionRef && currentSectionRef.classList.contains('section-active-intro')) {
@@ -125,10 +132,23 @@ const AboutIntroSection = () => {
       ))}
 
       <div className="about-intro-content-area">
+
+        {/* NOVO: Título Padronizado "Quem somos | Introdução" */}
+         <Row ref={standardTitleRef} className="section-standard-title-row animation-target-intro"> {/* Usando a classe de animação existente */}
+           <Col>
+             <Text className="section-standard-title-text">
+               Quem somos | <span className="section-standard-title-current-azul">Introdução</span>
+             </Text>
+           </Col>
+         </Row>
+
+
+        {/* REMOVIDO A TAGLINE ANTIGA */}
+        {/* <Title level={4} className="section-tagline-about">Quem somos</Title> */}
+
         <Row gutter={[64, 48]} align="middle" className="about-intro-row"> {/* Gutter horizontal maior */}
           <Col xs={24} lg={13} xl={12} className="about-text-column"> {/* Coluna de texto um pouco mais estreita em telas grandes */}
-            <div ref={contentRef} className="text-content-block animation-target-intro">
-              <Title level={4} className="section-tagline-about">Quem somos</Title>
+            <div ref={contentRef} className="text-content-block animation-target-intro"> {/* Ref no bloco de texto */}
               <Paragraph className="main-paragraph-about">
                 A <strong className="company-name-highlight">People Change AI Consulting</strong> nasceu para
                 redefinir a relação entre tecnologia e humanidade.

@@ -8,13 +8,14 @@ import {
     ToolOutlined,
     LineChartOutlined,
     FundViewOutlined,
-    RightCircleOutlined,
-    ArrowRightOutlined // Usando uma seta diferente
+    // Remover RightCircleOutlined e ArrowRightOutlined pois as setas serão removidas
+    // RightCircleOutlined,
+    // ArrowRightOutlined
 } from '@ant-design/icons';
 import './SolutionsOverviewSection.css';
 
-// Importar a imagem de fundo
-import backgroundCinza from '../../assets/images/backgroundCinza.png';
+// Importar a imagem de fundo AZUL
+import backgroundAzul from '../../assets/images/backgroundAzul.png';
 
 
 const { Title, Paragraph, Text } = Typography;
@@ -67,17 +68,21 @@ const bottomSolutionsData = solutionsData.slice(4);
 
 const SolutionsOverviewSection = () => {
   const sectionRef = useRef(null);
-  const titleBlockRef = useRef(null);
+   // Ref para o novo título padronizado
+  const standardTitleRef = useRef(null);
+  const titleBlockRef = useRef(null); // Ref para o bloco do título principal e subtítulos
   const topCardsContainerRef = useRef(null); // Ref para o primeiro grid
   const bottomCardsContainerRef = useRef(null); // Ref para o segundo grid
   const ctaRef = useRef(null);
 
   useEffect(() => {
     const currentSectionRef = sectionRef.current;
+    // Observar o novo título padronizado, o bloco do título principal, os grids de cards e o CTA
     const targetsToObserve = [
+        standardTitleRef.current, // Novo target
         titleBlockRef.current,
-        topCardsContainerRef.current, // Adiciona o primeiro grid
-        bottomCardsContainerRef.current, // Adiciona o segundo grid
+        topCardsContainerRef.current,
+        bottomCardsContainerRef.current,
         ctaRef.current
     ].filter(Boolean);
 
@@ -117,9 +122,10 @@ const SolutionsOverviewSection = () => {
 
   return (
     <div
+      id="solutions" // ID para linkagem do header
       ref={sectionRef}
       className="solutions-overview-section-wrapper"
-      style={{ backgroundImage: `url(${backgroundCinza})` }} // Aplicando a imagem de fundo
+      style={{ backgroundImage: `url(${backgroundAzul})` }} // Aplicando a imagem de fundo AZUL
     >
       {/* Elementos Gráficos de Fundo (mantidos, mas podem ser ajustados no CSS se necessário) */}
       <div className="solution-graphic sol-graphic-1"></div>
@@ -127,15 +133,29 @@ const SolutionsOverviewSection = () => {
       <div className="solution-graphic sol-graphic-3"></div>
 
       <div className="solutions-content-main">
+
+         {/* NOVO: Título Padronizado "As Soluções | Visão Geral" */}
+         {/* Usando a mesma classe de animação que outros elementos para o Observer */}
+         <Row ref={standardTitleRef} className="section-standard-title-row animation-target-solutions">
+           <Col>
+             <Text className="section-standard-title-text">
+               As Soluções | <span className="section-standard-title-current-azul">Visão Geral</span>
+             </Text>
+           </Col>
+         </Row>
+
         <div ref={titleBlockRef} className="solutions-title-block animation-target-solutions">
+          {/* Título principal - Corrigido texto, cor agora branca via CSS */}
           <Title level={1} className="solutions-main-title">
             Potenciamos negócios e talentos com<br/>
-            <span className="highlight-orange-sol">IA Humanizada.</span> {/* Quebra de linha e IA junto */}
+            <span className="highlight-orange-sol">IA Humanizada.</span> {/* Mantém o highlight laranja se necessário no design, a cor base do título é branca agora */}
           </Title>
-          <Paragraph className="solutions-main-subtitle nazalization-font"> {/* Aplicando Nazalization */}
-            De forma modular, prática e alinhada às pessoas.
+          {/* Subtítulo principal - Corrigido texto e fonte (Inter Normal) */}
+          <Paragraph className="solutions-main-subtitle">
+            De forma modular, escalável e intuitiva.
           </Paragraph>
-          <Title level={3} className="solutions-subsection-title">Áreas de Atuação e Dashboards</Title>
+          {/* Título da subseção - Corrigido texto, cor agora branca via CSS */}
+          <Title level={3} className="solutions-subsection-title">Áreas de atuação e Dashboards de performance</Title>
         </div>
 
         {/* GRID DOS 4 PRIMEIROS CARDS */}
@@ -152,12 +172,15 @@ const SolutionsOverviewSection = () => {
                   <span className="icon-bg-shape"></span>
                   {solution.icon}
                 </div>
+                {/* Título e Subtítulo do Card - Cores definidas no CSS */}
                 <Title level={4} className="solution-card-title">
                   {solution.title}
                   {solution.subtitle && <span className="solution-card-subtitle-tag">{solution.subtitle}</span>}
                 </Title>
+                 {/* Descrição do Card - Cor definida no CSS */}
                 <Paragraph className="solution-card-description">{solution.description}</Paragraph>
-                <RightCircleOutlined className="solution-card-arrow" />
+                {/* REMOVIDO: Seta no canto inferior direito */}
+                {/* <RightCircleOutlined className="solution-card-arrow" /> */}
               </div>
             </div>
           ))}
@@ -179,11 +202,14 @@ const SolutionsOverviewSection = () => {
                     {solution.icon}
                  </div>
                  <div className="card-alt-content">
+                    {/* Título e Subtítulo do Card Alt - Cores definidas no CSS */}
                     <Title level={4} className="solution-card-alt-title">{solution.title}</Title>
                     {solution.subtitle && <Text className="solution-card-alt-subtitle">{solution.subtitle}</Text>}
+                     {/* Descrição do Card Alt - Cor definida no CSS */}
                     <Paragraph className="solution-card-alt-description">{solution.description}</Paragraph>
                  </div>
-                 <ArrowRightOutlined className="solution-card-alt-arrow" /> {/* Ícone diferente */}
+                 {/* REMOVIDO: Seta no canto inferior direito */}
+                 {/* <ArrowRightOutlined className="solution-card-alt-arrow" /> */}
               </div>
             </div>
           ))}
@@ -191,7 +217,8 @@ const SolutionsOverviewSection = () => {
 
 
         <div ref={ctaRef} className="solutions-cta-block animation-target-solutions">
-          <Paragraph className="solutions-cta-text nazalization-font"> {/* Aplicando Nazalization */}
+          {/* CTA text - Corrigido texto, fonte Nazalization, cor branca via CSS */}
+          <Paragraph className="solutions-cta-text nazalization-font">
             Qual destas áreas podemos <span className="highlight-orange-sol">começar a transformar</span> consigo?
           </Paragraph>
         </div>

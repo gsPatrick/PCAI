@@ -70,12 +70,17 @@ const ProductVideoSection = () => {
   // Remover handlers de player (handlePlayerReady, handlePlay, handlePause, handleEnded, handleButtonClick)
 
 
-  return (
-    // Remover a imagem de background inline se ela não for mais usada como BG principal
+return (
+    // Remover a imagem de background inline se ela for mais usada como BG principal
     // <div ref={sectionRef} className="product-video-section-wrapper hero-video-bg" style={{ backgroundImage: `url(${backgroundAzul})` }}>
-    <div ref={sectionRef} className="product-video-section-wrapper hero-video-bg">
+    <div
+        id="video" // Adicionado o ID "video" aqui
+        ref={sectionRef}
+        className="product-video-section-wrapper hero-video-bg"
+    >
       {/* Overlay para escurecer o vídeo */}
       <div className="video-background-overlay"></div>
+
 
       {/* Container para o vídeo que vai cobrir a seção */}
       <div className="video-player-cover-container">

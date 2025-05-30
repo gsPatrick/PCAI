@@ -40,12 +40,12 @@ const internationalStandards = [
 
 const EthicalCommitmentSection = () => {
   const sectionRef = useRef(null);
+  // Ref para o novo título padronizado
+  const standardTitleRef = useRef(null);
   const mainContentRef = useRef(null); // Ref para o bloco do título principal
   const principlesListRef = useRef(null);
   const diagramSideRef = useRef(null); // Ref para o bloco da direita
-  // Ref para o breadcrumb
-  const breadcrumbRef = useRef(null);
-  // Refs para elementos gráficos
+  // Ref para elementos gráficos
   const graphicRefs = useRef([]);
 
   useEffect(() => {
@@ -53,7 +53,7 @@ const EthicalCommitmentSection = () => {
     graphicRefs.current = graphicRefs.current.slice(0, 3); // Para 3 elementos gráficos de exemplo
 
     const targetsToObserve = [
-        breadcrumbRef.current, // Adiciona o breadcrumb aos targets de observação
+        standardTitleRef.current, // Adiciona o novo título padronizado
         mainContentRef.current,
         principlesListRef.current,
         diagramSideRef.current,
@@ -69,6 +69,24 @@ const EthicalCommitmentSection = () => {
             if (entry.target.dataset.graphicDelay) {
               entry.target.style.transitionDelay = entry.target.dataset.graphicDelay;
             }
+            // Staggering para elementos dentro de contêineres observados (como a lista de princípios e a lista de normas)
+            if (entry.target === principlesListRef.current) {
+                // Encontra os itens da lista de princípios e aplica o delay
+                const principleItems = entry.target.querySelectorAll('.principle-item-enhanced');
+                 principleItems.forEach((item, index) => {
+                     item.style.transitionDelay = `${0.4 + index * 0.12}s`;
+                     item.classList.add('ethics-item-visible-enhanced'); // Adiciona a classe de visibilidade para animar
+                 });
+            }
+            if (entry.target === diagramSideRef.current) {
+                 // Encontra os itens da lista de normas e aplica o delay
+                 const standardsItems = entry.target.querySelectorAll('.standards-list-enhanced li');
+                  standardsItems.forEach((item, index) => {
+                      item.style.transitionDelay = `${0.6 + index * 0.1}s`;
+                      item.classList.add('ethics-item-visible-enhanced'); // Adiciona a classe de visibilidade para animar
+                  });
+            }
+
             observer.unobserve(entry.target);
           }
         });
@@ -89,6 +107,13 @@ const EthicalCommitmentSection = () => {
 
     if (currentSectionRef) sectionEntryObserver.observe(currentSectionRef);
 
+    // Observer separado para a lista de normas dentro do diagramSideRef
+    // para garantir que os itens individuais animem com stagger.
+    // Este observer pode ser removido se o staggering for feito puramente via CSS.
+    // Já ajustei o CSS para animar os filhos quando o pai fica visível.
+    // Vou remover este observer separado e confiar no CSS e no observer pai.
+
+
     return () => {
       targetsToObserve.forEach(target => {
           if(target) observer.unobserve(target);
@@ -99,6 +124,7 @@ const EthicalCommitmentSection = () => {
 
   return (
     <div
+      id="ethical-commitment" // ID para linkagem do header
       ref={sectionRef}
       className="ethical-commitment-section-wrapper enhanced-ethics"
       style={{ backgroundImage: `url(${backgroundCinza})` }} // Aplicando a imagem de fundo
@@ -107,29 +133,30 @@ const EthicalCommitmentSection = () => {
       {/* <div className="ethical-intro-overlay"></div> */}
 
       {/* Elementos Gráficos Aprimorados */}
-      <div ref={el => graphicRefs.current[0] = el} className="ethics-graphic-enhanced graphic-concentric-circles" data-graphic-delay="0.3s">
+      {/* Adicionada classe de animação também nos gráficos para serem observados */}
+      <div ref={el => graphicRefs.current[0] = el} className="ethics-graphic-enhanced graphic-concentric-circles animation-target-ethics-enhanced" data-graphic-delay="0.3s">
         <div className="circle c1"></div>
         <div className="circle c2"></div>
         <div className="circle c3"></div>
       </div>
-      <div ref={el => graphicRefs.current[1] = el} className="ethics-graphic-enhanced graphic-dynamic-lines" data-graphic-delay="0.5s">
+      <div ref={el => graphicRefs.current[1] = el} className="ethics-graphic-enhanced graphic-dynamic-lines animation-target-ethics-enhanced" data-graphic-delay="0.5s">
         <div className="d-line dl1"></div>
         <div className="d-line dl2"></div>
         <div className="d-line dl3"></div>
       </div>
-      <div ref={el => graphicRefs.current[2] = el} className="ethics-graphic-enhanced graphic-subtle-grid" data-graphic-delay="0.2s"></div>
+      <div ref={el => graphicRefs.current[2] = el} className="ethics-graphic-enhanced graphic-subtle-grid animation-target-ethics-enhanced" data-graphic-delay="0.2s"></div>
 
 
       <div className="ethical-commitment-content-area-enhanced">
 
-        {/* NOVA ROW PARA O BREADCRUMB */}
-        <Row ref={breadcrumbRef} className="ethics-breadcrumb-row animation-target-ethics-enhanced" data-delay="0.2"> {/* Adicionado ref e classes de animação */}
-          <Col>
-            <Text className="ethics-breadcrumb-text">
-              Quem somos | <span className="breadcrumb-current">Compromisso Ético</span> {/* Texto do breadcrumb */}
-            </Text>
-          </Col>
-        </Row>
+        {/* NOVO: Título Padronizado "Quem somos | Compromisso Ético" */}
+        <Row ref={standardTitleRef} className="section-standard-title-row animation-target-ethics-enhanced"> {/* Usando a classe de animação existente */}
+           <Col>
+             <Text className="section-standard-title-text">
+               Quem somos | <span className="section-standard-title-current">Compromisso Ético</span> {/* Texto do breadcrumb */}
+             </Text>
+           </Col>
+         </Row>
 
 
         <div ref={mainContentRef} className="ethical-main-text-block-enhanced animation-target-ethics-enhanced">
@@ -146,7 +173,8 @@ const EthicalCommitmentSection = () => {
         <Row gutter={[64, 56]} className="ethical-details-row-enhanced"> {/* Aumentado gutter vertical */}
           <Col xs={24} md={14} lg={15} className="principles-column-enhanced">
             <div ref={principlesListRef} className="principles-list-block-enhanced animation-target-ethics-enhanced">
-              <Title level={3} className="principles-list-title-enhanced">Princípios Essenciais da Nossa Atuação</Title>
+              {/* Título dos Princípios com capitalização corrigida */}
+              <Title level={3} className="principles-list-title-enhanced">Princípios essenciais da nossa atuação</Title>
               <List
                 className="core-principles-list-enhanced"
                 itemLayout="horizontal"
@@ -154,7 +182,8 @@ const EthicalCommitmentSection = () => {
                 renderItem={(item, index) => (
                   <List.Item
                     className="principle-item-enhanced"
-                    style={{transitionDelay: `${0.4 + index * 0.12}s`}} // Stagger mais suave
+                    // Delay para stagger aplicado via CSS quando o pai (.principles-list-block-enhanced) fica visível
+                    // style={{transitionDelay: `${0.4 + index * 0.12}s`}} // Stagger mais suave
                   >
                     <List.Item.Meta
                       avatar={<span className="principle-icon-enhanced">{item.icon}</span>}
@@ -180,12 +209,17 @@ const EthicalCommitmentSection = () => {
               </div>
               <div className="standards-block-enhanced">
                 <Title level={5} className="standards-title-enhanced">Referência às Normas e Padrões Internacionais</Title>
+                {/* Texto introdutório das normas corrigido */}
                 <Paragraph className="standards-intro-enhanced">
-                    Nosso compromisso ético alinha-se com as principais referências, incluindo:
+                    O nosso compromisso ético alinha-se com as principais referências, incluindo:
                 </Paragraph>
                 <ul className="standards-list-enhanced">
                   {internationalStandards.map((standard, index) => (
-                    <li key={index} style={{transitionDelay: `${0.6 + index * 0.1}s`}}>{standard}</li>
+                    <li
+                       key={index}
+                       // Delay para stagger aplicado via CSS quando o pai (.diagram-and-standards-block-enhanced) fica visível
+                       // style={{transitionDelay: `${0.6 + index * 0.1}s`}}
+                    >{standard}</li>
                   ))}
                 </ul>
               </div>

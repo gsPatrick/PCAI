@@ -1,4 +1,3 @@
-// src/components/ExpectedBenefitsSection/ExpectedBenefitsSection.jsx
 import React, { useEffect, useRef } from 'react';
 import { Row, Col, Typography } from 'antd';
 import {
@@ -46,14 +45,22 @@ const benefitsData = [
   },
 ];
 
+// Mantendo apenas os primeiros 4 para esta seção
+const benefitsCardsData = benefitsData.slice(0, 4);
+
+
 const ExpectedBenefitsSection = () => {
   const sectionRef = useRef(null);
+   // Ref para o novo título padronizado
+  const standardTitleRef = useRef(null);
   const textContentRef = useRef(null);
-  const benefitCardRefs = useRef(benefitsData.map(() => React.createRef()));
+  const benefitCardRefs = useRef(benefitsCardsData.map(() => React.createRef())); // Ajustado para usar benefitsCardsData
 
   useEffect(() => {
     const currentSectionRef = sectionRef.current;
+     // Observar o novo título padronizado, o bloco de texto e os cards
     const targetsToObserve = [
+        standardTitleRef.current, // Novo target
         textContentRef.current,
         ...benefitCardRefs.current.map(ref => ref.current)
     ].filter(Boolean);
@@ -93,6 +100,7 @@ const ExpectedBenefitsSection = () => {
 
   return (
     <div
+      id="benefits" // ID para linkagem do header
       ref={sectionRef}
       className="expected-benefits-section-wrapper vibrant-design"
       style={{ backgroundImage: `url(${backgroundCinza})` }} // Aplicando a imagem de fundo
@@ -106,8 +114,21 @@ const ExpectedBenefitsSection = () => {
 
 
         <div className="expected-benefits-content-area-vibrant">
+
+             {/* NOVO: Título Padronizado "As Soluções | Benefícios Esperados" */}
+             {/* Usando a mesma classe de animação que outros elementos para o Observer */}
+            <Row ref={standardTitleRef} className="section-standard-title-row animation-target-benefits-vibrant">
+              <Col>
+                <Text className="section-standard-title-text">
+                  As Soluções | <span className="section-standard-title-current">Benefícios Esperados</span> {/* Texto do título padronizado */}
+                </Text>
+              </Col>
+            </Row>
+
+
             <Row gutter={[64, 64]} align="center"> {/* Aumentado gutter vertical */}
                 <Col xs={24} lg={10} className="benefits-text-column-vibrant">
+                    {/* Ref no bloco de texto para animação */}
                     <div ref={textContentRef} className="benefits-text-block-vibrant animation-target-benefits-vibrant">
                         <Title level={1} className="benefits-main-heading-vibrant">
                             Transformando <span className="highlight-vibrant">Potencial</span> em <span className="highlight-vibrant">Performance</span> Excepcional
@@ -121,20 +142,25 @@ const ExpectedBenefitsSection = () => {
                         <Paragraph className="benefits-paragraph-vibrant strong-emphasis-vibrant">
                             Em tudo o que fazemos, acrescentamos sensibilidade e propósito:
                         </Paragraph>
+                        {/* Frase da citação com fonte Nazalization */}
                         <Paragraph className="benefits-quote-vibrant">
-                            “a IA deve compreender não apenas o que é dito — <span className="highlight-quote-vibrant">mas também como é sentido.</span>”
+                            <span className="nazalization-font"> {/* Aplica a classe Nazalization apenas na frase */}
+                                A IA deve compreender não apenas o que é dito — <span className="highlight-quote-vibrant">mas também como é sentido.</span>
+                            </span>
                         </Paragraph>
                         <Text className="benefits-section-footer-vibrant">PEOPLE CHANGE AI CONSULTING</Text>
                     </div>
                 </Col>
 
+                {/* Coluna com os 4 Cards */}
                 <Col xs={24} lg={14} className="benefits-cards-area-vibrant">
                     <div className="benefits-cards-grid-vibrant">
-                        {benefitsData.map((benefit, index) => (
+                        {benefitsCardsData.map((benefit, index) => ( // Usando benefitsCardsData (slice 0-3)
                             <div
                                 key={benefit.id}
                                 ref={benefitCardRefs.current[index]}
                                 className={`benefit-card-vibrant animation-target-benefits-vibrant card-${benefit.id}`}
+                                // Delay para stagger dos cards, inicia APÓS o textContentBlock
                                 style={{ '--benefit-card-accent': benefit.color, transitionDelay: `${0.3 + index * 0.18}s` }}
                             >
                                 <div className="card-vibrant-icon-bg">

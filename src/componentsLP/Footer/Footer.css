@@ -26,7 +26,7 @@
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
-    padding: 90px 0 50px;
+    padding: 60px 0 40px; /* Reduzido padding vertical */
     position: relative;
     /* Usar a cor secundária clara como padrão */
     color: var(--footer-text-secondary);
@@ -76,167 +76,95 @@
   }
 
   .footer-main-row-enhanced {
-    margin-bottom: 50px;
+    margin-bottom: 30px; /* Reduzido margin-bottom */
+    justify-content: center !important; /* Centraliza a coluna restante */
   }
 
   .footer-col-enhanced {
     margin-bottom: 30px;
-    text-align: left;
+    /* text-align: left; REMOVIDO - centralizado abaixo */
+     text-align: center; /* Centraliza o conteúdo da coluna principal */
+     display: flex; /* Usa flexbox para empilhar e centralizar */
+     flex-direction: column;
+     align-items: center; /* Centraliza itens horizontalmente dentro da coluna */
   }
-  @media (max-width: 767px) {
-    .footer-col-enhanced { text-align: center; }
-  }
+  /* @media (max-width: 767px) { REMOVIDO - agora é sempre centralizado } */
+  /* .footer-col-enhanced { text-align: center; } */
+
 
   .footer-logo-link {
     display: inline-block;
     transition: transform 0.4s var(--animation-ease-out-back-footer);
-    margin-bottom: 25px;
+    margin-bottom: 20px; /* Reduzido margin-bottom */
   }
   .footer-logo-link:hover {
     transform: scale(1.05) rotate(-2deg);
   }
   .footer-logo-enhanced {
-    max-width: 240px;
+    max-width: 200px; /* Reduzido max-width da logo */
     height: auto;
     display: block;
     filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3)); /* Sombra para destaque */
   }
-   @media (max-width: 767px) {
-    .footer-logo-link { margin-left: auto; margin-right: auto; }
-  }
+   /* @media (max-width: 767px) { REMOVIDO - agora é sempre centralizado } */
+   /* .footer-logo-link { margin-left: auto; margin-right: auto; } */
 
 
   .footer-description-enhanced {
     color: var(--footer-text-secondary); /* Usa a nova cor secundária clara */
-    font-size: 1rem;
-    line-height: 1.75;
-    margin-bottom: 30px;
-    max-width: 340px;
+    font-size: 0.95rem; /* Reduzido tamanho da fonte */
+    line-height: 1.7;
+    margin-bottom: 25px; /* Reduzido margin-bottom */
+    max-width: 340px; /* Mantido para legibilidade */
   }
   @media (max-width: 767px) {
     .footer-description-enhanced { max-width: 100%; }
   }
 
+  /* NOVA CLASSE PARA O WRAPPER DO ÍCONE SOCIAL */
+  .footer-social-icon-wrapper {
+      /* Este div será centralizado pelo display: flex e align-items: center do .footer-col-enhanced */
+      /* Não precisamos de estilos de layout complexos aqui */
+      margin-bottom: 0 !important; /* Garante que não haja margem extra abaixo */
+  }
 
-  .footer-social-icons-enhanced .anticon {
-    font-size: 2rem;
+
+  /* Ajuste os seletores para os ícones sociais */
+  /* Agora eles visam o ícone dentro do novo wrapper */
+  .footer-social-icon-wrapper .anticon {
+    font-size: 1.8rem; /* Reduzido tamanho dos ícones */
     color: var(--footer-text-secondary); /* Usa a nova cor secundária clara */
     transition: color 0.3s ease, transform 0.3s var(--animation-ease-out-back-footer), background-color 0.3s ease;
-    padding: 8px;
+    padding: 6px; /* Reduzido padding */
     border-radius: 50%;
+    display: block; /* Garante que o ícone é tratado como um bloco para padding/margins */
   }
-  .footer-social-icons-enhanced a:hover .anticon {
+  .footer-social-icon-wrapper a:hover .anticon {
     color: var(--footer-title-color); /* Cor branca no hover */
     background-color: var(--footer-social-icon-hover-bg);
-    transform: scale(1.2) translateY(-3px) rotate(5deg);
+    transform: scale(1.15) translateY(-2px) rotate(5deg); /* Ajustado transformação */
   }
 
-
-  .footer-col-title-enhanced {
-    color: var(--footer-title-color) !important; /* Branco */
-    font-size: 1.15rem !important;
-    font-weight: 600 !important;
-    margin-bottom: 25px !important;
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    position: relative;
-    padding-bottom: 8px;
-  }
-  .footer-col-title-enhanced::after {
-      content: ''; position: absolute; left: 0; bottom: 0;
-      width: 30px; height: 2px; background-color: var(--footer-accent-orange);
-      transform: scaleX(0); transform-origin: left;
-      transition: transform 0.6s var(--animation-ease-out-quint) 0.3s;
-  }
-  @media (max-width: 767px) {
-      .footer-col-title-enhanced::after { left: 50%; transform-origin: center; transform: translateX(-50%) scaleX(0); }
-  }
-  .footer-wrapper.footer-container-visible .anim-target.footer-element-visible .footer-col-title-enhanced::after {
-      transform: translateX(-50%) scaleX(1);
-  }
-  @media (max-width: 767px) {
-      .footer-wrapper.footer-container-visible .anim-target.footer-element-visible .footer-col-title-enhanced::after {
-          transform: translateX(-50%) scaleX(1);
-      }
-  }
-
-  /* Navegação */
-  .footer-link-list-enhanced {
-    list-style: none; padding: 0; margin: 0;
-  }
-  .footer-link-list-enhanced li {
-    margin-bottom: 12px;
-  }
-  .footer-link-list-enhanced li a {
-    color: var(--footer-text-secondary); /* Usa a nova cor secundária clara */
-    font-size: 1rem;
-    text-decoration: none;
-    transition: color 0.3s ease, transform 0.3s ease;
-    display: flex;
-    align-items: center;
-  }
-  .footer-link-list-enhanced li a:hover {
-    color: var(--footer-link-hover-color); /* Cor laranja no hover */
-    transform: translateX(5px);
-  }
-  .link-arrow {
-      font-size: 0.8em; margin-right: 8px; opacity: 0.8; /* Opacidade um pouco maior */
-      transition: opacity 0.3s ease, transform 0.3s ease;
-  }
-  .footer-link-list-enhanced li a:hover .link-arrow {
-      opacity: 1; transform: scale(1.1);
-  }
-
-  /* Novos estilos para os botões de contato */
-  .footer-contact-buttons {
-      display: flex;
-      flex-direction: column; /* Botões empilhados */
-      gap: 12px; /* Espaço entre os botões */
-  }
-   @media (max-width: 767px) {
-      .footer-contact-buttons { align-items: center; } /* Centraliza botões em mobile */
-  }
-
-  .footer-contact-button.ant-btn {
-      background-color: transparent !important; /* Fundo transparente */
-      border: 1px solid var(--footer-button-border) !important; /* Borda sutil */
-      color: var(--footer-button-text) !important; /* Texto branco */
-      font-weight: 500 !important;
-      padding: 10px 18px !important;
-      height: auto !important;
-      font-size: 1rem !important;
-      border-radius: 8px !important;
-      width: 100%; /* Ocupa a largura total da coluna */
-      max-width: 250px; /* Limite a largura máxima dos botões */
-      display: flex !important;
-      align-items: center !important;
-      justify-content: center !important;
-      gap: 8px; /* Espaço entre ícone e texto */
-      transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-  }
-
-  .footer-contact-button.ant-btn:hover {
-      background-color: var(--footer-button-bg) !important; /* Fundo laranja no hover */
-      border-color: var(--footer-button-bg) !important;
-      color: var(--footer-button-text) !important;
-      transform: translateY(-3px);
-      box-shadow: 0 4px 10px rgba(239, 124, 18, 0.3);
-  }
-
-  .footer-contact-button.ant-btn .anticon {
-      color: var(--footer-accent-orange) !important; /* Ícone laranja por padrão */
-      font-size: 1.1em !important;
-      transition: color 0.3s ease;
-  }
-  .footer-contact-button.ant-btn:hover .anticon {
-      color: var(--footer-button-text) !important; /* Ícone branco no hover */
-  }
+  /* REMOVIDOS: Navegação e Contato */
+  /* .footer-col-title-enhanced { ... } */
+  /* .footer-col-title-enhanced::after { ... } */
+  /* .footer-link-list-enhanced { ... } */
+  /* .footer-link-list-enhanced li { ... } */
+  /* .footer-link-list-enhanced li a { ... } */
+  /* .footer-link-list-enhanced li a:hover { ... } */
+  /* .link-arrow { ... } */
+  /* .footer-link-list-enhanced li a:hover .link-arrow { ... } */
+  /* .footer-contact-buttons { ... } */
+  /* .footer-contact-button.ant-btn { ... } */
+  /* .footer-contact-button.ant-btn:hover { ... } */
+  /* .footer-contact-button.ant-btn .anticon { ... } */
+  /* .footer-contact-button.ant-btn:hover .anticon { ... } */
 
 
   .footer-divider-wrapper {}
   .footer-divider-enhanced {
     border-color: var(--footer-divider-color) !important;
-    margin: 40px 0 !important;
+    margin: 30px 0 !important; /* Reduzido margin vertical */
     transform: scaleX(0);
     transform-origin: center;
     transition: transform 1s var(--animation-ease-out-quint) !important;
@@ -246,13 +174,13 @@
   }
 
   .footer-credits-row-enhanced {
-    margin-bottom: 25px;
+    margin-bottom: 15px; /* Espaço menor entre créditos e copyright */
     text-align: center; /* Centralizado */
   }
   .footer-credits-text-enhanced {
-    font-size: 0.95rem;
+    font-size: 0.9rem; /* Reduzido tamanho da fonte */
     color: var(--footer-text-secondary); /* Usa a nova cor secundária clara */
-    line-height: 1.7;
+    line-height: 1.6;
   }
   .heart-icon {
       color: var(--footer-accent-orange);
@@ -264,57 +192,48 @@
       0%, 100% { transform: scale(1); }
       50% { transform: scale(1.25); }
   }
+  /* Classe para forçar quebra de linha no link do desenvolvedor em mobile */
   .footer-credits-text-enhanced .mobile-break { display: none; }
-  @media (max-width: 480px) {
-      .footer-credits-text-enhanced .mobile-break { display: block; }
+  .footer-credits-text-enhanced .mobile-break-dev { /* Adicionado estilo para a quebra de linha específica */
+      display: none; /* Oculto por padrão */
+  }
+  @media (max-width: 480px) { /* Exibe a quebra de linha específica apenas em mobile */
+      .footer-credits-text-enhanced .mobile-break-dev {
+          display: block;
+      }
   }
 
-  /* Estilos para o link do desenvolvedor */
+
+  /* Estilos para o link do desenvolvedor - Minimalista */
   .patrick-developer-link {
-    color: var(--footer-accent-orange);
-    font-weight: 600;
+    color: var(--footer-text-secondary); /* Cor base para o link */
+    font-weight: 500; /* Inter Medium */
     text-decoration: none;
-    position: relative;
-    display: inline-block;
-    padding: 2px 0;
     transition: color 0.3s ease;
   }
-  .patrick-developer-link::after {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 2px;
-    bottom: 0;
-    left: 0;
-    background-color: var(--footer-link-hover-color);
-    transform: scaleX(0);
-    transform-origin: bottom right;
-    transition: transform 0.4s var(--animation-ease-out-quint);
-  }
+  /* Remover o underline animado */
+  /* .patrick-developer-link::after { ... } */
   .patrick-developer-link:hover {
-    color: var(--footer-link-hover-color);
+    color: var(--footer-accent-orange); /* Cor laranja no hover */
+    text-decoration: underline; /* Underline simples no hover */
   }
-  .patrick-developer-link:hover::after {
-    transform: scaleX(1);
-    transform-origin: bottom left;
-  }
+  /* Remover a animação do underline no hover */
+  /* .patrick-developer-link:hover::after { ... } */
+
 
   .footer-copyright-row-enhanced {
     text-align: center; /* Centralizado */
   }
   .footer-copyright-text-enhanced {
-    font-size: 0.9rem;
+    font-size: 0.85rem; /* Reduzido tamanho da fonte */
     color: var(--footer-text-secondary); /* Usa a nova cor secundária clara */
     opacity: 0.9;
   }
 
+  /* Responsividade Geral - Ajustado após centralização */
   @media (max-width: 767px) {
-    .footer-wrapper.enhanced { padding: 70px 0 40px; }
+    .footer-wrapper.enhanced { padding: 50px 0 30px; } /* Mais redução em mobile */
     .footer-content-area-enhanced { padding: 0 20px; }
-    .footer-col-enhanced { margin-bottom: 40px; }
-    .footer-social-icons-enhanced { justify-content: center; }
-    .footer-link-list-enhanced { text-align: center; }
-    .footer-link-list-enhanced li a { justify-content: center; }
-    /* Removido o estilo anterior para centralizar o item, agora o container flexbox centraliza */
-    /* .footer-contact-item-enhanced { justify-content: center; } */
+    .footer-col-enhanced { margin-bottom: 30px; }
+    /* Social icons já centralizados pelo flexbox do pai */
   }

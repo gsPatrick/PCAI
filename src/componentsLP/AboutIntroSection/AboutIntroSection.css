@@ -11,7 +11,38 @@
     --animation-ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
     --animation-ease-in-out-sine: cubic-bezier(0.37, 0, 0.63, 1);
     --animation-ease-out-back: cubic-bezier(0.34, 1.56, 0.64, 1); /* Easing com "overshoot" */
+
+    /* Cores padronizadas para títulos de seção */
+    --standard-title-category-color: #3A3D57; /* Azul marinho */
+    --standard-title-current-color: #2D3748; /* Azul escuro acinzentado */
   }
+
+  /* Estilos Padronizados para Títulos de Seção (Breadcrumb-like) */
+  .section-standard-title-row {
+      margin-bottom: 40px; /* Espaço consistente abaixo do título */
+      text-align: left; /* Alinhamento padrão */
+      width: 100%; /* Ocupa a largura total para centralização em mobile */
+  }
+  /* Centralizar em telas menores */
+  @media (max-width: 767px) {
+      .section-standard-title-row {
+          text-align: center;
+      }
+  }
+
+  .section-standard-title-text {
+      font-size: 1.1rem;
+      font-weight: 500; /* Inter Medium */
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+     
+  }
+
+  .section-standard-title-current-azul {
+      font-weight: 600; /* Inter SemiBold */
+      color: white !important;
+  }
+
 
   .about-intro-section-wrapper {
     font-family: var(--about-font-family);
@@ -77,7 +108,7 @@
 
 
   /* Animação individual para cada parágrafo e tagline DENTRO do bloco de texto */
-  .text-content-block .section-tagline-about,
+  /* A TAGLINE AGORA É O TÍTULO PADRONIZADO, ESTE SELETOR FOI AJUSTADO */
   .text-content-block .main-paragraph-about,
   .text-content-block .secondary-paragraph-about,
   .text-content-block .emphasis-paragraph-about,
@@ -86,13 +117,23 @@
     transform: translateY(25px);
     transition: opacity 0.8s var(--animation-ease-out-expo), transform 0.8s var(--animation-ease-out-expo);
   }
+  /* Adicionar a classe para o título padronizado */
+   .section-standard-title-row {
+      opacity: 0;
+      transform: translateY(25px);
+      transition: opacity 0.8s var(--animation-ease-out-expo), transform 0.8s var(--animation-ease-out-expo);
+   }
+
 
   /* Staggering para os textos (ativos APENAS quando o bloco pai animation-target-intro está visível) */
-  .text-content-block.animate-item-in-view .section-tagline-about { transition-delay: 0.2s; opacity: 1; transform: translateY(0); }
+  /* A TAGLINE AGORA É O TÍTULO PADRONIZADO, ESTE SELETOR FOI AJUSTADO */
   .text-content-block.animate-item-in-view .main-paragraph-about { transition-delay: 0.4s; opacity: 1; transform: translateY(0); }
   .text-content-block.animate-item-in-view .secondary-paragraph-about { transition-delay: 0.6s; opacity: 1; transform: translateY(0); }
   .text-content-block.animate-item-in-view .emphasis-paragraph-about { transition-delay: 0.8s; opacity: 1; transform: translateY(0); }
   .about-footer-row.animate-item-in-view .about-footer-brand-text { transition-delay: 0.3s; opacity: 1; transform: translateY(0); } /* Footer anima com seu próprio container */
+
+  /* Stagger para o título padronizado (anima antes dos demais) */
+  .section-standard-title-row.animate-item-in-view { transition-delay: 0.2s; opacity: 1; transform: translateY(0); }
 
 
   .about-text-column {
@@ -102,24 +143,10 @@
     z-index: 2;
   }
 
-  .section-tagline-about {
-    color: var(--about-text-medium) !important;
-    font-size: 1.2rem !important;
-    font-weight: 500 !important;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    margin-bottom: 30px !important;
-    display: inline-block;
-    position: relative;
-  }
-  .section-tagline-about::after {
-    content: ''; position: absolute; width: 0%; height: 2px;
-    bottom: -8px; left: 0; background-color: var(--about-accent-orange);
-    transition: width 0.8s var(--animation-ease-out-expo) 0.5s; /* Anima após o texto aparecer */
-  }
-  .text-content-block.animate-item-in-view .section-tagline-about::after { /* Animação da linha */
-    width: 70%;
-  }
+  /* REMOVIDO O ESTILO DA TAGLINE ANTIGA - AGORA USAMOS O PADRÃO */
+  /* .section-tagline-about { ... } */
+  /* .section-tagline-about::after { ... } */
+  /* .text-content-block.animate-item-in-view .section-tagline-about::after { ... } */
 
 
   .main-paragraph-about {
@@ -292,7 +319,8 @@
     .main-paragraph-about, .secondary-paragraph-about, .emphasis-paragraph-about {
       margin-left: auto; margin-right: auto;
     }
-    .section-tagline-about { text-align: center; width: auto; display: block; }
+    /* A TAGLINE ANTIGA FOI REMOVIDA, O NOVO TÍTULO PADRÃO JÁ TRATA A CENTRALIZAÇÃO */
+    /* .section-tagline-about { text-align: center; width: auto; display: block; } */
      .about-shape-column { min-height: 300px; margin-top: 40px; } /* Ajusta min-height e margin-top */
     .organic-image-wrapper { /* Ajusta wrapper para telas pequenas */
         width: clamp(280px, 80vw, 400px);

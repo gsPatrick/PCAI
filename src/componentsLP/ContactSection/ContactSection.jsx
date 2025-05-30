@@ -26,15 +26,16 @@ const contactInfo = {
 
 const ContactSection = () => {
   const sectionRef = useRef(null);
-  const breadcrumbRef = useRef(null); // Novo Ref para o breadcrumb
+  // Ref para o novo título padronizado (substitui breadcrumbRef)
+  const standardTitleRef = useRef(null);
   const mainBlockRef = useRef(null); // Para o título e subtítulo principal
   const detailsRef = useRef(null); // Para a grid de cards
 
   useEffect(() => {
     const currentSectionRef = sectionRef.current;
-    // Observar o breadcrumb, o bloco principal de texto e a grid de detalhes (cards)
+    // Observar o novo título padronizado, o bloco principal de texto e a grid de detalhes (cards)
     const targetsToObserve = [
-        breadcrumbRef.current, // Adicionar o breadcrumb para observação
+        standardTitleRef.current, // NOVO Ref
         mainBlockRef.current,
         detailsRef.current
     ].filter(Boolean);
@@ -55,7 +56,7 @@ const ContactSection = () => {
     targetsToObserve.forEach(target => {
       if (target) observer.observe(target);
     });
-    
+
     // Observer para ativar a seção (animações de fundo)
     const sectionEntryObserver = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting) {
@@ -63,7 +64,7 @@ const ContactSection = () => {
             sectionEntryObserver.unobserve(currentSectionRef); // Unobserve a seção depois de ativada
         }
     }, { threshold: 0.05 }); // Inicia as animações de fundo mais cedo
-    
+
     if (currentSectionRef) sectionEntryObserver.observe(currentSectionRef);
 
 
@@ -78,6 +79,7 @@ const ContactSection = () => {
 
   return (
     <div
+      id="contact" // ID para linkagem do header
       ref={sectionRef}
       className="contact-section-wrapper alt-contact-design"
       style={{ backgroundImage: `url(${backgroundCinza})` }} // Aplicando a imagem de fundo
@@ -89,21 +91,25 @@ const ContactSection = () => {
       </div>
 
       <div className="contact-alt-content-area">
-        {/* NOVO: Breadcrumb "Contato" */}
-        <Row ref={breadcrumbRef} className="contact-alt-breadcrumb-row animation-target-contact-alt">
+        {/* NOVO: Título Padronizado "Contato" - SUBSTITUI O BREADCRUMB ANTIGO */}
+         <Row ref={standardTitleRef} className="section-standard-title-row animation-target-contact-alt"> {/* Usando as classes de animação da seção */}
             <Col>
-                <Text className="contact-alt-breadcrumb-text">Contato</Text>
+              <Text className="section-standard-title-text">
+                Contacto
+              </Text>
             </Col>
-        </Row>
+         </Row>
+
 
         <div ref={mainBlockRef} className="contact-main-call-block animation-target-contact-alt">
           {/* <img src={fullCompanyLogo} alt="People Change AI Consulting" className="contact-alt-logo" /> LOGO REMOVIDA */}
           <Title level={1} className="contact-main-heading-alt">
             Prontos para <span className="highlight-alt">Cocriar</span> o Futuro?
           </Title>
+          {/* SUBTÍTULO CORRIGIDO */}
           <Paragraph className="contact-subtitle-alt">
             A IA já está aqui. O verdadeiro desafio é aplicá-la com propósito e foco humano para transformar a sua realidade.
-            Vamos conversar sobre como podemos fazer isso juntos.
+            Vamos conversar e perceber que desafios a sua empresa precisa solucionar?
           </Paragraph>
           {/* BOTÃO PRINCIPAL REMOVIDO */}
           {/*

@@ -403,4 +403,459 @@
     .solution-card-alt-subtitle { font-size: 0.8rem !important; }
     .solution-card-alt-description { font-size: 0.9rem !important; }
     .card-alt-icon-container .anticon { font-size: 2.5rem; }
+  }/* src/components/SolutionsOverviewSection/SolutionsOverviewSection.css */
+:root {
+    --sol-font-family: 'Inter', sans-serif;
+    /* Defina a fonte Nazalization aqui ou importe globalmente via @font-face */
+    --sol-nazalization-font: 'Nazalization', cursive, sans-serif; /* Placeholder */
+    --sol-accent-orange: #EF7C12;
+    /* Cores ajustadas para o novo fundo azul */
+    --sol-title-blue: #FFFFFF; /* Títulos principais agora brancos */
+    --sol-text-primary: #FFFFFF; /* Texto principal agora branco */
+    --sol-text-secondary: #CED4DA; /* Cinza claro para textos menos importantes (descrições) */
+    --sol-text-light: #ADB5BD; /* Cinza ainda mais claro */
+    --sol-background-azul: url('../../assets/images/backgroundAzul.png'); /* Nova variável para o background azul */
+    --sol-card-background: #F9FAFB; /* Fundo dos cards superiores */
+    --sol-card-alt-background: #FFFFFF; /* Fundo dos cards inferiores (distinto) */
+    --sol-card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.03);
+    --sol-card-hover-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
+    /* Cores de destaque para cada card */
+    --solution-color-1: #EF7C12; /* Orange */
+    --solution-color-2: #3A3D57; /* Dark Blue/Gray */
+    --solution-color-3: #4299E1; /* Medium Blue */
+    --solution-color-4: #48BB78; /* Green */
+    --solution-color-5: #8B5CF6; /* Purple */
+    --solution-color-6: #DB2777; /* Pink/Magenta */
+
+    --animation-ease-out-quint: cubic-bezier(0.23, 1, 0.32, 1);
+    --animation-ease-out-cubic: cubic-bezier(0.215, 0.61, 0.355, 1);
+
+     /* Cores padronizadas para títulos de seção (replicadas) */
+    --standard-title-category-color: #CED4DA; /* Cinza claro para a categoria */
+    --standard-title-current-color: #F8F9FA; /* Mais branco para a seção atual */
+  }
+
+   /* Estilo para a fonte Nazalization */
+  .nazalization-font {
+      font-family: var(--sol-nazalization-font);
+  }
+
+
+  /* Estilos Padronizados para Títulos de Seção (Breadcrumb-like) - REPLICADOS */
+  .section-standard-title-row {
+      margin-bottom: 40px; /* Espaço consistente abaixo do título */
+      text-align: left; /* Alinhamento padrão */
+      width: 100%; /* Ocupa a largura total para centralização em mobile */
+  }
+  /* Centralizar em telas menores */
+  @media (max-width: 767px) {
+      .section-standard-title-row {
+          text-align: center;
+      }
+  }
+
+  .section-standard-title-text {
+      font-size: 1.1rem;
+      font-weight: 500; /* Inter Medium */
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: var(--standard-title-category-color); /* Cor para a categoria */
+  }
+
+  .section-standard-title-current {
+      font-weight: 600; /* Inter SemiBold */
+      color: var(--standard-title-current-color); /* Cor para a seção atual */
+  }
+
+
+  .solutions-overview-section-wrapper {
+    font-family: var(--sol-font-family);
+    /* Usando a nova variável de background */
+    background-image: var(--sol-background-azul); /* Aplicando a imagem de fundo azul granulado */
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    padding: 100px 0 120px 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Elementos Gráficos de Fundo (Manter, mas podem precisar de ajuste de opacidade ou cor para o fundo azul) */
+  .solution-graphic {
+    position: absolute;
+    opacity: 0;
+    z-index: 0;
+    pointer-events: none;
+    transition: opacity 1.5s var(--animation-ease-out-quint), transform 1.5s var(--animation-ease-out-quint);
+  }
+  .solutions-overview-section-wrapper.section-activated .solution-graphic {
+    opacity: 1;
+  }
+  /* Ajustar opacidade dos gráficos para o fundo azul */
+  .sol-graphic-1 {
+    width: 40vw; height: 40vw; max-width: 500px; max-height: 500px;
+    /* Ajuste o gradiente para tons mais sutis ou remova */
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0) 70%); /* Tons brancos sutis */
+    border-radius: 45% 55% 60% 40% / 50% 60% 40% 50%;
+    top: 5%; left: -15vw;
+    transform: rotate(-20deg) scale(0.8);
+    transition-delay: 0.3s;
+  }
+  .solutions-overview-section-wrapper.section-activated .sol-graphic-1 {
+    transform: rotate(0deg) scale(1); opacity: 0.2; /* Reduzir opacidade */
+  }
+  .sol-graphic-2 {
+    width: 200px; height: 200px; bottom: 10%; right: -50px;
+    transform: rotate(45deg) translateX(30px);
+     /* Ajustar padrão de linhas para tons mais sutis ou remova */
+    background: repeating-linear-gradient(-45deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.03) 5px, transparent 5px, transparent 15px); /* Tons brancos sutis */
+    transition-delay: 0.5s; opacity: 0;
+  }
+  .solutions-overview-section-wrapper.section-activated .sol-graphic-2 {
+    transform: rotate(45deg) translateX(0px); opacity: 0.1; /* Reduzir opacidade */
+  }
+  .sol-graphic-3 {
+    width: 80px; height: 80px; background-color: rgba(255, 255, 255, 0.1); /* Branco sutil */
+    border-radius: 50%; top: 60%; left: 5%;
+    transform: scale(0); transition-delay: 0.7s; opacity: 0;
+  }
+  .solutions-overview-section-wrapper.section-activated .sol-graphic-3 {
+    transform: scale(1); opacity: 0.05; /* Reduzir opacidade */
+  }
+
+
+  .solutions-content-main {
+    max-width: 1140px; margin: 0 auto; padding: 0 30px;
+    position: relative; z-index: 1; text-align: center;
+  }
+
+  .animation-target-solutions {
+    opacity: 0; transform: translateY(30px);
+    transition: opacity 1s var(--animation-ease-out-cubic), transform 1s var(--animation-ease-out-cubic);
+  }
+  .animation-target-solutions.visible-in-view {
+    opacity: 1; transform: translateY(0px);
+  }
+
+   /* Adiciona animação para o título padronizado (usa a mesma classe base) */
+   .section-standard-title-row.animation-target-solutions {
+      transition-delay: 0.1s; /* Entra antes do bloco de conteúdo principal */
+   }
+
+  .solutions-title-block {
+    margin-bottom: 70px; transition-delay: 0.2s;
+  }
+
+  .solutions-main-title {
+    font-weight: 700 !important; /* Título em negrito */
+    font-size: clamp(2.3rem, 4.5vw, 3.2rem) !important;
+    line-height: 1.3 !important;
+    color: var(--sol-title-blue) !important; /* Título principal AGORA BRANCO */
+    margin-bottom: 15px !important;
+  }
+  .solutions-main-title .highlight-orange-sol {
+    color: var(--sol-accent-orange) !important; /* Mantém o highlight laranja se usado */
+  }
+
+  /* Subtítulo com fonte Inter Normal (já é o padrão) */
+  .solutions-main-subtitle {
+    font-size: clamp(1.1rem, 2.2vw, 1.3rem);
+    color: var(--sol-text-secondary); /* Cor cinza clara */
+    line-height: 1.7; max-width: 600px; margin: 0 auto 30px auto !important;
+    font-family: var(--sol-font-family); /* Garante Inter Normal */
+  }
+
+  .solutions-subsection-title {
+    font-weight: 600 !important; font-size: clamp(1.5rem, 3vw, 1.8rem) !important;
+    color: var(--sol-text-primary) !important; /* Subtítulo AGORA BRANCO */
+    margin-top: 50px !important; /* Espaço extra antes deste título */
+    margin-bottom: 10px !important; position: relative; display: inline-block;
+  }
+
+  .solutions-subsection-title::after {
+    content: ''; position: absolute; width: 60%; height: 3px;
+    background-color: var(--sol-accent-orange); bottom: -8px; left: 50%;
+    transform: translateX(-50%) scaleX(0); transform-origin: center;
+    transition: transform 0.6s var(--animation-ease-out-cubic) 0.3s;
+  }
+  /* A animação da linha underline está ligada ao title-block pai, não ao subtitle individual */
+  .solutions-title-block.visible-in-view .solutions-subsection-title::after {
+    transform: translateX(-50%) scaleX(1);
+  }
+
+
+  /* GRID DOS 4 PRIMEIROS CARDS */
+  .solutions-cards-grid.top-cards-grid {
+      display: grid;
+      /* Tenta 4 colunas de no mínimo 220px, ou ocupa o espaço disponível */
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+      gap: 25px; /* Gap entre os cards */
+      margin-top: 50px; /* Espaço após o subtítulo */
+      transition-delay: 0.3s;
+  }
+
+  /* GRID DOS 2 CARDS DE BAIXO */
+  .solutions-cards-grid.bottom-cards-grid {
+      display: grid;
+      /* Tenta 2 colunas de no mínimo 350px, ou ocupa o espaço disponível */
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 350px), 1fr));
+      gap: 30px;
+      margin-top: 60px; /* Espaço maior após o primeiro grid de cards */
+      transition-delay: 0.4s; /* Entra um pouco depois do primeiro grid */
+      justify-content: center; /* Centraliza o grid se houver menos de 2 colunas completas */
+      max-width: 900px; /* Limita a largura para centralizar melhor */
+      margin-left: auto;
+      margin-right: auto;
+  }
+
+
+  /* Estilos para os 4 Primeiros Cards (Mantidos - Fundo Claro) */
+  .solution-card-wrapper {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+    transition: opacity 0.7s var(--animation-ease-out-cubic), transform 0.7s var(--animation-ease-out-cubic), box-shadow 0.3s ease;
+    transition-delay: var(--animation-delay); /* Staggering aplicado via JS */
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+  }
+  /* A animação agora é disparada pela classe `visible-in-view` no container pai */
+  .solutions-cards-grid.visible-in-view .solution-card-wrapper {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  .solution-card-inner {
+    background-color: var(--sol-card-background); /* Fundo claro mantido */
+    padding: 30px 35px 35px;
+    text-align: left;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    border-top: 4px solid var(--card-highlight-color);
+    box-shadow: var(--sol-card-shadow);
+    transition: transform 0.35s var(--animation-ease-out-cubic), box-shadow 0.35s var(--animation-ease-out-cubic);
+    position: relative;
+  }
+
+  .solution-card-wrapper:hover .solution-card-inner {
+    transform: translateY(-8px);
+    box-shadow: var(--sol-card-hover-shadow);
+  }
+  /* REMOVIDO HOVER NA SETA */
+  /* .solution-card-wrapper:hover .solution-card-arrow { ... } */
+  .solution-card-wrapper:hover .icon-bg-shape {
+      transform: scale(1.5);
+      opacity: 0.15;
+  }
+
+  .card-icon-container {
+    font-size: 2.5rem;
+    color: var(--card-highlight-color);
+    margin-bottom: 20px;
+    position: relative;
+    display: inline-block;
+    z-index: 1;
+  }
+  .icon-bg-shape {
+    position: absolute; top: 50%; left: 50%;
+    width: 70px; height: 70px; background-color: var(--card-highlight-color);
+    border-radius: 50%; transform: translate(-50%, -50%) scale(1);
+    opacity: 0.08; z-index: -1;
+    transition: transform 0.4s var(--animation-ease-out-cubic), opacity 0.4s ease;
+  }
+
+  .solution-card-title {
+    font-weight: 600 !important; font-size: 1.35rem !important;
+    color: var(--sol-text-primary) !important; /* Texto do card AGORA PRETO (usando var --sol-text-primary) - CORRIGIDO para ser preto/escuro nos cards */
+    color: #1A202C !important; /* Definido explicitamente a cor escura para o texto do card */
+    margin: 0 0 8px 0 !important;
+    line-height: 1.4;
+  }
+  .solution-card-subtitle-tag {
+    display: block; font-size: 0.8rem;
+    color: #4A5568; /* Cor secundária escura para subtítulo do card */
+    font-weight: 500; margin-top: 4px; text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .solution-card-description {
+    font-size: 1rem;
+    color: #4A5568; /* Cor secundária escura para descrição do card */
+    line-height: 1.7; margin-bottom: 20px !important;
+    flex-grow: 1;
+  }
+
+  /* REMOVIDO ESTILO DA SETA */
+  /* .solution-card-arrow { ... } */
+
+
+   /* Estilos para os 2 Cards de Baixo (NOVO DESIGN - Fundo Branco) */
+   .solution-card-wrapper-alt {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+        transition: opacity 0.7s var(--animation-ease-out-cubic), transform 0.7s var(--animation-ease-out-cubic), box-shadow 0.3s ease;
+        transition-delay: var(--animation-delay); /* Staggering aplicado via JS */
+        border-radius: 12px;
+        overflow: hidden;
+        position: relative;
+        background-color: var(--sol-card-alt-background); /* Fundo branco */
+        border: 1px solid #E2E8F0; /* Borda sutil */
+        box-shadow: var(--sol-card-shadow); /* Aplica sombra base */
+   }
+    /* A animação agora é disparada pela classe `visible-in-view` no container pai */
+   .solutions-cards-grid.visible-in-view .solution-card-wrapper-alt {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+   }
+
+
+   .solution-card-inner-alt {
+       padding: 25px 30px; /* Ajuste padding */
+       text-align: left;
+       height: 100%;
+       display: flex;
+       flex-direction: row; /* Layout horizontal padrão */
+       align-items: center; /* Alinha icone e content verticalmente */
+       gap: 20px; /* Espaço entre icone e content */
+       transition: transform 0.35s var(--animation-ease-out-cubic), box-shadow 0.35s var(--animation-ease-out-cubic);
+       position: relative;
+   }
+   .solution-card-wrapper-alt:hover .solution-card-inner-alt {
+       transform: translateY(-8px); /* Mantém o efeito de levantar */
+       box-shadow: var(--sol-card-hover-shadow); /* Sombra no hover */
+   }
+    /* REMOVIDO HOVER NA SETA */
+   /* .solution-card-wrapper-alt:hover .solution-card-alt-arrow { ... } */
+
+   .card-alt-icon-container {
+       font-size: 3rem; /* Ícone maior */
+       color: var(--card-highlight-color); /* Cor baseada no card */
+       flex-shrink: 0; /* Impede que o ícone encolha */
+   }
+
+   .card-alt-content {
+       flex-grow: 1; /* Conteúdo flexível */
+   }
+
+   .solution-card-alt-title {
+       font-weight: 700 !important; /* Bold */
+       font-size: 1.2rem !important;
+       color: #1A202C !important; /* Cor primária escura para o título do card */
+       margin: 0 0 4px 0 !important;
+       line-height: 1.3;
+   }
+   .solution-card-alt-subtitle {
+       display: block; font-size: 0.85rem;
+       color: #718096; /* Cor clara escura para subtítulo do card */
+       font-weight: 500; margin-bottom: 10px !important; text-transform: uppercase;
+       letter-spacing: 0.5px;
+   }
+    .solution-card-alt-subtitle.ant-typography { /* Corrige estilo do Text AntD */
+        margin-bottom: 10px; display: block;
+    }
+
+   .solution-card-alt-description {
+       font-size: 0.95rem;
+       color: #4A5568; /* Cor secundária escura para descrição do card */
+       line-height: 1.6; margin: 0 !important;
+   }
+
+    /* REMOVIDO ESTILO DA SETA */
+    /* .solution-card-alt-arrow { ... } */
+
+
+
+  .solutions-cta-block {
+    margin-top: 80px;
+    transition-delay: 0.5s;
+  }
+
+  .solutions-cta-text {
+    font-size: clamp(1.2rem, 2.5vw, 1.6rem); font-weight: 500;
+    color: var(--sol-text-primary); /* CTA text AGORA BRANCO */
+    max-width: 650px;
+    margin: 0 auto !important; line-height: 1.6;
+    font-family: var(--sol-nazalization-font); /* Aplicando Nazalization */
+  }
+  .solutions-cta-text .highlight-orange-sol {
+     color: var(--sol-accent-orange);
+  }
+
+  /* Responsividade */
+  @media (max-width: 1200px) {
+      .solutions-cards-grid.top-cards-grid {
+          grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); /* Mantém 4 colunas se houver espaço */
+      }
+       .solutions-cards-grid.bottom-cards-grid {
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); /* Ajusta minmax */
+       }
+  }
+
+  @media (max-width: 991px) { /* Tablet */
+    .solutions-overview-section-wrapper { padding: 80px 0 100px 0; }
+    .solutions-main-title { font-size: clamp(2.1rem, 4vw, 2.8rem) !important; }
+    .sol-graphic-1 { left: -20vw; }
+
+    .solutions-cards-grid.top-cards-grid {
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); /* 2 colunas */
+    }
+    .solutions-cards-grid.bottom-cards-grid {
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); /* 1 ou 2 colunas */
+        max-width: 650px; /* Limita a largura */
+    }
+     /* Em tablet, os cards de baixo continuam horizontais por padrão */
+     .solution-card-inner-alt {
+         flex-direction: row;
+         align-items: center;
+         gap: 20px;
+         text-align: left; /* Garante alinhamento */
+     }
+      .card-alt-icon-container { margin-bottom: 0; }
+      .solution-card-alt-subtitle.ant-typography { text-align: left; }
+     /* REMOVIDO ESTILO RESPONSIVO DA SETA */
+     /* .solution-card-alt-arrow { align-self: center; } */
+  }
+
+  @media (max-width: 767px) { /* Mobile Horizontal e Tablet Pequeno */
+    .solutions-cards-grid.top-cards-grid,
+    .solutions-cards-grid.bottom-cards-grid {
+      grid-template-columns: 1fr; /* Uma coluna */
+      gap: 30px;
+      max-width: 400px; /* Limita a largura em mobile */
+      margin-left: auto; /* Centraliza em mobile */
+      margin-right: auto; /* Centraliza em mobile */
+    }
+    .solutions-content-main { padding: 0 20px; }
+    .sol-graphic-2, .sol-graphic-3 { display: none; }
+    .sol-graphic-1 { top: 0; left: -30vw; width: 60vw; height: 60vw;}
+
+    /* Em mobile, os cards de baixo empilham o conteúdo */
+    .solution-card-inner-alt {
+         flex-direction: column;
+         align-items: center; /* Centraliza conteúdo */
+         gap: 15px;
+         text-align: center; /* Centraliza texto */
+     }
+     .card-alt-icon-container { margin-bottom: 5px; } /* Ajusta margem */
+      .solution-card-alt-subtitle.ant-typography { text-align: center; }
+     /* REMOVIDO ESTILO RESPONSIVO DA SETA */
+     /* .solution-card-alt-arrow { align-self: center; margin-top: 10px; } */
+  }
+
+
+  @media (max-width: 480px) { /* Mobile Vertical */
+    .solutions-overview-section-wrapper { padding: 70px 0 80px 0; }
+    .solutions-main-title { font-size: clamp(1.9rem, 6vw, 2.4rem) !important; }
+    .solutions-main-subtitle { font-size: 1rem; }
+    .solutions-subsection-title { font-size: clamp(1.3rem, 4vw, 1.6rem) !important; margin-top: 40px !important; }
+    .solution-card-title { font-size: 1.2rem !important; }
+    .solution-card-description { font-size: 0.95rem; }
+    .solutions-cta-text { font-size: 1.1rem; }
+
+    .solution-card-alt-title { font-size: 1.1rem !important; }
+    .solution-card-alt-subtitle { font-size: 0.8rem !important; }
+    .solution-card-alt-description { font-size: 0.9rem !important; }
+    .card-alt-icon-container .anticon { font-size: 2.5rem; }
   }
