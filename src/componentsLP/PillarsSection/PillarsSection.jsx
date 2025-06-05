@@ -109,7 +109,7 @@ const PillarsSection = () => {
         <Row className="pillars-breadcrumb-row">
           <Col>
             <Text className="pillars-breadcrumb-text">
-              Quem somos | <span className="breadcrumb-current">Pilares</span>
+              QUEM SOMOS | <span className="breadcrumb-current">PILARES</span>
             </Text>
           </Col>
         </Row>

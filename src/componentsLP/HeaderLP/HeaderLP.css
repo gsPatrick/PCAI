@@ -1,249 +1,304 @@
 /* src/componentsLP/HeaderLP/HeaderLP.css */
 
-/* Cores da Identidade Visual (ajuste conforme necessário) */
 :root {
-    --brand-orange: #ff7733; /* Laranja vibrante */
+    --brand-orange: #ff7733;
     --brand-blue-dark: #0a1931;
     --text-light: #f0f2f5;
     --text-white: #ffffff;
-    --header-height: 80px; /* Altura do header */
-    --transition-smooth: all 0.3s ease-out; /* Transição padrão suave */
-    /* Overlay escuro sobre a imagem - Opacidade diminuída para fundo mais claro */
-    --header-overlay-color: rgba(10, 18, 30, 0.3); /* A opacidade mudou de 0.5 para 0.3 */
-  }
+    --header-height: 80px; /* Altura padrão do header */
+    --transition-smooth: all 0.3s ease-out;
+    --header-overlay-color: rgba(10, 18, 30, 0.3);
+}
 
+.header-lp {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  height: var(--header-height);
+  padding: 0 50px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out, height 0.3s ease-out, padding 0.3s ease-out;
+}
+
+.header-lp.header-lp-visible {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.2s;
+}
+
+.header-background-overlay {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-color: var(--header-overlay-color);
+    z-index: 1;
+}
+
+.header-row {
+  width: 100%;
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Garante que logo e menu/botão fiquem nas extremidades */
+}
+
+/* --- Logo e Nome da Empresa --- */
+.logo-area {
+  display: flex;
+  align-items: center;
+  /* Adicionado flex-shrink: 0 para evitar que a logo encolha demais em espaços apertados */
+  flex-shrink: 0;
+}
+
+.logo-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  transition: transform 0.3s ease-out, filter 0.3s ease-out;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.logo-link:hover {
+  transform: scale(1.05);
+}
+
+.logo-img-orange {
+  max-height: 60px; /* Defina a altura máxima desejada para a logo em desktop */
+  height: 45x !important; /* Altura padrão da logo - pode ser a mesma que max-height se desejar que não mude muito */
+  width: 90% !important; /* Mantém a proporção da imagem */
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+  display: block;
+  transition: height 0.3s ease-out;
+}
+
+/* --- Menu Desktop --- */
+.menu-desktop {
+  display: block;
+  /* margin-left: auto; não é mais necessário com justify-content: space-between na .header-row */
+}
+
+.header-menu.ant-menu {
+  background: transparent !important;
+  border-bottom: none !important;
+}
+
+.header-menu .ant-menu-item {
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.05em;
+  font-weight: 500;
+  color: var(--text-light) !important;
+  margin: 0 10px !important; /* Reduzido um pouco para caber melhor */
+  padding: 0 8px !important;  /* Reduzido um pouco para caber melhor */
+  border-radius: 4px;
+  transition: color 0.3s ease-out, background-color 0.3s ease-out;
+  position: relative;
+  top: 0 !important;
+  display: flex;
+  align-items: center;
+  height: var(--header-height);
+}
+
+.header-menu .ant-menu-item a {
+  color: inherit !important;
+  text-decoration: none;
+  display: block;
+  padding: 0 5px;
+}
+
+.header-menu .ant-menu-item-selected,
+.header-menu .ant-menu-item:hover {
+  color: var(--text-white) !important;
+  background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.header-menu .ant-menu-item-selected a,
+.header-menu .ant-menu-item:hover a {
+  color: var(--text-white) !important;
+}
+
+/* --- Botão Hambúrguer e Menu Mobile (Drawer) --- */
+.menu-mobile-button {
+  display: none;
+  /* margin-left: auto; não é mais necessário com justify-content: space-between na .header-row */
+  /* Adicionado flex-shrink: 0 para evitar que o botão encolha */
+  flex-shrink: 0;
+}
+
+.hamburger-button.ant-btn-text {
+  color: var(--text-white) !important;
+  font-size: 24px;
+  padding: 0 !important; /* Garantir que não haja padding interno no botão que cause quebra */
+  width: 40px;   /* Largura fixa */
+  height: 40px;  /* Altura fixa */
+  display: flex !important; /* Usar !important para sobrescrever estilos do Ant Design se necessário */
+  align-items: center !important;
+  justify-content: center !important;
+  transition: background-color 0.2s ease-out;
+  line-height: 1; /* Ajuda a centralizar o ícone verticalmente de forma mais consistente */
+}
+.hamburger-button.ant-btn-text .anticon {
+  font-size: inherit; /* Faz o ícone herdar o tamanho da fonte do botão */
+}
+
+
+.hamburger-button.ant-btn-text:hover,
+.hamburger-button.ant-btn-text:focus {
+  background-color: rgba(255, 255, 255, 0.15) !important;
+}
+
+.menu-drawer .ant-drawer-header {
+  background-color: #001024;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 16px 20px;
+}
+
+.menu-drawer .ant-drawer-title .drawer-logo-link {
+  display: flex;
+  align-items: center;
+  color: var(--text-white) !important;
+  text-decoration: none;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.drawer-logo-img {
+  height: 35px;
+  width: auto; /* Mantém proporção */
+}
+
+.menu-drawer .ant-drawer-close {
+  color: var(--text-white) !important;
+  font-size: 18px;
+}
+.menu-drawer .ant-drawer-close:hover {
+  color: var(--brand-orange) !important;
+}
+
+.menu-drawer .ant-drawer-body {
+  background-color: #001529;
+  padding: 20px 0;
+}
+
+.drawer-menu.ant-menu {
+  background: transparent !important;
+  border-right: none !important;
+}
+
+.drawer-menu .ant-menu-item {
+  font-family: 'Roboto', sans-serif;
+  color: var(--text-light) !important;
+  font-size: 1.1em;
+  padding-left: 24px !important;
+  transition: var(--transition-smooth);
+}
+
+.drawer-menu .ant-menu-item a {
+  color: inherit !important;
+  text-decoration: none;
+}
+
+.drawer-menu .ant-menu-item-selected,
+.drawer-menu .ant-menu-item:hover {
+  background-color: var(--brand-orange) !important;
+  color: var(--text-white) !important;
+}
+.drawer-menu .ant-menu-item-selected a,
+.drawer-menu .ant-menu-item:hover a {
+  color: var(--text-white) !important;
+}
+
+
+/* --- Responsividade --- */
+
+/* Laptops pequenos e tablets em paisagem */
+@media (max-width: 1199px) {
   .header-lp {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 1000;
-    height: var(--header-height);
-    padding: 0 40px;
-    /* backgroundImage é definido inline no JSX */
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-    display: flex;
-    align-items: center;
-
-    /* Animação de entrada via classe */
-    opacity: 0;
-    transform: translateY(-20px);
-    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    padding: 0 30px;
   }
-
-  /* Estado visível para a animação de entrada */
-  .header-lp.header-lp-visible {
-      opacity: 1;
-      transform: translateY(0);
-      transition-delay: 0.2s; /* Atraso para iniciar a animação */
-  }
-
-  /* Overlay para escurecer a imagem de fundo */
-  .header-background-overlay {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background-color: var(--header-overlay-color);
-      z-index: 1; /* Acima da imagem de fundo, abaixo do conteúdo */
-  }
-
-
-  .header-row {
-    width: 100%;
-    position: relative; /* Garante que o conteúdo esteja acima do overlay */
-    z-index: 2;
-  }
-
-  /* --- Logo e Nome da Empresa --- */
-  .logo-area {
-    display: flex;
-    align-items: center;
-  }
-
-  .logo-link {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    transition: transform 0.3s ease-out, filter 0.3s ease-out; /* Transição para o hover */
-  }
-  .logo-link:hover {
-    transform: scale(1.05);
-  }
-
-  /* NOVO: Estilo para a nova logo laranja - TAMANHO DIMINUÍDO */
-  .logo-img-orange {
-    height: 45px; /* Tamanho padrão diminuído de 55px para 45px */
-    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); /* Sombra sutil */
-    /* transition: transform 0.3s ease-out, filter 0.3s ease-out; REMOVIDO, a transição vai para o link pai */
-  }
-
-  /* .logo-img { REMOVIDO } */
-
-  /* REMOVIDO: Estilos para o nome da empresa */
-  /* .company-name-container {} */
-  /* .company-name-main {} */
-  /* .company-name-ai {} */
-  /* .company-name-ai .ai-highlight {} */
-
-
-  /* --- Menu Desktop --- */
   .menu-desktop {
-    display: block;
-  }
-
-  .header-menu.ant-menu {
-    background: transparent !important;
-    border-bottom: none !important;
-    line-height: calc(var(--header-height) - 4px);
-  }
-
-  .header-menu .ant-menu-item {
-    font-family: 'Roboto', sans-serif;
-    font-size: 1.05em;
-    font-weight: 500;
-    color: var(--text-light) !important;
-    margin: 0 12px !important;
-    padding: 0 10px !important;
-    border-radius: 4px;
-    transition: color 0.3s ease-out, background-color 0.3s ease-out;
-    position: relative;
-    top: 0 !important;
-  }
-
-  .header-menu .ant-menu-item a {
-    color: inherit !important;
-    text-decoration: none;
-    display: block;
-    padding: 0 5px;
-  }
-
-  /* Estilo para item selecionado ou hover */
-  .header-menu .ant-menu-item-selected,
-  .header-menu .ant-menu-item:hover {
-    color: var(--text-white) !important;
-    background-color: rgba(255, 255, 255, 0.1) !important;
-  }
-
-  .header-menu .ant-menu-item-selected a,
-  .header-menu .ant-menu-item:hover a {
-    color: var(--text-white) !important;
-  }
-
-
-  /* --- Botão Hambúrguer e Menu Mobile (Drawer) --- */
-  .menu-mobile-button {
     display: none;
   }
+  .menu-mobile-button {
+    display: block;
+  }
+  .logo-img-orange {
+    height: 38px;
+    max-height: 50px; /* Ajuste o max-height se necessário para este breakpoint */
+  }
+  .logo-link {
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+}
 
+/* Tablets em modo retrato e celulares maiores em paisagem */
+@media (max-width: 767px) {
+  .header-lp {
+    padding: 0 20px;
+    --header-height: 70px;
+  }
+  .logo-img-orange {
+    height: 32px;
+    max-height: 45px; /* Ajuste o max-height */
+  }
+  .logo-link {
+    padding-top: 6px;
+    padding-bottom: 6px;
+  }
+  .drawer-logo-img {
+    height: 30px;
+  }
+}
+
+/* Celulares em modo retrato */
+@media (max-width: 549px) { /* Breakpoint onde o problema do menu sanduíche ocorria */
+  .header-lp {
+    padding: 0 15px;
+    --header-height: 60px; /* Reduzindo um pouco mais a altura se necessário */
+  }
+  .logo-img-orange {
+    height: 28px; /* Logo menor para dar espaço */
+    max-height: 40px; /* Ajuste o max-height */
+  }
+  .logo-link {
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
   .hamburger-button.ant-btn-text {
-    color: var(--text-white) !important;
-    font-size: 24px;
-    padding: 0;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background-color 0.2s ease-out;
+    font-size: 22px;
+    width: 35px;   /* Mantendo tamanho fixo */
+    height: 35px;  /* Mantendo tamanho fixo */
   }
-
-  .hamburger-button.ant-btn-text:hover,
-  .hamburger-button.ant-btn-text:focus {
-    background-color: rgba(255, 255, 255, 0.15) !important;
+  .drawer-logo-img {
+    height: 28px;
   }
+}
 
-  .menu-drawer .ant-drawer-header {
-    background-color: #001024; /* Fundo escuro para o header do drawer */
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 16px 20px;
-  }
-
-  .menu-drawer .ant-drawer-title .drawer-logo-link {
-    display: flex;
-    align-items: center;
-    color: var(--text-white) !important;
-    text-decoration: none;
-  }
-  /* REMOVIDO: Estilos para o nome da empresa no drawer */
-  /* .company-name-container-drawer {} */
-  /* .company-name-main-drawer {} */
-  /* .company-name-ai-drawer {} */
-  /* .ai-highlight-drawer {} */
-
-
-  .menu-drawer .ant-drawer-close {
-    color: var(--text-white) !important;
-    font-size: 18px;
-  }
-  .menu-drawer .ant-drawer-close:hover {
-    color: var(--brand-orange) !important;
-  }
-
-  .menu-drawer .ant-drawer-body {
-    background-color: #001529; /* Fundo escuro para o corpo do drawer */
-    padding: 20px 0;
-  }
-
-  .drawer-menu.ant-menu {
-    background: transparent !important;
-    border-right: none !important;
-  }
-
-  .drawer-menu .ant-menu-item {
-    font-family: 'Roboto', sans-serif;
-    color: var(--text-light) !important;
-    font-size: 1.1em;
-    padding-left: 24px !important;
-    transition: var(--transition-smooth);
-  }
-
-  .drawer-menu .ant-menu-item a {
-    color: inherit !important;
-    text-decoration: none; /* Remover underline */
-  }
-
-  .drawer-menu .ant-menu-item-selected,
-  .drawer-menu .ant-menu-item:hover {
-    background-color: var(--brand-orange) !important;
-    color: var(--text-white) !important;
-  }
-  .drawer-menu .ant-menu-item-selected a,
-  .drawer-menu .ant-menu-item:hover a {
-    color: var(--text-white) !important;
-  }
-
-
-  /* --- Responsividade --- */
-  @media (max-width: 991px) {
+/* Ajustes para telas muito pequenas, se necessário */
+@media (max-width: 380px) {
     .header-lp {
-      padding: 0 20px;
-    }
-    .menu-desktop {
-      display: none;
-    }
-    .menu-mobile-button {
-      display: block;
-    }
-    /* .company-name-main { REMOVIDO } */
-    /* .company-name-ai { REMOVIDO } */
-    .logo-img-orange {
-      height: 35px; /* Ajustar tamanho da logo em tablet (antes 45px) */
-    }
-  }
-
-  @media (max-width: 480px) {
-    .header-lp {
-      padding: 0 15px;
-      --header-height: 70px; /* Altura menor em mobile */
+        padding: 0 10px; /* Ainda menos padding */
+        --header-height: 55px;
     }
     .logo-img-orange {
-      height: 30px; /* Ajustar tamanho da logo em mobile (antes 40px) */
+        height: 24px;
+        max-height: 35px;
     }
-    /* .company-name-main { REMOVIDO } */
-    /* .company-name-ai { REMOVIDO } */
-    /* .menu-drawer .ant-drawer-title .company-name-main-drawer { REMOVIDO } */
-    /* .menu-drawer .ant-drawer-title .company-name-ai-drawer { REMOVIDO } */
-  }
+    .hamburger-button.ant-btn-text {
+        font-size: 20px;
+        width: 30px;
+        height: 30px;
+    }
+}

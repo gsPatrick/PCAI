@@ -24,13 +24,13 @@
     --standard-title-category-color: #3A3D57; /* Azul marinho */
     --standard-title-current-color: #2D3748; /* Azul escuro acinzentado */
 
-    /* Estilo para a fonte Nazalization */
-    --benefit-v-nazalization-font: 'Nazalization', cursive, sans-serif; /* Placeholder */
+    /* Estilo para a fonte Nasalization */
+    --benefit-v-Nasalization-font: 'Nasalization', cursive, sans-serif; /* Placeholder */
   }
 
-  /* Estilo para a fonte Nazalization */
-  .nazalization-font {
-      font-family: var(--benefit-v-nazalization-font);
+  /* Estilo para a fonte Nasalization */
+  .Nasalization-font {
+      font-family: var(--benefit-v-Nasalization-font);
   }
 
    /* Estilos Padronizados para Títulos de Seção (Breadcrumb-like) - REPLICADOS */
@@ -221,10 +221,10 @@
     background-color: var(--benefit-v-quote-bg); /* Fundo sutil para a citação */
     border-radius: 0 6px 6px 0;
   }
-   /* Aplica a fonte Nazalization APENAS ao texto dentro da citação */
-  .benefits-quote-vibrant .nazalization-font {
-      font-family: var(--benefit-v-nazalization-font);
-      font-style: normal; /* Garante que a Nazalization não seja italic se o pai for */
+   /* Aplica a fonte Nasalization APENAS ao texto dentro da citação */
+  .benefits-quote-vibrant .Nasalization-font {
+      font-family: var(--benefit-v-Nasalization-font);
+      font-style: normal; /* Garante que a Nasalization não seja italic se o pai for */
       font-weight: normal; /* Garante peso normal, ajuste se precisar */
   }
 

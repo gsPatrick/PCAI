@@ -4,8 +4,8 @@ import { Row, Col, Typography, Avatar } from 'antd'; // Usaremos Avatar para as 
 import './TeamSection.css';
 
 // Importe as imagens dos membros da equipe
-import marcoImg from '../../assets/images/marco.png';
-import hugoImg from '../../assets/images/hugo.png';
+import marcoImg from '../../assets/images/marcoIMAGEM.png';
+import hugoImg from '../../assets/images/hugoIMAGEM.jpg';
 // Importar a nova imagem de fundo
 import backgroundCinza from '../../assets/images/backgroundCinza.png';
 

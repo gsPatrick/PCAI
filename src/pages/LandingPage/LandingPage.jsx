@@ -36,9 +36,9 @@ const LandingPage = () => {
         <DifferentiatorsSection />
         <SolutionsOverviewSection />
         <ExpectedBenefitsSection />
-        <ContactSection />
-        <EthicalCommitmentSection />
         <TeamSection />
+        <EthicalCommitmentSection />
+        <ContactSection />
 
       </Content>
 

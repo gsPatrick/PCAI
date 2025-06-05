@@ -1,8 +1,8 @@
 /* src/components/SolutionsOverviewSection/SolutionsOverviewSection.css */
 :root {
     --sol-font-family: 'Inter', sans-serif;
-    /* Defina a fonte Nazalization aqui ou importe globalmente via @font-face */
-    --sol-nazalization-font: 'Nazalization', cursive, sans-serif; /* Placeholder */
+    /* Defina a fonte Nasalization aqui ou importe globalmente via @font-face */
+    --sol-Nasalization-font: 'Nasalization', cursive, sans-serif; /* Placeholder */
     --sol-accent-orange: #EF7C12;
     --sol-title-blue: #3A3D57; /* Azul marinho para títulos */
     --sol-text-primary: #1A202C; /* Cinza escuro para texto */
@@ -109,7 +109,7 @@
     font-size: clamp(1.1rem, 2.2vw, 1.3rem);
     color: var(--sol-text-secondary);
     line-height: 1.7; max-width: 600px; margin: 0 auto 30px auto !important;
-    font-family: var(--sol-nazalization-font); /* Aplicando Nazalization */
+    font-family: var(--sol-Nasalization-font); /* Aplicando Nasalization */
   }
 
   .solutions-subsection-title {
@@ -326,7 +326,7 @@
     font-size: clamp(1.2rem, 2.5vw, 1.6rem); font-weight: 500;
     color: var(--sol-text-primary); max-width: 650px;
     margin: 0 auto !important; line-height: 1.6;
-    font-family: var(--sol-nazalization-font); /* Aplicando Nazalization */
+    font-family: var(--sol-Nasalization-font); /* Aplicando Nasalization */
   }
   .solutions-cta-text .highlight-orange-sol {
      color: var(--sol-accent-orange);
@@ -406,8 +406,8 @@
   }/* src/components/SolutionsOverviewSection/SolutionsOverviewSection.css */
 :root {
     --sol-font-family: 'Inter', sans-serif;
-    /* Defina a fonte Nazalization aqui ou importe globalmente via @font-face */
-    --sol-nazalization-font: 'Nazalization', cursive, sans-serif; /* Placeholder */
+    /* Defina a fonte Nasalization aqui ou importe globalmente via @font-face */
+    --sol-Nasalization-font: 'Nasalization', cursive, sans-serif; /* Placeholder */
     --sol-accent-orange: #EF7C12;
     /* Cores ajustadas para o novo fundo azul */
     --sol-title-blue: #FFFFFF; /* Títulos principais agora brancos */
@@ -436,9 +436,9 @@
     --standard-title-current-color: #F8F9FA; /* Mais branco para a seção atual */
   }
 
-   /* Estilo para a fonte Nazalization */
-  .nazalization-font {
-      font-family: var(--sol-nazalization-font);
+   /* Estilo para a fonte Nasalization */
+  .Nasalization-font {
+      font-family: var(--sol-Nasalization-font);
   }
 
 
@@ -777,7 +777,7 @@
     color: var(--sol-text-primary); /* CTA text AGORA BRANCO */
     max-width: 650px;
     margin: 0 auto !important; line-height: 1.6;
-    font-family: var(--sol-nazalization-font); /* Aplicando Nazalization */
+    font-family: var(--sol-Nasalization-font); /* Aplicando Nasalization */
   }
   .solutions-cta-text .highlight-orange-sol {
      color: var(--sol-accent-orange);

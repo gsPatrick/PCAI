@@ -1,4 +1,29 @@
-*{
+/* src/index.css */
+
+@font-face {
+  font-family: 'Nasalization'; /* Nome que você usará no CSS */
+  /*
+    !!! IMPORTANTE !!!
+    Substitua 'Nasalization.otf' pelo NOME EXATO do arquivo .otf
+    que você colocou na pasta src/assets/fonts/.
+  */
+  src: url('./assets/fonts/Nasalization.otf') format('opentype'); /* Use format('opentype') para arquivos .otf */
+  font-weight: normal; /* Se for a versão regular */
+  font-style: normal;  /* Se for a versão regular */
+  font-display: swap;
+}
+
+/* Reset Global e Box Sizing */
+* {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
+}
+
+/* Estilo base para o corpo da página */
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }

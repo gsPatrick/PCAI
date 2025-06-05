@@ -142,9 +142,9 @@ const ExpectedBenefitsSection = () => {
                         <Paragraph className="benefits-paragraph-vibrant strong-emphasis-vibrant">
                             Em tudo o que fazemos, acrescentamos sensibilidade e propósito:
                         </Paragraph>
-                        {/* Frase da citação com fonte Nazalization */}
+                        {/* Frase da citação com fonte Nasalization */}
                         <Paragraph className="benefits-quote-vibrant">
-                            <span className="nazalization-font"> {/* Aplica a classe Nazalization apenas na frase */}
+                            <span className="Nasalization-font"> {/* Aplica a classe Nasalization apenas na frase */}
                                 A IA deve compreender não apenas o que é dito — <span className="highlight-quote-vibrant">mas também como é sentido.</span>
                             </span>
                         </Paragraph>

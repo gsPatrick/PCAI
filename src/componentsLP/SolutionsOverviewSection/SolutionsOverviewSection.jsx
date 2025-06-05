@@ -217,8 +217,8 @@ const SolutionsOverviewSection = () => {
 
 
         <div ref={ctaRef} className="solutions-cta-block animation-target-solutions">
-          {/* CTA text - Corrigido texto, fonte Nazalization, cor branca via CSS */}
-          <Paragraph className="solutions-cta-text nazalization-font">
+          {/* CTA text - Corrigido texto, fonte Nasalization, cor branca via CSS */}
+          <Paragraph className="solutions-cta-text Nasalization-font">
             Qual destas áreas podemos <span className="highlight-orange-sol">começar a transformar</span> consigo?
           </Paragraph>
         </div>
