@@ -75,8 +75,8 @@
 }
 
 .logo-img-orange {
-  max-height: 60px; /* Defina a altura máxima desejada para a logo em desktop */
-  height: 45x !important; /* Altura padrão da logo - pode ser a mesma que max-height se desejar que não mude muito */
+  max-height: auto !important; /* Defina a altura máxima desejada para a logo em desktop */
+  height: 50px !important; /* Altura padrão da logo - pode ser a mesma que max-height se desejar que não mude muito */
   width: 90% !important; /* Mantém a proporção da imagem */
   filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
   display: block;
@@ -293,8 +293,8 @@
         --header-height: 55px;
     }
     .logo-img-orange {
-        height: 24px;
-        max-height: 35px;
+        height: 20px;
+        max-height: 25px !important;
     }
     .hamburger-button.ant-btn-text {
         font-size: 20px;
